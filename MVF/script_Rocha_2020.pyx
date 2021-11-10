@@ -60,7 +60,7 @@ cdef float conc_grad(np.ndarray Concentration,int index,int N_len,float L):
     return concentration_gradient
 
 #Calculo de constantes
-def main():
+def EulerSolver():
      
     # Parametros do poço 
     cdef float L = 0.21 #5000(m)
@@ -156,28 +156,66 @@ def main():
             count = 0
         currentTime += timestep
         # Time.append(currentTime)
-    '''
-    plotSelector = [0,1,2,5,6,11,12]
-    colors = ['orange','blue','blue','green','green','red','red']
-    linestyles = ['solid','solid','--','solid','--','solid','--']
-    DayAxis = np.arange(5)
 
-    for j in plotSelector:
-        ConcentrationAxis = []
-        
-        for i in range(0,5):
-            ConcentrationAxis.append(Data[i][j])
-        plt.plot(DayAxis,ConcentrationAxis, label='Z= 0.%f cm' %Position[j], linestyle = linestyles[plotSelector.index(j)], color = colors[plotSelector.index(j)])
 
-    plt.plot(50,0.169697624190064, label='0.005Num', linestyle="none", marker="v", color="black")
-    plt.plot(50,0.163477321814254, label='0.005Exp', linestyle="none", marker="o", color="black")
-    plt.legend(loc='upper left')
-    plt.ylim(0.10,0.2)
-    # plt.plot(Position,Concentration)
+    return Data
+
+def NewtonSolver():
+    # Parametros do poço 
+    cdef float L = 0.21 #5000(m)
+    # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
+    cdef int N_len = 21#int(L * z_resolution)
+    cdef float z_resolution = N_len / L
     
-    pd.DataFrame(Data).to_csv("resultadosPreliminares.csv")
-    print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
-    print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+    # Parametros de sedimentaçao
+    cdef float initial_conc = 0.1391
+    cdef float particle_diam = 0.0000408 # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef float solid_density = 2709 # (kg/m3)
+    cdef float fluid_density = 1145 # (kg/m3)
+    
+    # Parametros de simulaçao
+    cdef float total_time = 432000 #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef float timestep = 0.1
+    
+    # Parametros estimados
+    #Permeabilidade
+    cdef float delta = 0.58 # Permeabilidade - Rocha (2020)
+    cdef float k0 = 27.99 # Permeabilidade - Rocha (2020)
+    cdef float max_conc = 0.2
+    
+    #Pressao nos solidos
+    cdef float beta = 0.19 # Pressao nos solidos
+    cdef float p_ref = 18.62 # Pressao nos solidos
+    cdef float ref_conc = 0.145 #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    
+    #Parametros do fluido
+    cdef float M = 30.13
+    cdef float n = 0.21
+    
+    
+    cdef float esph = esp(1)
+    cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
-    print(np.delete(Concentration, np.where(Concentration == Concentration.max())[0][0]).max())
-    '''
+    #Inicializacao do data set
+    cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
+    # Concentration[0] = max_conc
+    # Concentration[N_len - 1] = 0
+    cdef np.ndarray Velocity = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
+    cdef float currentTime = 0
+    #Time = [currentTime]
+
+    #Pres = np.zeros((N_len, 365), dtype=float)
+    #Perm = np.zeros((N_len, 365), dtype=float)
+    #f = 0
+
+    #for h in range(0,N_len):
+        #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+        #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+
+    Data = []
+    Data.append(list(Concentration)) #Talvez precise typar
+
+    cdef int count = 0
+
+    cdef int i

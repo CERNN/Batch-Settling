@@ -3434,10 +3434,20 @@ static PyObject *__pyx_pf_17script_Rocha_2020_main(CYTHON_UNUSED PyObject *__pyx
  *             count = 0
  *         currentTime += timestep             # <<<<<<<<<<<<<<
  *         # Time.append(currentTime)
- *     '''
+ * 
  */
     __pyx_v_currentTime = (__pyx_v_currentTime + __pyx_v_timestep);
   }
+
+  /* "script_Rocha_2020.pyx":161
+ * 
+ * 
+ *     return Data             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_Data);
+  __pyx_r = __pyx_v_Data;
+  goto __pyx_L0;
 
   /* "script_Rocha_2020.pyx":63
  * 
@@ -3448,8 +3458,6 @@ static PyObject *__pyx_pf_17script_Rocha_2020_main(CYTHON_UNUSED PyObject *__pyx
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);

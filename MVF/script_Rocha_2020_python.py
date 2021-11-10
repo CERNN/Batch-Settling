@@ -1,6 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import time
+import matplotlib.pyplot as plt #
+import time #Medir os tempos
 import pandas as pd
 
 def perm(x, diam, k0, delta, max_conc):
@@ -48,7 +48,7 @@ def conc_grad(Concentration, index, N_len, L):
     return concentration_gradient
 
 
-def main():
+def eulerSolver():
     
     # Parametros do poço 
     L = 0.21 #5000(m)
@@ -80,7 +80,6 @@ def main():
     #Parametros do fluido
     M = 30.13
     n = 0.21
-    
     
     #Calculo de constantes
     esph = esp(1)
@@ -175,4 +174,3 @@ def main():
 
     print("\nTempo total de simulação:" + str(end - start) + " [s]")
 
-main()

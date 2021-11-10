@@ -647,8 +647,8 @@ body.cython { font-family: courier; font-size: 12; }
   goto __pyx_L0;
 </pre><pre class="cython line score-0">&#xA0;<span class="">061</span>: </pre>
 <pre class="cython line score-0">&#xA0;<span class="">062</span>: #Calculo de constantes</pre>
-<pre class="cython line score-26" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>: def main():</pre>
-<pre class='cython code score-26 '>/* Python wrapper */
+<pre class="cython line score-25" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">063</span>: def main():</pre>
+<pre class='cython code score-25 '>/* Python wrapper */
 static PyObject *__pyx_pw_17script_Rocha_2020_1main(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyMethodDef __pyx_mdef_17script_Rocha_2020_1main = {"main", (PyCFunction)__pyx_pw_17script_Rocha_2020_1main, METH_NOARGS, 0};
 static PyObject *__pyx_pw_17script_Rocha_2020_1main(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
@@ -696,8 +696,6 @@ static PyObject *__pyx_pf_17script_Rocha_2020_main(CYTHON_UNUSED PyObject *__pyx
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("main", 0);
 /* … */
   /* function exit code */
-  __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_2);
@@ -1321,29 +1319,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_main(CYTHON_UNUSED PyObject *__pyx
 <pre class='cython code score-0 '>    __pyx_v_currentTime = (__pyx_v_currentTime + __pyx_v_timestep);
   }
 </pre><pre class="cython line score-0">&#xA0;<span class="">158</span>:         # Time.append(currentTime)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">159</span>:     '''</pre>
-<pre class="cython line score-0">&#xA0;<span class="">160</span>:     plotSelector = [0,1,2,5,6,11,12]</pre>
-<pre class="cython line score-0">&#xA0;<span class="">161</span>:     colors = ['orange','blue','blue','green','green','red','red']</pre>
-<pre class="cython line score-0">&#xA0;<span class="">162</span>:     linestyles = ['solid','solid','--','solid','--','solid','--']</pre>
-<pre class="cython line score-0">&#xA0;<span class="">163</span>:     DayAxis = np.arange(5)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">164</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">165</span>:     for j in plotSelector:</pre>
-<pre class="cython line score-0">&#xA0;<span class="">166</span>:         ConcentrationAxis = []</pre>
-<pre class="cython line score-0">&#xA0;<span class="">167</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">168</span>:         for i in range(0,5):</pre>
-<pre class="cython line score-0">&#xA0;<span class="">169</span>:             ConcentrationAxis.append(Data[i][j])</pre>
-<pre class="cython line score-0">&#xA0;<span class="">170</span>:         plt.plot(DayAxis,ConcentrationAxis, label='Z= 0.%f cm' %Position[j], linestyle = linestyles[plotSelector.index(j)], color = colors[plotSelector.index(j)])</pre>
-<pre class="cython line score-0">&#xA0;<span class="">171</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">172</span>:     plt.plot(50,0.169697624190064, label='0.005Num', linestyle="none", marker="v", color="black")</pre>
-<pre class="cython line score-0">&#xA0;<span class="">173</span>:     plt.plot(50,0.163477321814254, label='0.005Exp', linestyle="none", marker="o", color="black")</pre>
-<pre class="cython line score-0">&#xA0;<span class="">174</span>:     plt.legend(loc='upper left')</pre>
-<pre class="cython line score-0">&#xA0;<span class="">175</span>:     plt.ylim(0.10,0.2)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">176</span>:     # plt.plot(Position,Concentration)</pre>
-<pre class="cython line score-0">&#xA0;<span class="">177</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">178</span>:     pd.DataFrame(Data).to_csv("resultadosPreliminares.csv")</pre>
-<pre class="cython line score-0">&#xA0;<span class="">179</span>:     print(str(Concentration.min()) + " -&gt; " + str(np.where(Concentration == Concentration.min())[0][0]))</pre>
-<pre class="cython line score-0">&#xA0;<span class="">180</span>:     print(str(Concentration.max()) + " -&gt; " + str(np.where(Concentration == Concentration.max())[0][0]))</pre>
-<pre class="cython line score-0">&#xA0;<span class="">181</span>: </pre>
-<pre class="cython line score-0">&#xA0;<span class="">182</span>:     print(np.delete(Concentration, np.where(Concentration == Concentration.max())[0][0]).max())</pre>
-<pre class="cython line score-0">&#xA0;<span class="">183</span>:     '''</pre>
-</div></body></html>
+<pre class="cython line score-0">&#xA0;<span class="">159</span>: </pre>
+<pre class="cython line score-0">&#xA0;<span class="">160</span>: </pre>
+<pre class="cython line score-2" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">161</span>:     return Data</pre>
+<pre class='cython code score-2 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_Data);
+  __pyx_r = __pyx_v_Data;
+  goto __pyx_L0;
+</pre></div></body></html>

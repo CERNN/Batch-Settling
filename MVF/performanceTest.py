@@ -6,9 +6,12 @@ import matplotlib.pyplot as plt
 
 start = time.time()
 
-script_Rocha_2020.main()
+print("Iniciando simulação")
+
+data = script_Rocha_2020.EulerSolver()
 
 end = time.time()
 
+pd.DataFrame(data).to_csv("resultadosPreliminares.csv")
 
 print("\nTempo total de simulação:" + str(end - start) + " [s]")
