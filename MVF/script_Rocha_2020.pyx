@@ -160,7 +160,7 @@ def EulerSolver():
 
     return Data
 
-def NewtonSolver():
+def CrankSolver():
     # Parametros do poço 
     cdef float L = 0.21 #5000(m)
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
@@ -219,3 +219,4 @@ def NewtonSolver():
     cdef int count = 0
 
     cdef int i
+
