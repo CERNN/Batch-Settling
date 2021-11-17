@@ -59,39 +59,84 @@ cdef float conc_grad(np.ndarray Concentration,int index,int N_len,float L):
     
     return concentration_gradient
 
+cdef class ConstantParameters:
+    cdef float delta
+    cdef float k0
+    cdef float beta
+    cdef float ref_conc
+    cdef float p_ref
+
+    def __init__(self, delta, k0, beta, ref_conc, p_ref):
+        self.delta = delta
+        self.k0 = k0
+        self.beta = beta
+        self.ref_conc = ref_conc
+        self.p_ref = p_ref
+
+cdef class PhysicalParameters:
+    cdef float L
+    cdef float initial_conc
+    cdef float particle_diam
+    cdef float solid_density
+    cdef float fluid_density
+    cdef float max_conc
+    cdef float M
+    cdef float n
+
+    def __init__(self, height,initial_conc,particle_diam,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):
+        self.L = height
+        self.initial_conc = initial_conc
+        self.particle_diam = particle_diam
+        self.solid_density = solid_density
+        self.fluid_density = fluid_density
+        self.max_conc = max_conc
+        self.M = powerLawFluid_M
+        self.n = powerLawFluid_n
+
+cdef class NumericalParameters:
+    cdef int N_len
+    cdef float total_time
+    cdef float timestep
+    
+    def __init__(self, z_divs,total_time,timestep):
+        self.N_len = z_divs
+        self.total_time = total_time
+        self.timestep = timestep
+
+
 #Calculo de constantes
-def EulerSolver():
+def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
      
     # Parametros do poço 
-    cdef float L = 0.21 #5000(m)
+    cdef float L = physicalParameters.L
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
-    cdef int N_len = 21#int(L * z_resolution)
+    cdef int N_len = numericalParameters.N_len
     cdef float z_resolution = N_len / L
     
     # Parametros de sedimentaçao
-    cdef float initial_conc = 0.1391
-    cdef float particle_diam = 0.0000408 # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
-    cdef float solid_density = 2709 # (kg/m3)
-    cdef float fluid_density = 1145 # (kg/m3)
+    cdef float initial_conc = physicalParameters.initial_conc
+    cdef float particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef float solid_density = physicalParameters.solid_density
+    cdef float fluid_density = physicalParameters.fluid_density
     
     # Parametros de simulaçao
-    cdef float total_time = 432000 #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
-    cdef float timestep = 0.1
+    cdef float total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef float timestep = numericalParameters.timestep
     
     # Parametros estimados
     #Permeabilidade
-    cdef float delta = 0.58 # Permeabilidade - Rocha (2020)
-    cdef float k0 = 27.99 # Permeabilidade - Rocha (2020)
-    cdef float max_conc = 0.2
+    cdef float delta = constantParameters.delta
+    cdef float k0 = constantParameters.k0
+    cdef float max_conc = physicalParameters.max_conc
     
     #Pressao nos solidos
-    cdef float beta = 0.19 # Pressao nos solidos
-    cdef float p_ref = 18.62 # Pressao nos solidos
-    cdef float ref_conc = 0.145 #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    cdef float beta = constantParameters.beta
+    cdef float p_ref = constantParameters.p_ref
+    cdef float ref_conc = constantParameters.ref_conc
     
     #Parametros do fluido
-    cdef float M = 30.13
-    cdef float n = 0.21
+    cdef float M = physicalParameters.powerLawFluid_M
+    cdef float n = physicalParameters.powerLawFluid_n
     
     
     cdef float esph = esp(1)
@@ -220,3 +265,38 @@ def CrankSolver():
 
     cdef int i
 
+    while (currentTime <= total_time):
+    
+        for i in range(0,N_len):
+            grad = conc_grad(Concentration, i, N_len, L)
+
+            if Concentration[i] == 0 or Concentration[i] == max_conc:
+                Velocity[i] = 0
+            else:
+                Velocity[i] = vel(Concentration[i],particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+        
+        for i in range(0,N_len):
+            if i == 0:
+                update = - timestep * (Concentration[i+1] * Velocity[i+1]) / (L / N_len)
+            elif i == (N_len - 1):
+                update = + timestep * (Concentration[i] * Velocity[i]) / (L / N_len)
+            else:
+                update = - timestep * (Concentration[i+1] * Velocity[i+1] - Concentration[i] * Velocity[i]) / (L / N_len)
+            Concentration[i] += update
+        
+        count += 1
+        
+        if count>86400 / timestep:
+            print("\nCurrent time:" + str(currentTime))
+            #f += 1
+            #for h in range(0,N_len):
+                #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+                #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+            
+            Data.append(list(Concentration))
+            print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+            print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+
+            count = 0
+        currentTime += timestep
+        # Time.append(currentTi'me)
