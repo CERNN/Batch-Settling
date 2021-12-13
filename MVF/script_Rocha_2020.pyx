@@ -97,11 +97,13 @@ cdef class NumericalParameters:
     cdef int N_len
     cdef float total_time
     cdef float timestep
+    cdef float maxResidual
     
-    def __init__(self, z_divs,total_time,timestep):
+    def __init__(self, z_divs,total_time,timestep,maxResidual):
         self.N_len = z_divs
         self.total_time = total_time
         self.timestep = timestep
+        self.maxResidual = maxResidual
 
 
 #Calculo de constantes
@@ -135,8 +137,8 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
     cdef float ref_conc = constantParameters.ref_conc
     
     #Parametros do fluido
-    cdef float M = physicalParameters.powerLawFluid_M
-    cdef float n = physicalParameters.powerLawFluid_n
+    cdef float M = physicalParameters.M
+    cdef float n = physicalParameters.n
     
     
     cdef float esph = esp(1)
@@ -160,7 +162,7 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
         #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
 
     Data = []
-    Data.append(list(Concentration)) #Talvez precise typar
+    Data.append(np.copy(Concentration)) #Talvez precise typar
 
     cdef int count = 0
 
@@ -194,7 +196,7 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
                 #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
                 #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
             
-            Data.append(list(Concentration))
+            Data.append(np.copy(Concentration))
             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
 
@@ -205,87 +207,132 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
     return Data
 
-def CrankSolver():
+def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
     # Parametros do poço 
-    cdef float L = 0.21 #5000(m)
+    cdef float L = physicalParameters.L #5000(m)
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
-    cdef int N_len = 21#int(L * z_resolution)
+    cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
     cdef float z_resolution = N_len / L
+    cdef float delta_z = L / N_len
+    cdef float maxResidual = numericalParameters.maxResidual
     
     # Parametros de sedimentaçao
-    cdef float initial_conc = 0.1391
-    cdef float particle_diam = 0.0000408 # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
-    cdef float solid_density = 2709 # (kg/m3)
-    cdef float fluid_density = 1145 # (kg/m3)
+    cdef float initial_conc = physicalParameters.initial_conc
+    cdef float particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef float solid_density = physicalParameters.solid_density
+    cdef float fluid_density = physicalParameters.fluid_density
     
     # Parametros de simulaçao
-    cdef float total_time = 432000 #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
-    cdef float timestep = 0.1
+    cdef float total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef float timestep = numericalParameters.timestep
     
     # Parametros estimados
     #Permeabilidade
-    cdef float delta = 0.58 # Permeabilidade - Rocha (2020)
-    cdef float k0 = 27.99 # Permeabilidade - Rocha (2020)
-    cdef float max_conc = 0.2
+    cdef float delta = constantParameters.delta
+    cdef float k0 = constantParameters.k0
+    cdef float max_conc = physicalParameters.max_conc
     
     #Pressao nos solidos
-    cdef float beta = 0.19 # Pressao nos solidos
-    cdef float p_ref = 18.62 # Pressao nos solidos
-    cdef float ref_conc = 0.145 #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    cdef float beta = constantParameters.beta
+    cdef float p_ref = constantParameters.p_ref
+    cdef float ref_conc = constantParameters.ref_conc
     
     #Parametros do fluido
-    cdef float M = 30.13
-    cdef float n = 0.21
+    cdef float M = physicalParameters.M
+    cdef float n = physicalParameters.n
     
     
     cdef float esph = esp(1)
     cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
+    #Variáveis auxiliares
+    cdef float c = timestep / (2 * delta_z)
+    cdef float residual
+    cdef float distance
+    cdef np.ndarray Concentration_residual = np.ones(N_len, dtype=DTYPE)
+    
+
     #Inicializacao do data set
     cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray Concentration_update = np.copy(Concentration)
     # Concentration[0] = max_conc
     # Concentration[N_len - 1] = 0
     cdef np.ndarray Velocity = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray Velocity_update = np.copy(Velocity)
     cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
     cdef float currentTime = 0
-    #Time = [currentTime]
-
-    #Pres = np.zeros((N_len, 365), dtype=float)
-    #Perm = np.zeros((N_len, 365), dtype=float)
-    #f = 0
-
-    #for h in range(0,N_len):
-        #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+    
+    #Inicializaçao da matrix tridiagonal
+    cdef np.ndarray MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
+    cdef np.ndarray VectorB = np.zeros(N_len, dtype = DTYPE)
 
     Data = []
-    Data.append(list(Concentration)) #Talvez precise typar
+    Data.append(np.copy(Concentration)) #Talvez precise typar
 
     cdef int count = 0
 
+    cdef int resIterations
+
     cdef int i
 
-    while (currentTime <= total_time):
-    
-        for i in range(0,N_len):
+    for i in xrange(0,N_len):
             grad = conc_grad(Concentration, i, N_len, L)
 
             if Concentration[i] == 0 or Concentration[i] == max_conc:
                 Velocity[i] = 0
             else:
                 Velocity[i] = vel(Concentration[i],particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
-        
-        for i in range(0,N_len):
-            if i == 0:
-                update = - timestep * (Concentration[i+1] * Velocity[i+1]) / (L / N_len)
-            elif i == (N_len - 1):
-                update = + timestep * (Concentration[i] * Velocity[i]) / (L / N_len)
-            else:
-                update = - timestep * (Concentration[i+1] * Velocity[i+1] - Concentration[i] * Velocity[i]) / (L / N_len)
-            Concentration[i] += update
-        
+
+    while (currentTime <= total_time):
+        Velocity_update = np.copy(Velocity)
+
+        residual = 1
+        resIterations = 0
+        while(residual > maxResidual):
+            resIterations += 1
+            #Arranjo na matriz
+            for i in xrange(0, N_len) :
+                if i == 0: 
+                    VectorB[i] = Concentration[i] - c * Concentration[i+1] * Velocity[i+1]
+                    MatrixA[i][i] = 1
+                    MatrixA[i][i+1] = c * Velocity_update[i+1]
+                elif i == N_len - 1:
+                    VectorB[i] = Concentration[i] * (1 + c * Velocity[i])
+                    MatrixA[i][i] = (1 - c * Velocity_update[i]) 
+                else :
+                    VectorB[i] = Concentration[i] - c * (Concentration[i+1] * Velocity[i+1] - Concentration[i] * Velocity[i])
+                    MatrixA[i][i] = (1 - c * Velocity_update[i])
+                    MatrixA[i][i+1] = c * Velocity_update[i+1]
+
+            #Vetor para analise dos residuos
+            Concentration_residual = np.copy(Concentration_update)
+
+            #Back substitution
+            for i in reversed(xrange(0,N_len)):
+                if i == N_len - 1:
+                    Concentration_update[i] = VectorB[i] / MatrixA[i][i]
+                else:
+                    Concentration_update[i] = (VectorB[i] - MatrixA[i][i+1] * Concentration_update[i+1]) / MatrixA[i][i]
+
+
+            #Update velocity
+            for i in xrange(0,N_len):
+                grad = conc_grad(Concentration_update, i, N_len, L)
+
+                if Concentration_update[i] == 0 or Concentration_update[i] == max_conc:
+                    Velocity_update[i] = 0
+                else:
+                    Velocity_update[i] = vel(Concentration_update[i],particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+
+            #Residuals evaluation
+            residual = 0
+            for i in xrange(0,N_len):
+                distance = abs(Concentration_update[i] - Concentration_residual[i]) / Concentration_residual[i] 
+                if residual < distance:
+                    residual = distance
+
         count += 1
-        
+        #print(resIterations,residual)
         if count>86400 / timestep:
             print("\nCurrent time:" + str(currentTime))
             #f += 1
@@ -293,10 +340,16 @@ def CrankSolver():
                 #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
                 #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
             
-            Data.append(list(Concentration))
+            Data.append(np.copy(Concentration))
             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
 
             count = 0
         currentTime += timestep
-        # Time.append(currentTi'me)
+        Velocity = np.copy(Velocity_update)
+        Concentration = np.copy(Concentration_update)
+        # Time.append(currentTime)
+
+    Data.append([z_resolution,c,N_len])
+
+    return Data
