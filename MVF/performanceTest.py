@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 start = time.time()
 
-print("Iniciando simulação")
+print("\nIniciando simulação")
 
 """ data = script_Rocha_2020.EulerSolver(
     physicalParameters = script_Rocha_2020.PhysicalParameters(
@@ -48,7 +48,7 @@ data = script_Rocha_2020.CrankSolver(
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 21,
         total_time = 432000,
-        timestep = 0.01,
+        timestep = 0.1,
         maxResidual = 0.000000001
     ),
     constantParameters = script_Rocha_2020.ConstantParameters(
@@ -63,6 +63,6 @@ data = script_Rocha_2020.CrankSolver(
 
 end = time.time()
 
-pd.DataFrame(data).to_csv("resultadosPreliminares.csv")
+pd.DataFrame(data).to_csv("MVF/temporaryFiles/resultadosPreliminares.csv")
 
 print("\nTempo total de simulação:" + str(end - start) + " [s]")

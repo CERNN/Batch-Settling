@@ -2,6 +2,7 @@
 
 import cython
 import numpy as np
+import pandas as pd
 
 cimport numpy as np
 
@@ -249,27 +250,28 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
     cdef float c = timestep / (2 * delta_z)
     cdef float residual
     cdef float distance
-    cdef np.ndarray Concentration_residual = np.ones(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.float_t, ndim=1] Concentration_residual = np.ones(N_len, dtype=DTYPE)
     
 
     #Inicializacao do data set
-    cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
-    cdef np.ndarray Concentration_update = np.copy(Concentration)
+    cdef np.ndarray[np.float_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray[np.float_t,ndim=1] Concentration_update = np.copy(Concentration)
     # Concentration[0] = max_conc
     # Concentration[N_len - 1] = 0
-    cdef np.ndarray Velocity = np.zeros(N_len, dtype=DTYPE)
-    cdef np.ndarray Velocity_update = np.copy(Velocity)
-    cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
-    cdef float currentTime = 0
+    cdef np.ndarray[np.float_t,ndim=1] Velocity = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.float_t,ndim=1] Velocity_update = np.copy(Velocity)
+    cdef np.ndarray[np.float_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
+    cdef double currentTime = 0
     
     #Inicializaçao da matrix tridiagonal
-    cdef np.ndarray MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
-    cdef np.ndarray VectorB = np.zeros(N_len, dtype = DTYPE)
-
+    cdef np.ndarray[np.float_t,ndim=2] MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
+    cdef np.ndarray[np.float_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)
+    print("\n\nData set initialized\n\n")
     Data = []
     Data.append(np.copy(Concentration)) #Talvez precise typar
 
     cdef int count = 0
+    cdef int dia = 0
 
     cdef int resIterations
 
@@ -339,8 +341,9 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
             #for h in range(0,N_len):
                 #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
                 #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
-            
+            dia += 1
             Data.append(np.copy(Concentration))
+            pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")
             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
 
