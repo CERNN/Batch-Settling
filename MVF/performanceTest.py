@@ -46,9 +46,9 @@ data = script_Rocha_2020.CrankSolver(
         powerLawFluid_n = 0.21
     ),
     numericalParameters = script_Rocha_2020.NumericalParameters(
-        z_divs = 21,
-        total_time = 432000,
-        timestep = 0.1,
+        z_divs = 220,
+        total_time = 4320000,
+        timestep = 1,
         maxResidual = 0.000000001
     ),
     constantParameters = script_Rocha_2020.ConstantParameters(
@@ -57,7 +57,6 @@ data = script_Rocha_2020.CrankSolver(
         beta = 0.19, # Pressao nos solidos
         ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
         p_ref = 18.62 # Pressao nos solidos
-
     )
 )
 

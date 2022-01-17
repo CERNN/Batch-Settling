@@ -256,8 +256,6 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
     #Inicializacao do data set
     cdef np.ndarray[np.float_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
     cdef np.ndarray[np.float_t,ndim=1] Concentration_update = np.copy(Concentration)
-    # Concentration[0] = max_conc
-    # Concentration[N_len - 1] = 0
     cdef np.ndarray[np.float_t,ndim=1] Velocity = np.zeros(N_len, dtype=DTYPE)
     cdef np.ndarray[np.float_t,ndim=1] Velocity_update = np.copy(Velocity)
     cdef np.ndarray[np.float_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
