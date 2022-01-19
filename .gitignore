@@ -1,0 +1,4 @@
+*.csv
+build
+__pycache__
+**/MVF/temporaryFiles/*.csv

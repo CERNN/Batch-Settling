@@ -47,7 +47,7 @@ data = script_Rocha_2020.CrankSolver(
     ),
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 220,
-        total_time = 4320000,
+        total_time = 31536000, #365 dias #4320000,
         timestep = 1,
         maxResidual = 0.000000001
     ),
