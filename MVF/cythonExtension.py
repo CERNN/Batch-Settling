@@ -8,3 +8,8 @@ setup(
     ext_modules = cythonize("script_Rocha_2020.pyx", annotate=True),
     include_dirs=[numpy.get_include()]
 )
+
+# setup(
+#     ext_modules = cythonize("script_GL_92.pyx", annotate=True),
+#     include_dirs=[numpy.get_include()]
+# )
