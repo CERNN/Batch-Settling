@@ -34,16 +34,29 @@ cdef float press_grad(float x,float p_ref,float beta,float x_ref):
 
 cdef float vel(np.ndarray Concentration, int index,float diam,float k0,float delta,float max_conc,float M,esph,n,float rho_susp,float rho_s,float rho_f,float initial_conc,float p_ref,beta,float x_ref,float conc_grad) :
     cdef float K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
+
+    # Inclusao dos parametros para a regiao do clarificado
+    # if Concentration[index + 1] < initial_conc:
+    #     K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
+    #     aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
+    # else:
+    #     K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
+    #     aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
     K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
     aux1 = K / (M * (1 - Concentration[index + 1]) ** (1 - n))
     aux2 = (diam / esph) ** (n - 1) * (rho_susp / (rho_susp -  rho_s * initial_conc))
-    aux3 = Concentration[index + 1] * (rho_s - rho_f) * (9.81)
-    aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
-    
+    aux3 = Concentration[index + 1] * (rho_s - rho_f) * (-9.81)
+    aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
+    # if aux4 != 0:
+    #     print(aux4, conc_grad)
+    # aux4
+
     aux5 = aux1 * aux2 * (aux3 - aux4)
     
     if aux5 == 0:
         return 0
+    elif aux5 <= 0:
+        aux5 = -aux5
     aux6 = 1 / n
     #print(aux1,aux2,aux3,aux4,aux5)
     velocity = pow(aux5, aux6)
@@ -159,13 +172,13 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
     #Time = [currentTime]
 
-    #Pres = np.zeros((N_len, 365), dtype=float)
-    #Perm = np.zeros((N_len, 365), dtype=float)
-    #f = 0
+    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=float)
+    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=float)
+    cdef int f = 0
 
-    #for h in range(0,N_len):
-        #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+    for h in range(0,N_len):
+        Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+        Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
 
     Data = []
     Data.append(np.copy(Concentration)) #Talvez precise typar
@@ -196,10 +209,10 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
         
         if count>86400 / timestep:
             
-            #f += 1
-            #for h in range(0,N_len):
-                #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-                #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+            f += 1
+            for h in range(0,N_len):
+                Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+                Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
 
             dia += 1
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
@@ -212,6 +225,8 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
         currentTime += timestep
         # Time.append(currentTime)
 
+    pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoEuler.csv")
+    pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeEuler.csv")
 
     return Data
 
@@ -275,6 +290,14 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
     Data = []
     Data.append(np.copy(Concentration)) #Talvez precise typar
 
+    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=float)
+    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=float)
+    cdef int f = 0
+
+    for h in range(0,N_len):
+        Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+        Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+
     cdef int count = 0
     cdef int dia = 0
 
@@ -335,12 +358,13 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
         count += 1
         #print(resIterations,residual)
         if count>86400 / timestep:
-            print("\nCurrent time:" + str(currentTime))
-            #f += 1
-            #for h in range(0,N_len):
-                #Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-                #Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+            f += 1
+            for h in range(0,N_len):
+                Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+                Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+
             dia += 1
+            print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
             Data.append(np.copy(Concentration))
             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")
             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
@@ -353,5 +377,175 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
         # Time.append(currentTime)
 
     Data.append([z_resolution,c,N_len])
+    
+    pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressao.csv")
+    pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidade.csv")
+
+    return Data
+
+def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
+    # Parametros do poço 
+    cdef float L = physicalParameters.L #5000(m)
+    # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
+    cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
+    cdef float z_resolution = N_len / L
+    cdef float delta_z = L / N_len
+    cdef float maxResidual = numericalParameters.maxResidual
+    
+    # Parametros de sedimentaçao
+    cdef float initial_conc = physicalParameters.initial_conc
+    cdef float particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef float solid_density = physicalParameters.solid_density
+    cdef float fluid_density = physicalParameters.fluid_density
+    
+    # Parametros de simulaçao
+    cdef float total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef float timestep = numericalParameters.timestep
+    
+    # Parametros estimados
+    #Permeabilidade
+    cdef float delta = constantParameters.delta
+    cdef float k0 = constantParameters.k0
+    cdef float max_conc = physicalParameters.max_conc
+    
+    #Pressao nos solidos
+    cdef float beta = constantParameters.beta
+    cdef float p_ref = constantParameters.p_ref
+    cdef float ref_conc = constantParameters.ref_conc
+    
+    #Parametros do fluido
+    cdef float M = physicalParameters.M
+    cdef float n = physicalParameters.n
+    
+    
+    cdef float esph = esp(0.8)
+    cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
+
+    # #Variáveis auxiliares
+    # cdef float c = timestep / (2 * delta_z)
+    
+    #Inicializacao do data set
+    cdef np.ndarray[np.float_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray[np.float_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray[np.float_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
+    cdef np.ndarray[np.float_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
+    cdef double currentTime = 0
+    
+    #Inicializaçao dos vetores de inclinação
+    cdef np.ndarray[np.float_t,ndim=1] K1 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.float_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.float_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.float_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
+
+
+
+    print("\n\nData set initialized\n\n")
+    Data = []
+    Data.append(np.copy(Concentration)) #Talvez precise typar
+
+    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=float)
+    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=float)
+    cdef int f = 0
+
+    for h in range(0,N_len):
+        Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+        Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+
+    cdef int count = 0
+    cdef int dia = 0
+
+    cdef int i
+    cdef float update
+
+    while (currentTime <= total_time):
+        
+        for i in range(0,N_len - 1):
+            grad = conc_grad(Concentration, i, N_len, L)
+    
+            Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+
+        for i in range(0,N_len):
+            if i == 0:
+                update = - (Concentration[i+1] * Velocity[i]) / delta_z
+                # print(update)
+            elif i == (N_len - 1):
+                update = (Concentration[i] * Velocity[i - 1]) / delta_z
+            else:
+                update = - (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / delta_z
+            K1[i] = update
+            Concentration_aux[i] += timestep * update / 2
+
+
+        for i in range(0,N_len - 1):
+            grad = conc_grad(Concentration_aux, i, N_len, L)
+    
+            Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+        
+
+        for i in range(0,N_len):
+            if i == 0:
+                update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                # print(update)
+            elif i == (N_len - 1):
+                update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+            else:
+                update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+            K2[i] = update
+            Concentration_aux[i] = Concentration[i] + timestep * update / 2
+
+        for i in range(0,N_len - 1):
+            grad = conc_grad(Concentration_aux, i, N_len, L)
+    
+            Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+
+        for i in range(0,N_len):
+            if i == 0:
+                update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                # print(update)
+            elif i == (N_len - 1):
+                update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+            else:
+                update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+            K3[i] = update
+            Concentration_aux[i] = Concentration[i] + timestep * update
+
+        for i in range(0,N_len - 1):
+            grad = conc_grad(Concentration_aux, i, N_len, L)
+    
+            Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+
+        for i in range(0,N_len):
+            if i == 0:
+                update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                # print(update)
+            elif i == (N_len - 1):
+                update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+            else:
+                update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+            K4[i] = update
+            Concentration[i] += timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinação media
+
+        count += 1
+        
+        if count>86400 / timestep:
+            
+            f += 1
+            for h in range(0,N_len):
+                Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+                Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+
+            dia += 1
+            print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
+            Data.append(np.copy(Concentration))
+            pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
+            print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+            print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+            evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+            count = 0
+        currentTime += timestep
+        # Time.append(currentTime)
+
+    pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
+    pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
 
     return Data

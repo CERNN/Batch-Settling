@@ -8,7 +8,7 @@ start = time.time()
 
 print("\nIniciando simulação")
 
-data = script_Rocha_2020.CrankSolver(
+data = script_Rocha_2020.RK4Solver(
     physicalParameters = script_Rocha_2020.PhysicalParameters(
         height = 0.21, # (m)
         initial_conc = 0.1391,
@@ -22,7 +22,7 @@ data = script_Rocha_2020.CrankSolver(
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 220,
         total_time = 31536000, #365 dias #4320000,
-        timestep = 1,
+        timestep = 10,
         maxResidual = 0.000000001
     ),
     constantParameters = script_Rocha_2020.ConstantParameters(
