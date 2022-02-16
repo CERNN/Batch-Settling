@@ -7,13 +7,14 @@ import pandas as pd
 cimport numpy as np
 
 cdef extern from "math.h":
-    double exp(double)
+    float exp(float)
 
 DTYPE = np.float
 
 cdef float perm(float x,float diam,float k0,float delta,float max_conc):
     cdef float permeability
     permeability = k0 * diam ** 2 * (max_conc / x - 1) ** delta
+    # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
     return permeability
 
 cdef float esp(float x):
@@ -36,17 +37,17 @@ cdef float vel(np.ndarray Concentration, int index,float diam,float k0,float del
     cdef float K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
 
     # Inclusao dos parametros para a regiao do clarificado
-    # if Concentration[index + 1] < initial_conc:
-    #     K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
-    #     aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
-    # else:
-    #     K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
-    #     aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
+    if Concentration[index + 1] < initial_conc:
+        K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
+        aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
+    else:
+        K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
+        aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
     K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
     aux1 = K / (M * (1 - Concentration[index + 1]) ** (1 - n))
     aux2 = (diam / esph) ** (n - 1) * (rho_susp / (rho_susp -  rho_s * initial_conc))
     aux3 = Concentration[index + 1] * (rho_s - rho_f) * (-9.81)
-    aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
+    aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad #Erro 1
     # if aux4 != 0:
     #     print(aux4, conc_grad)
     # aux4
@@ -265,7 +266,7 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
     cdef float n = physicalParameters.n
     
     
-    cdef float esph = esp(1)
+    cdef float esph = esp(0.75)
     cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
     #Variáveis auxiliares
@@ -418,7 +419,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef float n = physicalParameters.n
     
     
-    cdef float esph = esp(0.8)
+    cdef float esph = esp(0.75)
     cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
     # #Variáveis auxiliares
@@ -443,8 +444,8 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     Data = []
     Data.append(np.copy(Concentration)) #Talvez precise typar
 
-    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=float)
-    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=float)
+    cdef np.ndarray Pres = np.zeros((N_len, 3660), dtype=DTYPE)
+    cdef np.ndarray Perm = np.zeros((N_len, 3660), dtype=DTYPE)
     cdef int f = 0
 
     for h in range(0,N_len):
@@ -518,6 +519,8 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             if i == 0:
                 update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
                 # print(update)
+                # print((K1[i] + 2 * K2[i] + 2 * K3[i] + update) / 6)
+                # print("RK4 ^")
             elif i == (N_len - 1):
                 update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
             else:
@@ -527,7 +530,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
 
         count += 1
         
-        if count>86400 / timestep:
+        if count>=86400 / timestep:
             
             f += 1
             for h in range(0,N_len):
