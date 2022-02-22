@@ -7,23 +7,23 @@ import pandas as pd
 cimport numpy as np
 
 cdef extern from "math.h":
-    float exp(float)
+    double exp(double)
 
-DTYPE = np.float
+DTYPE = np.double
 
-cdef float perm(float x,float diam,float k0,float delta,float max_conc):
-    cdef float permeability
+cdef double perm(double x,double diam,double k0,double delta,double max_conc):
+    cdef double permeability
     permeability = k0 * diam ** 2 * (max_conc / x - 1) ** delta
     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
     return permeability
 
-cdef float esp(float x):
-    cdef float esphericity
+cdef double esp(double x):
+    cdef double esphericity
     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
     return esphericity
 
-cdef float press_grad(float x,float p_ref,float beta,float x_ref):
-    cdef float aux, pressure_gradient
+cdef double press_grad(double x,double p_ref,double beta,double x_ref):
+    cdef double aux, pressure_gradient
     if x == 0:
         return 0
     
@@ -33,18 +33,21 @@ cdef float press_grad(float x,float p_ref,float beta,float x_ref):
     return pressure_gradient
 
 
-cdef float vel(np.ndarray Concentration, int index,float diam,float k0,float delta,float max_conc,float M,esph,n,float rho_susp,float rho_s,float rho_f,float initial_conc,float p_ref,beta,float x_ref,float conc_grad) :
-    cdef float K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
+cdef double vel(np.ndarray Concentration, int index,double diam,double k0,double delta,double max_conc,double M,double esph,double n,double rho_susp,double rho_s,double rho_f,double initial_conc,double p_ref,double beta,double x_ref,double conc_grad):
+    cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity, mix_dens
 
     # Inclusao dos parametros para a regiao do clarificado
-    if Concentration[index + 1] < initial_conc:
+    if Concentration[index + 1] < initial_conc: # Testar com index ao inves de index + 1
         K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
         aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
     else:
         K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
         aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
-    K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
+    # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
     aux1 = K / (M * (1 - Concentration[index + 1]) ** (1 - n))
+
+    # mix_dens = rho_f + (rho_s - rho_f) * Concentration[index]
+    # aux2 = (diam / esph) ** (n - 1) * (mix_dens / (mix_dens -  rho_s * initial_conc))
     aux2 = (diam / esph) ** (n - 1) * (rho_susp / (rho_susp -  rho_s * initial_conc))
     aux3 = Concentration[index + 1] * (rho_s - rho_f) * (-9.81)
     aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad #Erro 1
@@ -63,19 +66,19 @@ cdef float vel(np.ndarray Concentration, int index,float diam,float k0,float del
     velocity = pow(aux5, aux6)
     return -velocity
 
-cdef float conc_grad(np.ndarray Concentration,int index,int N_len,float L):
-    cdef float concentration_gradient
+cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):
+    cdef double concentration_gradient
 
     concentration_gradient = (Concentration[index + 1] - Concentration[index]) / (L / N_len)
 
     return concentration_gradient
 
 cdef class ConstantParameters:
-    cdef float delta
-    cdef float k0
-    cdef float beta
-    cdef float ref_conc
-    cdef float p_ref
+    cdef double delta
+    cdef double k0
+    cdef double beta
+    cdef double ref_conc
+    cdef double p_ref
 
     def __init__(self, delta, k0, beta, ref_conc, p_ref):
         self.delta = delta
@@ -85,14 +88,14 @@ cdef class ConstantParameters:
         self.p_ref = p_ref
 
 cdef class PhysicalParameters:
-    cdef float L
-    cdef float initial_conc
-    cdef float particle_diam
-    cdef float solid_density
-    cdef float fluid_density
-    cdef float max_conc
-    cdef float M
-    cdef float n
+    cdef double L
+    cdef double initial_conc
+    cdef double particle_diam
+    cdef double solid_density
+    cdef double fluid_density
+    cdef double max_conc
+    cdef double M
+    cdef double n
 
     def __init__(self, height,initial_conc,particle_diam,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):
         self.L = height
@@ -106,9 +109,9 @@ cdef class PhysicalParameters:
 
 cdef class NumericalParameters:
     cdef int N_len
-    cdef float total_time
-    cdef float timestep
-    cdef float maxResidual
+    cdef double total_time
+    cdef double timestep
+    cdef double maxResidual
     
     def __init__(self, z_divs,total_time,timestep,maxResidual):
         self.N_len = z_divs
@@ -117,8 +120,8 @@ cdef class NumericalParameters:
         self.maxResidual = maxResidual
 
 
-cdef evalMassConservation(float initial_conc, float solid_density, float length, int n_divs, np.ndarray Concentration):
-    cdef float initialmassPerArea, massPerArea = 0
+cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):
+    cdef double initialmassPerArea, massPerArea = 0
     initialmassPerArea = solid_density * length * n_divs * initial_conc
     for local_concentration in Concentration:
         massPerArea += solid_density * length * local_concentration
@@ -131,50 +134,50 @@ cdef evalMassConservation(float initial_conc, float solid_density, float length,
 def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
      
     # Parametros do poço 
-    cdef float L = physicalParameters.L
+    cdef double L = physicalParameters.L
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
     cdef int N_len = numericalParameters.N_len
-    cdef float z_resolution = N_len / L
+    cdef double z_resolution = N_len / L
     
     # Parametros de sedimentaçao
-    cdef float initial_conc = physicalParameters.initial_conc
-    cdef float particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
-    cdef float solid_density = physicalParameters.solid_density
-    cdef float fluid_density = physicalParameters.fluid_density
+    cdef double initial_conc = physicalParameters.initial_conc
+    cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef double solid_density = physicalParameters.solid_density
+    cdef double fluid_density = physicalParameters.fluid_density
     
     # Parametros de simulaçao
-    cdef float total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
-    cdef float timestep = numericalParameters.timestep
+    cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef double timestep = numericalParameters.timestep
     
     # Parametros estimados
     #Permeabilidade
-    cdef float delta = constantParameters.delta
-    cdef float k0 = constantParameters.k0
-    cdef float max_conc = physicalParameters.max_conc
+    cdef double delta = constantParameters.delta
+    cdef double k0 = constantParameters.k0
+    cdef double max_conc = physicalParameters.max_conc
     
     #Pressao nos solidos
-    cdef float beta = constantParameters.beta
-    cdef float p_ref = constantParameters.p_ref
-    cdef float ref_conc = constantParameters.ref_conc
+    cdef double beta = constantParameters.beta
+    cdef double p_ref = constantParameters.p_ref
+    cdef double ref_conc = constantParameters.ref_conc
     
     #Parametros do fluido
-    cdef float M = physicalParameters.M
-    cdef float n = physicalParameters.n
+    cdef double M = physicalParameters.M
+    cdef double n = physicalParameters.n
     
     
-    cdef float esph = esp(1)
-    cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
+    cdef double esph = esp(1)
+    cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
     #Inicializacao do data set
     cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
     cdef np.ndarray Velocity = np.zeros(N_len - 1, dtype=DTYPE) #Velocidade nas fronteiras do nó
     cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
-    cdef float currentTime = 0
+    cdef double currentTime = 0
 
     #Time = [currentTime]
 
-    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=float)
-    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=float)
+    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
+    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)
     cdef int f = 0
 
     for h in range(0,N_len):
@@ -233,66 +236,66 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
 def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
     # Parametros do poço 
-    cdef float L = physicalParameters.L #5000(m)
+    cdef double L = physicalParameters.L #5000(m)
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
-    cdef float z_resolution = N_len / L
-    cdef float delta_z = L / N_len
-    cdef float maxResidual = numericalParameters.maxResidual
+    cdef double z_resolution = N_len / L
+    cdef double delta_z = L / N_len
+    cdef double maxResidual = numericalParameters.maxResidual
     
     # Parametros de sedimentaçao
-    cdef float initial_conc = physicalParameters.initial_conc
-    cdef float particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
-    cdef float solid_density = physicalParameters.solid_density
-    cdef float fluid_density = physicalParameters.fluid_density
+    cdef double initial_conc = physicalParameters.initial_conc
+    cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef double solid_density = physicalParameters.solid_density
+    cdef double fluid_density = physicalParameters.fluid_density
     
     # Parametros de simulaçao
-    cdef float total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
-    cdef float timestep = numericalParameters.timestep
+    cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef double timestep = numericalParameters.timestep
     
     # Parametros estimados
     #Permeabilidade
-    cdef float delta = constantParameters.delta
-    cdef float k0 = constantParameters.k0
-    cdef float max_conc = physicalParameters.max_conc
+    cdef double delta = constantParameters.delta
+    cdef double k0 = constantParameters.k0
+    cdef double max_conc = physicalParameters.max_conc
     
     #Pressao nos solidos
-    cdef float beta = constantParameters.beta
-    cdef float p_ref = constantParameters.p_ref
-    cdef float ref_conc = constantParameters.ref_conc
+    cdef double beta = constantParameters.beta
+    cdef double p_ref = constantParameters.p_ref
+    cdef double ref_conc = constantParameters.ref_conc
     
     #Parametros do fluido
-    cdef float M = physicalParameters.M
-    cdef float n = physicalParameters.n
+    cdef double M = physicalParameters.M
+    cdef double n = physicalParameters.n
     
     
-    cdef float esph = esp(0.75)
-    cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
+    cdef double esph = esp(0.75)
+    cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
     #Variáveis auxiliares
-    cdef float c = timestep / (2 * delta_z)
-    cdef float residual
-    cdef float distance
-    cdef np.ndarray[np.float_t, ndim=1] Concentration_residual = np.ones(N_len, dtype=DTYPE)
+    cdef double c = timestep / (2 * delta_z)
+    cdef double residual
+    cdef double distance
+    cdef np.ndarray[np.double_t, ndim=1] Concentration_residual = np.ones(N_len, dtype=DTYPE)
     
 
     #Inicializacao do data set
-    cdef np.ndarray[np.float_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
-    cdef np.ndarray[np.float_t,ndim=1] Concentration_update = np.copy(Concentration)
-    cdef np.ndarray[np.float_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
-    cdef np.ndarray[np.float_t,ndim=1] Velocity_update = np.copy(Velocity)
-    cdef np.ndarray[np.float_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
+    cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray[np.double_t,ndim=1] Concentration_update = np.copy(Concentration)
+    cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] Velocity_update = np.copy(Velocity)
+    cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
     cdef double currentTime = 0
     
     #Inicializaçao da matrix tridiagonal
-    cdef np.ndarray[np.float_t,ndim=2] MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
-    cdef np.ndarray[np.float_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)
+    cdef np.ndarray[np.double_t,ndim=2] MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)
     print("\n\nData set initialized\n\n")
     Data = []
     Data.append(np.copy(Concentration)) #Talvez precise typar
 
-    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=float)
-    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=float)
+    cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
+    cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)
     cdef int f = 0
 
     for h in range(0,N_len):
@@ -386,57 +389,57 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
 def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
     # Parametros do poço 
-    cdef float L = physicalParameters.L #5000(m)
+    cdef double L = physicalParameters.L #5000(m)
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
-    cdef float z_resolution = N_len / L
-    cdef float delta_z = L / N_len
-    cdef float maxResidual = numericalParameters.maxResidual
+    cdef double z_resolution = N_len / L
+    cdef double delta_z = L / N_len
+    cdef double maxResidual = numericalParameters.maxResidual
     
     # Parametros de sedimentaçao
-    cdef float initial_conc = physicalParameters.initial_conc
-    cdef float particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
-    cdef float solid_density = physicalParameters.solid_density
-    cdef float fluid_density = physicalParameters.fluid_density
+    cdef double initial_conc = physicalParameters.initial_conc
+    cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
+    cdef double solid_density = physicalParameters.solid_density
+    cdef double fluid_density = physicalParameters.fluid_density
     
     # Parametros de simulaçao
-    cdef float total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
-    cdef float timestep = numericalParameters.timestep
+    cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
+    cdef double timestep = numericalParameters.timestep
     
     # Parametros estimados
     #Permeabilidade
-    cdef float delta = constantParameters.delta
-    cdef float k0 = constantParameters.k0
-    cdef float max_conc = physicalParameters.max_conc
+    cdef double delta = constantParameters.delta
+    cdef double k0 = constantParameters.k0
+    cdef double max_conc = physicalParameters.max_conc
     
     #Pressao nos solidos
-    cdef float beta = constantParameters.beta
-    cdef float p_ref = constantParameters.p_ref
-    cdef float ref_conc = constantParameters.ref_conc
+    cdef double beta = constantParameters.beta
+    cdef double p_ref = constantParameters.p_ref
+    cdef double ref_conc = constantParameters.ref_conc
     
     #Parametros do fluido
-    cdef float M = physicalParameters.M
-    cdef float n = physicalParameters.n
+    cdef double M = physicalParameters.M
+    cdef double n = physicalParameters.n
     
     
-    cdef float esph = esp(0.75)
-    cdef float mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
+    cdef double esph = esp(0.8)
+    cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
     # #Variáveis auxiliares
-    # cdef float c = timestep / (2 * delta_z)
+    # cdef double c = timestep / (2 * delta_z)
     
     #Inicializacao do data set
-    cdef np.ndarray[np.float_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
-    cdef np.ndarray[np.float_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc
-    cdef np.ndarray[np.float_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
-    cdef np.ndarray[np.float_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
+    cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray[np.double_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc
+    cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
     cdef double currentTime = 0
     
     #Inicializaçao dos vetores de inclinação
-    cdef np.ndarray[np.float_t,ndim=1] K1 = np.zeros(N_len, dtype=DTYPE)
-    cdef np.ndarray[np.float_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)
-    cdef np.ndarray[np.float_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
-    cdef np.ndarray[np.float_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] K1 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
+    cdef np.ndarray[np.double_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
 
 
 
@@ -456,13 +459,13 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef int dia = 0
 
     cdef int i
-    cdef float update
+    cdef double update
 
     while (currentTime <= total_time):
         
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration, i, N_len, L)
-    
+
             Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
 
         for i in range(0,N_len):
