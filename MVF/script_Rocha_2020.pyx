@@ -91,16 +91,18 @@ cdef class PhysicalParameters:
     cdef double L
     cdef double initial_conc
     cdef double particle_diam
+    cdef double particle_esphericity
     cdef double solid_density
     cdef double fluid_density
     cdef double max_conc
     cdef double M
     cdef double n
 
-    def __init__(self, height,initial_conc,particle_diam,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):
+    def __init__(self, height,initial_conc,particle_diam,particle_esphericity,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):
         self.L = height
         self.initial_conc = initial_conc
         self.particle_diam = particle_diam
+        self.particle_esphericity = particle_esphericity
         self.solid_density = solid_density
         self.fluid_density = fluid_density
         self.max_conc = max_conc
@@ -422,7 +424,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef double n = physicalParameters.n
     
     
-    cdef double esph = esp(0.8)
+    cdef double esph = esp(physicalParameters.particle_esphericity)
     cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
 
     # #Variáveis auxiliares
