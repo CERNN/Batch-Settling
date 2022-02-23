@@ -11,9 +11,15 @@ cdef extern from "math.h":
 
 DTYPE = np.double
 
-cdef double perm(double x,double diam,double k0,double delta,double max_conc):
+# cdef double perm(double x,double diam,double k0,double delta,double max_conc):
+#     cdef double permeability
+#     permeability = k0 * diam ** 2 * (max_conc / x - 1) ** delta
+#     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+#     return permeability
+
+cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):
     cdef double permeability
-    permeability = k0 * diam ** 2 * (max_conc / x - 1) ** delta
+    permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
     return permeability
 
@@ -22,38 +28,84 @@ cdef double esp(double x):
     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
     return esphericity
 
-cdef double press_grad(double x,double p_ref,double beta,double x_ref):
+# cdef double press_grad(double x,double p_ref,double beta,double x_ref):
+#     cdef double aux, pressure_gradient
+#     if x == 0:
+#         return 0
+    
+#     aux = -beta * (x_ref - x) / (x * x_ref)
+#     pressure_gradient = (p_ref * beta / x ** 2) * exp(aux) #Trocar o exp
+
+#     return pressure_gradient
+
+cdef double press_grad(double concentration,ConstantParameters constantParameters):
     cdef double aux, pressure_gradient
-    if x == 0:
+    if concentration == 0:
         return 0
     
-    aux = -beta * (x_ref - x) / (x * x_ref)
-    pressure_gradient = (p_ref * beta / x ** 2) * exp(aux) #Trocar o exp
+    aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)
+    pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp
 
     return pressure_gradient
 
 
-cdef double vel(np.ndarray Concentration, int index,double diam,double k0,double delta,double max_conc,double M,double esph,double n,double rho_susp,double rho_s,double rho_f,double initial_conc,double p_ref,double beta,double x_ref,double conc_grad):
-    cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity, mix_dens
+# cdef double vel(np.ndarray Concentration, int index,double diam,double k0,double delta,double max_conc,double M,double esph,double n,double rho_susp,double rho_s,double rho_f,double initial_conc,double p_ref,double beta,double x_ref,double conc_grad):
+#     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity, mix_dens
+
+#     # Inclusao dos parametros para a regiao do clarificado
+#     # if Concentration[index + 1] <= 0.14: # Testar com index ao inves de index + 1
+#     if Concentration[index + 1] <= 0.14:
+#         K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
+#         aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
+#     else:
+#         K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
+#         aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
+#     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
+#     aux1 = K / (M * (1 - Concentration[index + 1]) ** (1 - n))
+
+#     # mix_dens = rho_f + (rho_s - rho_f) * Concentration[index]
+#     # aux2 = (diam / esph) ** (n - 1) * (mix_dens / (mix_dens -  rho_s * initial_conc))
+#     aux2 = (diam / esph) ** (n - 1) * (rho_susp / (rho_susp -  rho_s * initial_conc))
+#     aux3 = Concentration[index + 1] * (rho_s - rho_f) * (-9.81)
+#     # aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad #Erro 1
+#     # if aux4 != 0:
+#     #     print(aux4, conc_grad)
+#     # aux4
+
+#     aux5 = aux1 * aux2 * (aux3 - aux4)
+    
+#     if aux5 == 0:
+#         return 0
+#     elif aux5 <= 0:
+#         aux5 = -aux5
+#     aux6 = 1 / n
+#     #print(aux1,aux2,aux3,aux4,aux5)
+#     velocity = pow(aux5, aux6)
+#     return -velocity
+
+cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):
+    cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
+    cdef clarifiedParameters = ConstantParameters(
+        delta = 1.04, # Permeabilidade - Rocha (2020)
+        k0 = 52.67, # Permeabilidade - Rocha (2020)
+        beta = 1.0, # Pressao nos solidos
+        ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+        p_ref = 3.31 # Pressao nos solidos
+    )
 
     # Inclusao dos parametros para a regiao do clarificado
-    if Concentration[index + 1] < initial_conc: # Testar com index ao inves de index + 1
-        K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
-        aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
+    if Concentration[index + 1] < physicalParameters.initial_conc: # Testar com index ao inves de index + 1
+        K = perm(Concentration[index + 1],physicalParameters, clarifiedParameters)
+        aux4 = - press_grad(Concentration[index + 1],clarifiedParameters) * conc_grad
     else:
-        K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
-        aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
+        K = perm(Concentration[index + 1],physicalParameters,constantParameters)
+        aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
-    aux1 = K / (M * (1 - Concentration[index + 1]) ** (1 - n))
-
-    # mix_dens = rho_f + (rho_s - rho_f) * Concentration[index]
-    # aux2 = (diam / esph) ** (n - 1) * (mix_dens / (mix_dens -  rho_s * initial_conc))
-    aux2 = (diam / esph) ** (n - 1) * (rho_susp / (rho_susp -  rho_s * initial_conc))
-    aux3 = Concentration[index + 1] * (rho_s - rho_f) * (-9.81)
-    aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad #Erro 1
-    # if aux4 != 0:
-    #     print(aux4, conc_grad)
-    # aux4
+    aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad #ERRO AQUI NA VERIFICAÇAO DO CLARIFICADO
+    aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
+    aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
+    aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)
+    
 
     aux5 = aux1 * aux2 * (aux3 - aux4)
     
@@ -61,7 +113,7 @@ cdef double vel(np.ndarray Concentration, int index,double diam,double k0,double
         return 0
     elif aux5 <= 0:
         aux5 = -aux5
-    aux6 = 1 / n
+    aux6 = 1 / physicalParameters.n
     #print(aux1,aux2,aux3,aux4,aux5)
     velocity = pow(aux5, aux6)
     return -velocity
@@ -132,7 +184,7 @@ cdef evalMassConservation(double initial_conc, double solid_density, double leng
     + " [Kg/m2]\nCurrent total mass per area: " + str(massPerArea) 
     + " [Kg/m2]\nTotal variation (loss): " + str(initialmassPerArea - massPerArea) + " [Kg/m2]")
 
-#Calculo de constantes
+
 def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
      
     # Parametros do poço 
@@ -184,7 +236,10 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
     for h in range(0,N_len):
         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+        # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+        Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+        
+
 
     Data = []
     Data.append(np.copy(Concentration)) #Talvez precise typar
@@ -198,7 +253,7 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration, i, N_len, L)
     
-            Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
 
 
         
@@ -218,7 +273,9 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
             f += 1
             for h in range(0,N_len):
                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-                Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+                # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+                Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+                
 
             dia += 1
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
@@ -302,7 +359,9 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
     for h in range(0,N_len):
         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+        # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+        Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+        
 
     cdef int count = 0
     cdef int dia = 0
@@ -314,7 +373,8 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
     for i in xrange(0,N_len-1):
             grad = conc_grad(Concentration, i, N_len, L)
 
-            Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            # Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
 
     while (currentTime <= total_time):
         Velocity_update = np.copy(Velocity)
@@ -351,8 +411,8 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
             #Update velocity
             for i in xrange(0,N_len-1):
                 grad = conc_grad(Concentration_update, i, N_len, L)
-
-                Velocity_update[i] = vel(Concentration_update,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+                Velocity_update[i] = vel(Concentration_update,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+                # Velocity_update[i] = vel(Concentration_update,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
 
             #Residuals evaluation
             residual = 0
@@ -367,7 +427,8 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
             f += 1
             for h in range(0,N_len):
                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-                Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+                # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+                Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
 
             dia += 1
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
@@ -455,7 +516,8 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
 
     for h in range(0,N_len):
         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+        # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+        Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
 
     cdef int count = 0
     cdef int dia = 0
@@ -467,8 +529,9 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration, i, N_len, L)
-
-            Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            # (Concentration, index, physicalParameters, constantParameters, esph, rho_susp, conc_grad)
+            # Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
 
         for i in range(0,N_len):
             if i == 0:
@@ -480,13 +543,17 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
                 update = - (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / delta_z
             K1[i] = update
             Concentration_aux[i] += timestep * update / 2
+            # print("---")
+            # print(Concentration)
+            # print(Concentration_aux)
 
 
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration_aux, i, N_len, L)
     
-            Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
-        
+
+            # Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
 
         for i in range(0,N_len):
             if i == 0:
@@ -502,7 +569,8 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration_aux, i, N_len, L)
     
-            Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            # Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
 
         for i in range(0,N_len):
             if i == 0:
@@ -518,7 +586,9 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration_aux, i, N_len, L)
     
-            Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            # Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
+            Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+
 
         for i in range(0,N_len):
             if i == 0:
@@ -534,18 +604,21 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             Concentration[i] += timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinação media
 
         count += 1
-        
-        if count>=86400 / timestep:
+        # if count <= 5:
+        # print(Concentration)
+        if count >= 86400 / timestep:
             
             f += 1
             for h in range(0,N_len):
                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-                Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+                # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
+                Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
 
             dia += 1
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
             Data.append(np.copy(Concentration))
             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
+            print(Concentration)
             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
