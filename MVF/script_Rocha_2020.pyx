@@ -21,6 +21,8 @@ cdef double perm(double concentration,PhysicalParameters physicalParameters, Con
     cdef double permeability
     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+    if permeability < 0:
+        return 0
     return permeability
 
 cdef double esp(double x):
@@ -85,21 +87,21 @@ cdef double press_grad(double concentration,ConstantParameters constantParameter
 
 cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):
     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
-    cdef clarifiedParameters = ConstantParameters(
-        delta = 1.04, # Permeabilidade - Rocha (2020)
-        k0 = 52.67, # Permeabilidade - Rocha (2020)
-        beta = 1.0, # Pressao nos solidos
-        ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
-        p_ref = 3.31 # Pressao nos solidos
-    )
+    # cdef clarifiedParameters = ConstantParameters(
+    #     delta = 1.04, # Permeabilidade - Rocha (2020)
+    #     k0 = 52.67, # Permeabilidade - Rocha (2020)
+    #     beta = 1.0, # Pressao nos solidos
+    #     ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 3.31 # Pressao nos solidos
+    # )
 
     # Inclusao dos parametros para a regiao do clarificado
-    if Concentration[index + 1] < physicalParameters.initial_conc: # Testar com index ao inves de index + 1
-        K = perm(Concentration[index + 1],physicalParameters, clarifiedParameters)
-        aux4 = - press_grad(Concentration[index + 1],clarifiedParameters) * conc_grad
-    else:
-        K = perm(Concentration[index + 1],physicalParameters,constantParameters)
-        aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
+    # if Concentration[index + 1] < physicalParameters.initial_conc: # Testar com index ao inves de index + 1
+    #     K = perm(Concentration[index + 1],physicalParameters, clarifiedParameters)
+    #     aux4 = - press_grad(Concentration[index + 1],clarifiedParameters) * conc_grad
+    # else:
+    K = perm(Concentration[index + 1],physicalParameters,constantParameters)
+    aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad #ERRO AQUI NA VERIFICAÇAO DO CLARIFICADO
     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
@@ -474,6 +476,14 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef double delta = constantParameters.delta
     cdef double k0 = constantParameters.k0
     cdef double max_conc = physicalParameters.max_conc
+
+    cdef clarifiedParameters = ConstantParameters(
+        delta = 1.04, # Permeabilidade - Rocha (2020)
+        k0 = 52.67, # Permeabilidade - Rocha (2020)
+        beta = 1.0, # Pressao nos solidos
+        ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+        p_ref = 3.31 # Pressao nos solidos
+    )
     
     #Pressao nos solidos
     cdef double beta = constantParameters.beta
@@ -504,7 +514,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef np.ndarray[np.double_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
     cdef np.ndarray[np.double_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
 
-
+    
 
     print("\n\nData set initialized\n\n")
     Data = []
@@ -525,14 +535,20 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef int i
     cdef double update
 
+    cdef int nanHit = 0
+    cdef int packingIndex = 0
+
     while (currentTime <= total_time):
         
         for i in range(0,N_len - 1):
             grad = conc_grad(Concentration, i, N_len, L)
             # (Concentration, index, physicalParameters, constantParameters, esph, rho_susp, conc_grad)
             # Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
-            Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
-
+            if Concentration[i + 1] >= 0.1395 and Concentration[i] >= 0.1395 and i < packingIndex:
+                Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+            else:
+                Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
+                
         for i in range(0,N_len):
             if i == 0:
                 update = - (Concentration[i+1] * Velocity[i]) / delta_z
@@ -553,16 +569,26 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     
 
             # Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
-            Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+            # if Concentration[i + 1] <= 0.1395 and Concentration[i] <= 0.1395:
+            #     Velocity[i] = vel(Concentration_aux,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad)
+            # else:
+            #     Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+            if Concentration[i + 1] >= 0.1395 and Concentration[i] >= 0.1395 and i < packingIndex:
+                Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+            else:
+                Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
 
         for i in range(0,N_len):
             if i == 0:
-                update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                # update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
                 # print(update)
             elif i == (N_len - 1):
-                update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                # update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                update = ((Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
             else:
-                update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                # update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
             K2[i] = update
             Concentration_aux[i] = Concentration[i] + timestep * update / 2
 
@@ -570,16 +596,24 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             grad = conc_grad(Concentration_aux, i, N_len, L)
     
             # Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
-            Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+            # if Concentration[i + 1] <= 0.1395 and Concentration[i] <= 0.1395:
+            #     Velocity[i] = vel(Concentration_aux,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad)
+            # else:
+            #     Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+            if Concentration[i + 1] >= 0.1395 and Concentration[i] >= 0.1395 and i < packingIndex:
+                Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+            else:
+                Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
+
 
         for i in range(0,N_len):
             if i == 0:
-                update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
                 # print(update)
             elif i == (N_len - 1):
-                update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                update = ((Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
             else:
-                update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
             K3[i] = update
             Concentration_aux[i] = Concentration[i] + timestep * update
 
@@ -587,25 +621,52 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             grad = conc_grad(Concentration_aux, i, N_len, L)
     
             # Velocity[i] = vel(Concentration_aux,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
-            Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+            # if Concentration[i + 1] <= 0.1395 and Concentration[i] <= 0.1395:
+            #     Velocity[i] = vel(Concentration_aux,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad)
+            # else:
+            #     Velocity[i] = vel(Concentration_aux,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+            if Concentration[i + 1] >= 0.1395 and Concentration[i] >= 0.1395 and i < packingIndex:
+                Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+            else:
+                Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
 
 
         for i in range(0,N_len):
             if i == 0:
-                update = - (Concentration_aux[i+1] * Velocity[i]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
                 # print(update)
                 # print((K1[i] + 2 * K2[i] + 2 * K3[i] + update) / 6)
                 # print("RK4 ^")
             elif i == (N_len - 1):
-                update = (Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                update = ((Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
             else:
-                update = - (Concentration_aux[i+1] * Velocity[i] - Concentration_aux[i] * Velocity[i - 1]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i] - (Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
             K4[i] = update
-            Concentration[i] += timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinação media
-
+            if np.isnan(update) and nanHit == 0:
+                print("Last timestep before fail:")
+                print(Concentration)
+                nanHit = 1
+            Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinação media
+        Concentration = np.copy(Concentration_aux)
         count += 1
-        # if count <= 5:
-        # print(Concentration)
+
+        #Atualizar linha de empacotamento
+        for i in range(0, N_len):
+            if Concentration[i+1] >= 0.1395:
+                packingIndex = i + 1
+                continue
+            else:
+                packingIndex = i
+                break
+
+
+
+                
+        # if not(np.isnan(np.sum(Concentration))):
+        #     print("Current time: " + str(currentTime))
+        #     print(Concentration)
+        # if count >= 86400 / timestep - 5:
+        #     print(Concentration)
         if count >= 86400 / timestep:
             
             f += 1
