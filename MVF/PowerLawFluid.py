@@ -23,7 +23,7 @@ data = script_Rocha_2020.RK4Solver(
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 220,
         total_time = 31536000, #365 dias #4320000,
-        timestep = 10,
+        timestep = 100,
         maxResidual = 0.000000001
     ),
     constantParameters = script_Rocha_2020.ConstantParameters(
