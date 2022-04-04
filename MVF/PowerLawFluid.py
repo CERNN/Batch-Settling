@@ -2,6 +2,7 @@ import script_Rocha_2020
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
+# import numpy as np
 #python -m timeit -s 'from primes_python import primes' 'primes(1000)'
 
 start = time.time()
@@ -16,23 +17,75 @@ data = script_Rocha_2020.RK4Solver(
         particle_esphericity = 0.8,
         solid_density = 2709, # (kg/m3)
         fluid_density = 891.4, # (kg/m3)
-        max_conc = 0.2 ,
+        max_conc = 0.2 , #0.19
         powerLawFluid_M = 30.13,
         powerLawFluid_n = 0.21
     ),
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 220,
-        total_time = 31536000, #365 dias #4320000,
+        total_time = 315360000, #365 dias #4320000,
         timestep = 100,
-        maxResidual = 0.000000001
+        maxResidual = 0.000000001,
+        indexesToPlot = [0,1,2,5,217,218,219]
     ),
-    constantParameters = script_Rocha_2020.ConstantParameters(
+    packingParameters = script_Rocha_2020.ConstantParameters(
+        delta = 0.58, # Permeabilidade - Rocha (2020)
+        k0 = 27.99, # Permeabilidade - Rocha (2020)
+        beta = 0.19, # Pressao nos solidos
+        ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+        p_ref = 18.62 # Pressao nos solidos
+    ),
+    clarifiedParameters = script_Rocha_2020.ConstantParameters(
         delta = 0.58, # Permeabilidade - Rocha (2020)
         k0 = 27.99, # Permeabilidade - Rocha (2020)
         beta = 0.19, # Pressao nos solidos
         ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
         p_ref = 18.62 # Pressao nos solidos
     )
+    # constantParameters = script_Rocha_2020.ConstantParameters(
+    #     delta = 1.04, # Permeabilidade - Rocha (2020)
+    #     k0 = 52.67, # Permeabilidade - Rocha (2020)
+    #     beta = 1.0, # Pressao nos solidos
+    #     ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 3.31 # Pressao nos solidos
+    # )
+    #Clarificado
+    # constantParameters = script_Rocha_2020.ConstantParameters(
+    #     delta = 0.58, # Permeabilidade - Rocha (2020)
+    #     k0 = 27.99, # Permeabilidade - Rocha (2020)
+    #     beta = 0.19, # Pressao nos solidos
+    #     ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 18.62 # Pressao nos solidos
+    # )
+    # constantParameters = script_Rocha_2020.ConstantParameters(
+    #     delta = 1.04, # Permeabilidade - Rocha (2020)
+    #     k0 = 52.67, # Permeabilidade - Rocha (2020)
+    #     beta = 1.0, # Pressao nos solidos
+    #     ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 3.31 # Pressao nos solidos
+    # )
+    # packingParameters = script_Rocha_2020.ConstantParameters(
+    #     delta = 1.04, # Permeabilidade - Rocha (2020)
+    #     k0 = 52.67, # Permeabilidade - Rocha (2020)
+    #     beta = 1.0, # Pressao nos solidos
+    #     ref_conc = 0.16, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 3.31 # Pressao nos solidos
+    # ),
+    # clarifiedParameters = script_Rocha_2020.ConstantParameters(
+    #     delta = 1.04, # Permeabilidade - Rocha (2020)
+    #     k0 = 52.67, # Permeabilidade - Rocha (2020)
+    #     beta = 1.0, # Pressao nos solidos
+    #     ref_conc = 0.135, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 3.31 # Pressao nos solidos
+    # )
+    # Empacotamento
+    # clarifiedParameters = script_Rocha_2020.ConstantParameters(
+    #     delta = 0.58, # Permeabilidade - Rocha (2020)
+    #     k0 = 27.99, # Permeabilidade - Rocha (2020)
+    #     beta = 0.19, # Pressao nos solidos
+    #     ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
+    #     p_ref = 18.62 # Pressao nos solidos
+    # )
 )
 
 end = time.time()

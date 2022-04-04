@@ -1162,8 +1162,8 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "script_Rocha_2020.pyx":130
- *     return concentration_gradient
+/* "script_Rocha_2020.pyx":13
+ *     double exp(double)
  * 
  * cdef class ConstantParameters:             # <<<<<<<<<<<<<<
  *     cdef double delta
@@ -1179,7 +1179,7 @@ struct __pyx_obj_17script_Rocha_2020_ConstantParameters {
 };
 
 
-/* "script_Rocha_2020.pyx":144
+/* "script_Rocha_2020.pyx":27
  *         self.p_ref = p_ref
  * 
  * cdef class PhysicalParameters:             # <<<<<<<<<<<<<<
@@ -1200,7 +1200,7 @@ struct __pyx_obj_17script_Rocha_2020_PhysicalParameters {
 };
 
 
-/* "script_Rocha_2020.pyx":166
+/* "script_Rocha_2020.pyx":49
  *         self.n = powerLawFluid_n
  * 
  * cdef class NumericalParameters:             # <<<<<<<<<<<<<<
@@ -1213,6 +1213,7 @@ struct __pyx_obj_17script_Rocha_2020_NumericalParameters {
   double total_time;
   double timestep;
   double maxResidual;
+  PyObject *indexesToPlot;
 };
 
 
@@ -1290,6 +1291,26 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+/* PyErrExceptionMatches.proto */
+#if CYTHON_FAST_THREAD_STATE
+#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
+#else
+#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
+#endif
+
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
 #define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
@@ -1324,64 +1345,6 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #define __Pyx_ErrFetchInState(tstate, type, value, tb)  PyErr_Fetch(type, value, tb)
 #define __Pyx_ErrRestore(type, value, tb)  PyErr_Restore(type, value, tb)
 #define __Pyx_ErrFetch(type, value, tb)  PyErr_Fetch(type, value, tb)
-#endif
-
-/* WriteUnraisableException.proto */
-static void __Pyx_WriteUnraisable(const char *name, int clineno,
-                                  int lineno, const char *filename,
-                                  int full_traceback, int nogil);
-
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
-
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_SubtractCObj(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyInt_SubtractCObj(op1, op2, intval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
-#endif
-
-/* pow2.proto */
-#define __Pyx_PyNumber_Power2(a, b) PyNumber_Power(a, b, Py_None)
-
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-/* RaiseDoubleKeywords.proto */
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-/* ParseKeywords.proto */
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
-
-/* PyErrExceptionMatches.proto */
-#if CYTHON_FAST_THREAD_STATE
-#define __Pyx_PyErr_ExceptionMatches(err) __Pyx_PyErr_ExceptionMatchesInState(__pyx_tstate, err)
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err);
-#else
-#define __Pyx_PyErr_ExceptionMatches(err)  PyErr_ExceptionMatches(err)
 #endif
 
 /* GetAttr.proto */
@@ -1437,6 +1400,44 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
+/* WriteUnraisableException.proto */
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback, int nogil);
+
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_SubtractCObj(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyInt_SubtractCObj(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
+#endif
+
+/* pow2.proto */
+#define __Pyx_PyNumber_Power2(a, b) PyNumber_Power(a, b, Py_None)
+
 /* PyCFunctionFastCall.proto */
 #if CYTHON_FAST_PYCCALL
 static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
@@ -1491,19 +1492,6 @@ static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *nam
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
-/* SetItemInt.proto */
-#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
-               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
-static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
-                                               int is_list, int wraparound, int boundscheck);
-
 /* ListAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -1520,6 +1508,26 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #else
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
+
+/* PyIntFromDouble.proto */
+#if PY_MAJOR_VERSION < 3
+static CYTHON_INLINE PyObject* __Pyx_PyInt_FromDouble(double value);
+#else
+#define __Pyx_PyInt_FromDouble(value) PyLong_FromDouble(value)
+#endif
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
+
+/* SetItemInt.proto */
+#define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_SetItemInt_Fast(o, (Py_ssize_t)i, v, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list assignment index out of range"), -1) :\
+               __Pyx_SetItemInt_Generic(o, to_py_func(i), v)))
+static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
+static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
+                                               int is_list, int wraparound, int boundscheck);
 
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1552,6 +1560,21 @@ static Py_ssize_t __Pyx_zeros[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 #define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
 /* BufferFallbackError.proto */
 static void __Pyx_RaiseBufferFallbackError(void);
+
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddCObj(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
+#else
+#define __Pyx_PyInt_AddCObj(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
+/* ObjectGetItem.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
+#else
+#define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
+#endif
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -1900,11 +1923,13 @@ static const char __pyx_k_c[] = "c";
 static const char __pyx_k_f[] = "f";
 static const char __pyx_k_h[] = "h";
 static const char __pyx_k_i[] = "i";
-static const char __pyx_k_n[] = "n";
+static const char __pyx_k_n[] = "n=";
+static const char __pyx_k_z[] = ", z=";
 static const char __pyx_k_K1[] = "K1";
 static const char __pyx_k_K2[] = "K2";
 static const char __pyx_k_K3[] = "K3";
 static const char __pyx_k_K4[] = "K4";
+static const char __pyx_k__9[] = "*";
 static const char __pyx_k_k0[] = "k0";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_pd[] = "pd";
@@ -1915,13 +1940,17 @@ static const char __pyx_k_end[] = "end";
 static const char __pyx_k_exp[] = "exp";
 static const char __pyx_k_max[] = "max";
 static const char __pyx_k_min[] = "min";
+static const char __pyx_k_n_2[] = "n";
 static const char __pyx_k_new[] = "__new__";
-static const char __pyx_k_sum[] = "sum";
+static const char __pyx_k_plt[] = "plt";
+static const char __pyx_k_png[] = ".png";
 static const char __pyx_k_Data[] = "Data";
 static const char __pyx_k_Perm[] = "Perm";
 static const char __pyx_k_Pres[] = "Pres";
+static const char __pyx_k_Time[] = "Time";
 static const char __pyx_k_beta[] = "beta";
 static const char __pyx_k_copy[] = "copy";
+static const char __pyx_k_days[] = "days";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_esph[] = "esph";
 static const char __pyx_k_file[] = "file";
@@ -1929,35 +1958,47 @@ static const char __pyx_k_grad[] = "grad";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_ones[] = "ones";
+static const char __pyx_k_plot[] = "plot";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_xlim[] = "xlim";
+static const char __pyx_k_ylim[] = "ylim";
 static const char __pyx_k_DTYPE[] = "DTYPE";
+static const char __pyx_k_Dia_2[] = "Dia ";
 static const char __pyx_k_Kg_m2[] = " [Kg/m2]";
 static const char __pyx_k_N_len[] = "N_len";
+static const char __pyx_k_close[] = "close";
 static const char __pyx_k_count[] = "count";
 static const char __pyx_k_delta[] = "delta";
 static const char __pyx_k_dtype[] = "dtype";
+static const char __pyx_k_index[] = "index";
 static const char __pyx_k_isnan[] = "isnan";
+static const char __pyx_k_label[] = "label";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_p_ref[] = "p_ref";
 static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
+static const char __pyx_k_title[] = "title";
 static const char __pyx_k_where[] = "where";
 static const char __pyx_k_zeros[] = "zeros";
 static const char __pyx_k_arange[] = "arange";
 static const char __pyx_k_double[] = "double";
 static const char __pyx_k_height[] = "height";
 static const char __pyx_k_import[] = "__import__";
+static const char __pyx_k_legend[] = "legend";
 static const char __pyx_k_nanHit[] = "nanHit";
 static const char __pyx_k_pandas[] = "pandas";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_to_csv[] = "to_csv";
 static const char __pyx_k_update[] = "update";
+static const char __pyx_k_xlabel[] = "xlabel";
 static const char __pyx_k_xrange[] = "xrange";
+static const char __pyx_k_ylabel[] = "ylabel";
 static const char __pyx_k_z_divs[] = "z_divs";
 static const char __pyx_k_MatrixA[] = "MatrixA";
 static const char __pyx_k_VectorB[] = "VectorB";
 static const char __pyx_k_delta_z[] = "delta_z";
+static const char __pyx_k_savefig[] = "savefig";
 static const char __pyx_k_Position[] = "Position";
 static const char __pyx_k_Velocity[] = "Velocity";
 static const char __pyx_k_distance[] = "distance";
@@ -1971,8 +2012,12 @@ static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_timestep[] = "timestep";
 static const char __pyx_k_DataFrame[] = "DataFrame";
 static const char __pyx_k_RK4Solver[] = "RK4Solver";
+static const char __pyx_k_Time_Days[] = "Time [Days]";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
+static const char __pyx_k_saveFrame[] = "saveFrame";
+static const char __pyx_k_DataToPlot[] = "DataToPlot";
+static const char __pyx_k_Position_m[] = "Position [m]";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_total_time[] = "total_time";
@@ -1981,8 +2026,11 @@ static const char __pyx_k_EulerSolver[] = "EulerSolver";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_PickleError[] = "PickleError";
 static const char __pyx_k_currentTime[] = "currentTime";
+static const char __pyx_k_indexToPlot[] = "indexToPlot";
 static const char __pyx_k_maxResidual[] = "maxResidual";
 static const char __pyx_k_Current_time[] = "\nCurrent time:";
+static const char __pyx_k_Permeability[] = "Permeability";
+static const char __pyx_k_PressureData[] = "PressureData";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_initial_conc[] = "initial_conc";
 static const char __pyx_k_packingIndex[] = "packingIndex";
@@ -1991,22 +2039,30 @@ static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_z_resolution[] = "z_resolution";
 static const char __pyx_k_Concentration[] = "Concentration";
 static const char __pyx_k_fluid_density[] = "fluid_density";
+static const char __pyx_k_indexesToPlot[] = "indexesToPlot";
 static const char __pyx_k_particle_diam[] = "particle_diam";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_resIterations[] = "resIterations";
 static const char __pyx_k_solid_density[] = "solid_density";
-static const char __pyx_k_Current_time_2[] = "Current time: ";
+static const char __pyx_k_positionToPlot[] = "positionToPlot";
+static const char __pyx_k_Solids_Pressure[] = "Solids Pressure";
 static const char __pyx_k_Velocity_update[] = "Velocity_update";
 static const char __pyx_k_mixture_density[] = "mixture_density";
 static const char __pyx_k_powerLawFluid_M[] = "powerLawFluid_M";
 static const char __pyx_k_powerLawFluid_n[] = "powerLawFluid_n";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_PermeabilityData[] = "PermeabilityData";
+static const char __pyx_k_PlotPressureData[] = "PlotPressureData";
 static const char __pyx_k_Concentration_aux[] = "Concentration_aux";
+static const char __pyx_k_concentrationData[] = "concentrationData";
+static const char __pyx_k_matplotlib_pyplot[] = "matplotlib.pyplot";
+static const char __pyx_k_packingParameters[] = "packingParameters";
 static const char __pyx_k_script_Rocha_2020[] = "script_Rocha_2020";
 static const char __pyx_k_ConstantParameters[] = "ConstantParameters";
 static const char __pyx_k_PhysicalParameters[] = "PhysicalParameters";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static const char __pyx_k_concentrationLimit[] = "concentrationLimit";
 static const char __pyx_k_constantParameters[] = "constantParameters";
 static const char __pyx_k_physicalParameters[] = "physicalParameters";
 static const char __pyx_k_NumericalParameters[] = "NumericalParameters";
@@ -2014,8 +2070,10 @@ static const char __pyx_k_clarifiedParameters[] = "clarifiedParameters";
 static const char __pyx_k_numericalParameters[] = "numericalParameters";
 static const char __pyx_k_Concentration_update[] = "Concentration_update";
 static const char __pyx_k_Data_set_initialized[] = "\n\nData set initialized\n\n";
+static const char __pyx_k_PlotPermeabilityData[] = "PlotPermeabilityData";
 static const char __pyx_k_particle_esphericity[] = "particle_esphericity";
 static const char __pyx_k_Initial_mass_per_area[] = "\nInitial mass per area: ";
+static const char __pyx_k_PlotConcentrationData[] = "PlotConcentrationData";
 static const char __pyx_k_script_Rocha_2020_pyx[] = "script_Rocha_2020.pyx";
 static const char __pyx_k_Concentration_residual[] = "Concentration_residual";
 static const char __pyx_k_Last_timestep_before_fail[] = "Last timestep before fail:";
@@ -2024,12 +2082,16 @@ static const char __pyx_k_pyx_unpickle_ConstantParameter[] = "__pyx_unpickle_Con
 static const char __pyx_k_pyx_unpickle_NumericalParamete[] = "__pyx_unpickle_NumericalParameters";
 static const char __pyx_k_pyx_unpickle_PhysicalParameter[] = "__pyx_unpickle_PhysicalParameters";
 static const char __pyx_k_Kg_m2_Current_total_mass_per_ar[] = " [Kg/m2]\nCurrent total mass per area: ";
+static const char __pyx_k_MVF_temporaryFiles_Permeability[] = "MVF/temporaryFiles/Permeability.png";
+static const char __pyx_k_MVF_temporaryFiles_Pressure_png[] = "MVF/temporaryFiles/Pressure.png";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
-static const char __pyx_k_Incompatible_checksums_s_vs_0x11[] = "Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x63[] = "Incompatible checksums (%s vs 0x630e068 = (L, M, fluid_density, initial_conc, max_conc, n, particle_diam, particle_esphericity, solid_density))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0x6f[] = "Incompatible checksums (%s vs 0x6f53855 = (beta, delta, k0, p_ref, ref_conc))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0xed[] = "Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))";
+static const char __pyx_k_MVF_temporaryFiles_Concentration[] = "MVF/temporaryFiles/Concentration.png";
+static const char __pyx_k_MVF_temporaryFiles_animationFram[] = "MVF/temporaryFiles/animationFrames/Concentration";
 static const char __pyx_k_MVF_temporaryFiles_resultadosPer[] = "MVF/temporaryFiles/resultadosPermeabilidadeEuler.csv";
 static const char __pyx_k_MVF_temporaryFiles_resultadosPre[] = "MVF/temporaryFiles/resultadosPreliminaresEulerDia";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
@@ -2051,19 +2113,20 @@ static PyObject *__pyx_n_s_Concentration_update;
 static PyObject *__pyx_n_s_ConstantParameters;
 static PyObject *__pyx_n_s_CrankSolver;
 static PyObject *__pyx_kp_s_Current_time;
-static PyObject *__pyx_kp_s_Current_time_2;
 static PyObject *__pyx_n_s_DTYPE;
 static PyObject *__pyx_n_s_Data;
 static PyObject *__pyx_n_s_DataFrame;
+static PyObject *__pyx_n_s_DataToPlot;
 static PyObject *__pyx_kp_s_Data_set_initialized;
 static PyObject *__pyx_kp_s_Dia;
+static PyObject *__pyx_kp_s_Dia_2;
 static PyObject *__pyx_n_s_EulerSolver;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_n_s_ImportError;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x11;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x63;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x6f;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xed;
 static PyObject *__pyx_kp_s_Initial_mass_per_area;
 static PyObject *__pyx_n_s_K1;
 static PyObject *__pyx_n_s_K2;
@@ -2075,6 +2138,10 @@ static PyObject *__pyx_kp_s_Kg_m2_Total_variation_loss;
 static PyObject *__pyx_n_s_L;
 static PyObject *__pyx_kp_s_Last_timestep_before_fail;
 static PyObject *__pyx_n_s_M;
+static PyObject *__pyx_kp_s_MVF_temporaryFiles_Concentration;
+static PyObject *__pyx_kp_s_MVF_temporaryFiles_Permeability;
+static PyObject *__pyx_kp_s_MVF_temporaryFiles_Pressure_png;
+static PyObject *__pyx_kp_s_MVF_temporaryFiles_animationFram;
 static PyObject *__pyx_kp_s_MVF_temporaryFiles_resultadosPer;
 static PyObject *__pyx_kp_s_MVF_temporaryFiles_resultadosPer_2;
 static PyObject *__pyx_kp_s_MVF_temporaryFiles_resultadosPer_3;
@@ -2089,27 +2156,42 @@ static PyObject *__pyx_n_s_N_len;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_s_NumericalParameters;
 static PyObject *__pyx_n_s_Perm;
+static PyObject *__pyx_n_s_Permeability;
+static PyObject *__pyx_n_s_PermeabilityData;
 static PyObject *__pyx_n_s_PhysicalParameters;
 static PyObject *__pyx_n_s_PickleError;
+static PyObject *__pyx_n_s_PlotConcentrationData;
+static PyObject *__pyx_n_s_PlotPermeabilityData;
+static PyObject *__pyx_n_s_PlotPressureData;
 static PyObject *__pyx_kp_s_Posio_da_interface_de_empacotame;
 static PyObject *__pyx_n_s_Position;
+static PyObject *__pyx_kp_s_Position_m;
 static PyObject *__pyx_n_s_Pres;
+static PyObject *__pyx_n_s_PressureData;
 static PyObject *__pyx_n_s_RK4Solver;
 static PyObject *__pyx_n_s_RuntimeError;
+static PyObject *__pyx_kp_s_Solids_Pressure;
+static PyObject *__pyx_n_s_Time;
+static PyObject *__pyx_kp_s_Time_Days;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_VectorB;
 static PyObject *__pyx_n_s_Velocity;
 static PyObject *__pyx_n_s_Velocity_update;
+static PyObject *__pyx_n_s__9;
 static PyObject *__pyx_n_s_arange;
 static PyObject *__pyx_n_s_beta;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_s_clarifiedParameters;
 static PyObject *__pyx_n_s_cline_in_traceback;
+static PyObject *__pyx_n_s_close;
+static PyObject *__pyx_n_s_concentrationData;
+static PyObject *__pyx_n_s_concentrationLimit;
 static PyObject *__pyx_n_s_constantParameters;
 static PyObject *__pyx_n_s_copy;
 static PyObject *__pyx_n_s_count;
 static PyObject *__pyx_kp_s_csv;
 static PyObject *__pyx_n_s_currentTime;
+static PyObject *__pyx_n_s_days;
 static PyObject *__pyx_n_s_delta;
 static PyObject *__pyx_n_s_delta_z;
 static PyObject *__pyx_n_s_dia;
@@ -2129,16 +2211,23 @@ static PyObject *__pyx_n_s_h;
 static PyObject *__pyx_n_s_height;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_index;
+static PyObject *__pyx_n_s_indexToPlot;
+static PyObject *__pyx_n_s_indexesToPlot;
 static PyObject *__pyx_n_s_initial_conc;
 static PyObject *__pyx_n_s_isnan;
 static PyObject *__pyx_n_s_k0;
+static PyObject *__pyx_n_s_label;
+static PyObject *__pyx_n_s_legend;
 static PyObject *__pyx_n_s_main;
+static PyObject *__pyx_n_s_matplotlib_pyplot;
 static PyObject *__pyx_n_s_max;
 static PyObject *__pyx_n_s_maxResidual;
 static PyObject *__pyx_n_s_max_conc;
 static PyObject *__pyx_n_s_min;
 static PyObject *__pyx_n_s_mixture_density;
-static PyObject *__pyx_n_s_n;
+static PyObject *__pyx_kp_s_n;
+static PyObject *__pyx_n_s_n_2;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_nanHit;
 static PyObject *__pyx_n_s_new;
@@ -2150,12 +2239,17 @@ static PyObject *__pyx_kp_s_numpy_core_umath_failed_to_impor;
 static PyObject *__pyx_n_s_ones;
 static PyObject *__pyx_n_s_p_ref;
 static PyObject *__pyx_n_s_packingIndex;
+static PyObject *__pyx_n_s_packingParameters;
 static PyObject *__pyx_n_s_pandas;
 static PyObject *__pyx_n_s_particle_diam;
 static PyObject *__pyx_n_s_particle_esphericity;
 static PyObject *__pyx_n_s_pd;
 static PyObject *__pyx_n_s_physicalParameters;
 static PyObject *__pyx_n_s_pickle;
+static PyObject *__pyx_n_s_plot;
+static PyObject *__pyx_n_s_plt;
+static PyObject *__pyx_kp_s_png;
+static PyObject *__pyx_n_s_positionToPlot;
 static PyObject *__pyx_n_s_powerLawFluid_M;
 static PyObject *__pyx_n_s_powerLawFluid_n;
 static PyObject *__pyx_n_s_print;
@@ -2175,21 +2269,28 @@ static PyObject *__pyx_n_s_ref_conc;
 static PyObject *__pyx_n_s_resIterations;
 static PyObject *__pyx_n_s_residual;
 static PyObject *__pyx_n_s_reversed;
+static PyObject *__pyx_n_s_saveFrame;
+static PyObject *__pyx_n_s_savefig;
 static PyObject *__pyx_n_s_script_Rocha_2020;
 static PyObject *__pyx_kp_s_script_Rocha_2020_pyx;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_solid_density;
 static PyObject *__pyx_kp_s_stringsource;
-static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_timestep;
+static PyObject *__pyx_n_s_title;
 static PyObject *__pyx_n_s_to_csv;
 static PyObject *__pyx_n_s_total_time;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_where;
+static PyObject *__pyx_n_s_xlabel;
+static PyObject *__pyx_n_s_xlim;
 static PyObject *__pyx_n_s_xrange;
+static PyObject *__pyx_n_s_ylabel;
+static PyObject *__pyx_n_s_ylim;
+static PyObject *__pyx_kp_s_z;
 static PyObject *__pyx_n_s_z_divs;
 static PyObject *__pyx_n_s_z_resolution;
 static PyObject *__pyx_n_s_zeros;
@@ -2199,653 +2300,64 @@ static PyObject *__pyx_pf_17script_Rocha_2020_18ConstantParameters_4__setstate_c
 static int __pyx_pf_17script_Rocha_2020_18PhysicalParameters___init__(struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_self, PyObject *__pyx_v_height, PyObject *__pyx_v_initial_conc, PyObject *__pyx_v_particle_diam, PyObject *__pyx_v_particle_esphericity, PyObject *__pyx_v_solid_density, PyObject *__pyx_v_fluid_density, PyObject *__pyx_v_max_conc, PyObject *__pyx_v_powerLawFluid_M, PyObject *__pyx_v_powerLawFluid_n); /* proto */
 static PyObject *__pyx_pf_17script_Rocha_2020_18PhysicalParameters_2__reduce_cython__(struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_17script_Rocha_2020_18PhysicalParameters_4__setstate_cython__(struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_self, PyObject *__pyx_v_z_divs, PyObject *__pyx_v_total_time, PyObject *__pyx_v_timestep, PyObject *__pyx_v_maxResidual); /* proto */
+static int __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_self, PyObject *__pyx_v_z_divs, PyObject *__pyx_v_total_time, PyObject *__pyx_v_timestep, PyObject *__pyx_v_maxResidual, PyObject *__pyx_v_indexesToPlot); /* proto */
 static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cython__(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_4__setstate_cython__(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters); /* proto */
 static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters); /* proto */
-static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters); /* proto */
-static PyObject *__pyx_pf_17script_Rocha_2020_6__pyx_unpickle_ConstantParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_17script_Rocha_2020_8__pyx_unpickle_PhysicalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_packingParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_clarifiedParameters); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_6PlotConcentrationData(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexesToPlot, PyObject *__pyx_v_Data, PyObject *__pyx_v_Time, PyObject *__pyx_v_L, PyObject *__pyx_v_N_len); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_8PlotPermeabilityData(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexesToPlot, PyObject *__pyx_v_PermeabilityData, PyObject *__pyx_v_Time, PyObject *__pyx_v_L, PyObject *__pyx_v_N_len); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_10PlotPressureData(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexesToPlot, PyObject *__pyx_v_PressureData, PyObject *__pyx_v_Time, PyObject *__pyx_v_L, PyObject *__pyx_v_N_len); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_12saveFrame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Position, PyObject *__pyx_v_Data, PyObject *__pyx_v_dia); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_14__pyx_unpickle_ConstantParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_16__pyx_unpickle_PhysicalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_17script_Rocha_2020_18__pyx_unpickle_NumericalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_17script_Rocha_2020_ConstantParameters(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_17script_Rocha_2020_PhysicalParameters(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_17script_Rocha_2020_NumericalParameters(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_float_1_0;
-static PyObject *__pyx_float_1_04;
-static PyObject *__pyx_float_3_31;
-static PyObject *__pyx_float_0_145;
-static PyObject *__pyx_float_52_67;
+static PyObject *__pyx_float_0_2;
+static PyObject *__pyx_float_0_21;
+static PyObject *__pyx_float_0_1395;
 static PyObject *__pyx_float_neg_9_81;
+static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
+static PyObject *__pyx_int_2;
 static PyObject *__pyx_int_365;
-static PyObject *__pyx_int_3660;
-static PyObject *__pyx_int_18420091;
+static PyObject *__pyx_int_86400;
 static PyObject *__pyx_int_103866472;
 static PyObject *__pyx_int_116734037;
+static PyObject *__pyx_int_249160139;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
-static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_tuple__13;
-static PyObject *__pyx_tuple__15;
-static PyObject *__pyx_tuple__17;
-static PyObject *__pyx_codeobj__8;
-static PyObject *__pyx_codeobj__10;
-static PyObject *__pyx_codeobj__12;
-static PyObject *__pyx_codeobj__14;
-static PyObject *__pyx_codeobj__16;
-static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_tuple__8;
+static PyObject *__pyx_tuple__10;
+static PyObject *__pyx_tuple__12;
+static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_tuple__22;
+static PyObject *__pyx_tuple__24;
+static PyObject *__pyx_tuple__26;
+static PyObject *__pyx_tuple__28;
+static PyObject *__pyx_codeobj__11;
+static PyObject *__pyx_codeobj__13;
+static PyObject *__pyx_codeobj__15;
+static PyObject *__pyx_codeobj__17;
+static PyObject *__pyx_codeobj__19;
+static PyObject *__pyx_codeobj__21;
+static PyObject *__pyx_codeobj__23;
+static PyObject *__pyx_codeobj__25;
+static PyObject *__pyx_codeobj__27;
+static PyObject *__pyx_codeobj__29;
 /* Late includes */
 
 /* "script_Rocha_2020.pyx":20
- * #     return permeability
- * 
- * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
- *     cdef double permeability
- *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
- */
-
-static double __pyx_f_17script_Rocha_2020_perm(double __pyx_v_concentration, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters) {
-  double __pyx_v_permeability;
-  double __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("perm", 0);
-
-  /* "script_Rocha_2020.pyx":22
- * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):
- *     cdef double permeability
- *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta             # <<<<<<<<<<<<<<
- *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
- *     if permeability < 0:
- */
-  if (unlikely(__pyx_v_concentration == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 22, __pyx_L1_error)
-  }
-  __pyx_v_permeability = ((__pyx_v_constantParameters->k0 * pow(__pyx_v_physicalParameters->particle_diam, 2.0)) * pow(((__pyx_v_physicalParameters->max_conc / __pyx_v_concentration) - 1.0), __pyx_v_constantParameters->delta));
-
-  /* "script_Rocha_2020.pyx":24
- *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
- *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
- *     if permeability < 0:             # <<<<<<<<<<<<<<
- *         return 0
- *     return permeability
- */
-  __pyx_t_1 = ((__pyx_v_permeability < 0.0) != 0);
-  if (__pyx_t_1) {
-
-    /* "script_Rocha_2020.pyx":25
- *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
- *     if permeability < 0:
- *         return 0             # <<<<<<<<<<<<<<
- *     return permeability
- * 
- */
-    __pyx_r = 0.0;
-    goto __pyx_L0;
-
-    /* "script_Rocha_2020.pyx":24
- *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
- *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
- *     if permeability < 0:             # <<<<<<<<<<<<<<
- *         return 0
- *     return permeability
- */
-  }
-
-  /* "script_Rocha_2020.pyx":26
- *     if permeability < 0:
- *         return 0
- *     return permeability             # <<<<<<<<<<<<<<
- * 
- * cdef double esp(double x):
- */
-  __pyx_r = __pyx_v_permeability;
-  goto __pyx_L0;
-
-  /* "script_Rocha_2020.pyx":20
- * #     return permeability
- * 
- * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
- *     cdef double permeability
- *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("script_Rocha_2020.perm", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "script_Rocha_2020.pyx":28
- *     return permeability
- * 
- * cdef double esp(double x):             # <<<<<<<<<<<<<<
- *     cdef double esphericity
- *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
- */
-
-static double __pyx_f_17script_Rocha_2020_esp(double __pyx_v_x) {
-  double __pyx_v_esphericity;
-  double __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("esp", 0);
-
-  /* "script_Rocha_2020.pyx":30
- * cdef double esp(double x):
- *     cdef double esphericity
- *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41             # <<<<<<<<<<<<<<
- *     return esphericity
- * 
- */
-  __pyx_v_esphericity = (((-3.45 * pow(__pyx_v_x, 2.0)) + (5.25 * __pyx_v_x)) - 1.41);
-
-  /* "script_Rocha_2020.pyx":31
- *     cdef double esphericity
- *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
- *     return esphericity             # <<<<<<<<<<<<<<
- * 
- * # cdef double press_grad(double x,double p_ref,double beta,double x_ref):
- */
-  __pyx_r = __pyx_v_esphericity;
-  goto __pyx_L0;
-
-  /* "script_Rocha_2020.pyx":28
- *     return permeability
- * 
- * cdef double esp(double x):             # <<<<<<<<<<<<<<
- *     cdef double esphericity
- *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "script_Rocha_2020.pyx":43
- * #     return pressure_gradient
- * 
- * cdef double press_grad(double concentration,ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
- *     cdef double aux, pressure_gradient
- *     if concentration == 0:
- */
-
-static double __pyx_f_17script_Rocha_2020_press_grad(double __pyx_v_concentration, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters) {
-  double __pyx_v_aux;
-  double __pyx_v_pressure_gradient;
-  double __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  double __pyx_t_2;
-  double __pyx_t_3;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("press_grad", 0);
-
-  /* "script_Rocha_2020.pyx":45
- * cdef double press_grad(double concentration,ConstantParameters constantParameters):
- *     cdef double aux, pressure_gradient
- *     if concentration == 0:             # <<<<<<<<<<<<<<
- *         return 0
- * 
- */
-  __pyx_t_1 = ((__pyx_v_concentration == 0.0) != 0);
-  if (__pyx_t_1) {
-
-    /* "script_Rocha_2020.pyx":46
- *     cdef double aux, pressure_gradient
- *     if concentration == 0:
- *         return 0             # <<<<<<<<<<<<<<
- * 
- *     aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)
- */
-    __pyx_r = 0.0;
-    goto __pyx_L0;
-
-    /* "script_Rocha_2020.pyx":45
- * cdef double press_grad(double concentration,ConstantParameters constantParameters):
- *     cdef double aux, pressure_gradient
- *     if concentration == 0:             # <<<<<<<<<<<<<<
- *         return 0
- * 
- */
-  }
-
-  /* "script_Rocha_2020.pyx":48
- *         return 0
- * 
- *     aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)             # <<<<<<<<<<<<<<
- *     pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp
- * 
- */
-  __pyx_t_2 = ((-__pyx_v_constantParameters->beta) * (__pyx_v_constantParameters->ref_conc - __pyx_v_concentration));
-  __pyx_t_3 = (__pyx_v_concentration * __pyx_v_constantParameters->ref_conc);
-  if (unlikely(__pyx_t_3 == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 48, __pyx_L1_error)
-  }
-  __pyx_v_aux = (__pyx_t_2 / __pyx_t_3);
-
-  /* "script_Rocha_2020.pyx":49
- * 
- *     aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)
- *     pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp             # <<<<<<<<<<<<<<
- * 
- *     return pressure_gradient
- */
-  __pyx_t_3 = (__pyx_v_constantParameters->p_ref * __pyx_v_constantParameters->beta);
-  __pyx_t_2 = pow(__pyx_v_concentration, 2.0);
-  if (unlikely(__pyx_t_2 == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 49, __pyx_L1_error)
-  }
-  __pyx_v_pressure_gradient = ((__pyx_t_3 / __pyx_t_2) * exp(__pyx_v_aux));
-
-  /* "script_Rocha_2020.pyx":51
- *     pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp
- * 
- *     return pressure_gradient             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_r = __pyx_v_pressure_gradient;
-  goto __pyx_L0;
-
-  /* "script_Rocha_2020.pyx":43
- * #     return pressure_gradient
- * 
- * cdef double press_grad(double concentration,ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
- *     cdef double aux, pressure_gradient
- *     if concentration == 0:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_WriteUnraisable("script_Rocha_2020.press_grad", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "script_Rocha_2020.pyx":88
- * #     return -velocity
- * 
- * cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):             # <<<<<<<<<<<<<<
- *     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
- *     # cdef clarifiedParameters = ConstantParameters(
- */
-
-static double __pyx_f_17script_Rocha_2020_vel(PyArrayObject *__pyx_v_Concentration, int __pyx_v_index, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters, double __pyx_v_esph, double __pyx_v_rho_susp, double __pyx_v_conc_grad) {
-  double __pyx_v_K;
-  double __pyx_v_aux1;
-  double __pyx_v_aux2;
-  double __pyx_v_aux3;
-  double __pyx_v_aux4;
-  double __pyx_v_aux5;
-  double __pyx_v_aux6;
-  double __pyx_v_velocity;
-  double __pyx_r;
-  __Pyx_RefNannyDeclarations
-  long __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  double __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  int __pyx_t_8;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("vel", 0);
-
-  /* "script_Rocha_2020.pyx":103
- *     #     aux4 = - press_grad(Concentration[index + 1],clarifiedParameters) * conc_grad
- *     # else:
- *     K = perm(Concentration[index + 1],physicalParameters,constantParameters)             # <<<<<<<<<<<<<<
- *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
- *     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
- */
-  __pyx_t_1 = (__pyx_v_index + 1);
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_K = __pyx_f_17script_Rocha_2020_perm(__pyx_t_3, __pyx_v_physicalParameters, __pyx_v_constantParameters);
-
-  /* "script_Rocha_2020.pyx":104
- *     # else:
- *     K = perm(Concentration[index + 1],physicalParameters,constantParameters)
- *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad             # <<<<<<<<<<<<<<
- *     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
- *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad #ERRO AQUI NA VERIFICAAO DO CLARIFICADO
- */
-  __pyx_t_1 = (__pyx_v_index + 1);
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_aux4 = ((-__pyx_f_17script_Rocha_2020_press_grad(__pyx_t_3, __pyx_v_constantParameters)) * __pyx_v_conc_grad);
-
-  /* "script_Rocha_2020.pyx":106
- *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
- *     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
- *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad #ERRO AQUI NA VERIFICAAO DO CLARIFICADO             # <<<<<<<<<<<<<<
- *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
- *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
- */
-  __pyx_t_1 = (__pyx_v_index + 1);
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 106, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_aux4 = (__pyx_f_17script_Rocha_2020_press_grad(__pyx_t_3, __pyx_v_constantParameters) * __pyx_v_conc_grad);
-
-  /* "script_Rocha_2020.pyx":107
- *     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
- *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad #ERRO AQUI NA VERIFICAAO DO CLARIFICADO
- *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))             # <<<<<<<<<<<<<<
- *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
- *     aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)
- */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_K); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_physicalParameters->M); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = (__pyx_v_index + 1);
-  __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_5, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyFloat_FromDouble((1.0 - __pyx_v_physicalParameters->n)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = PyNumber_Power(__pyx_t_6, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 107, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_v_aux1 = __pyx_t_3;
-
-  /* "script_Rocha_2020.pyx":108
- *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad #ERRO AQUI NA VERIFICAAO DO CLARIFICADO
- *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
- *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))             # <<<<<<<<<<<<<<
- *     aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)
- * 
- */
-  if (unlikely(__pyx_v_esph == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 108, __pyx_L1_error)
-  }
-  __pyx_t_3 = (__pyx_v_rho_susp - (__pyx_v_physicalParameters->solid_density * __pyx_v_physicalParameters->initial_conc));
-  if (unlikely(__pyx_t_3 == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 108, __pyx_L1_error)
-  }
-  __pyx_v_aux2 = (pow((__pyx_v_physicalParameters->particle_diam / __pyx_v_esph), (__pyx_v_physicalParameters->n - 1.0)) * (__pyx_v_rho_susp / __pyx_t_3));
-
-  /* "script_Rocha_2020.pyx":109
- *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
- *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
- *     aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_t_1 = (__pyx_v_index + 1);
-  __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = PyFloat_FromDouble((__pyx_v_physicalParameters->solid_density - __pyx_v_physicalParameters->fluid_density)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = PyNumber_Multiply(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_float_neg_9_81); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 109, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_aux3 = __pyx_t_3;
-
-  /* "script_Rocha_2020.pyx":112
- * 
- * 
- *     aux5 = aux1 * aux2 * (aux3 - aux4)             # <<<<<<<<<<<<<<
- * 
- *     if aux5 == 0:
- */
-  __pyx_v_aux5 = ((__pyx_v_aux1 * __pyx_v_aux2) * (__pyx_v_aux3 - __pyx_v_aux4));
-
-  /* "script_Rocha_2020.pyx":114
- *     aux5 = aux1 * aux2 * (aux3 - aux4)
- * 
- *     if aux5 == 0:             # <<<<<<<<<<<<<<
- *         return 0
- *     elif aux5 <= 0:
- */
-  __pyx_t_8 = ((__pyx_v_aux5 == 0.0) != 0);
-  if (__pyx_t_8) {
-
-    /* "script_Rocha_2020.pyx":115
- * 
- *     if aux5 == 0:
- *         return 0             # <<<<<<<<<<<<<<
- *     elif aux5 <= 0:
- *         aux5 = -aux5
- */
-    __pyx_r = 0.0;
-    goto __pyx_L0;
-
-    /* "script_Rocha_2020.pyx":114
- *     aux5 = aux1 * aux2 * (aux3 - aux4)
- * 
- *     if aux5 == 0:             # <<<<<<<<<<<<<<
- *         return 0
- *     elif aux5 <= 0:
- */
-  }
-
-  /* "script_Rocha_2020.pyx":116
- *     if aux5 == 0:
- *         return 0
- *     elif aux5 <= 0:             # <<<<<<<<<<<<<<
- *         aux5 = -aux5
- *     aux6 = 1 / physicalParameters.n
- */
-  __pyx_t_8 = ((__pyx_v_aux5 <= 0.0) != 0);
-  if (__pyx_t_8) {
-
-    /* "script_Rocha_2020.pyx":117
- *         return 0
- *     elif aux5 <= 0:
- *         aux5 = -aux5             # <<<<<<<<<<<<<<
- *     aux6 = 1 / physicalParameters.n
- *     #print(aux1,aux2,aux3,aux4,aux5)
- */
-    __pyx_v_aux5 = (-__pyx_v_aux5);
-
-    /* "script_Rocha_2020.pyx":116
- *     if aux5 == 0:
- *         return 0
- *     elif aux5 <= 0:             # <<<<<<<<<<<<<<
- *         aux5 = -aux5
- *     aux6 = 1 / physicalParameters.n
- */
-  }
-
-  /* "script_Rocha_2020.pyx":118
- *     elif aux5 <= 0:
- *         aux5 = -aux5
- *     aux6 = 1 / physicalParameters.n             # <<<<<<<<<<<<<<
- *     #print(aux1,aux2,aux3,aux4,aux5)
- *     velocity = pow(aux5, aux6)
- */
-  if (unlikely(__pyx_v_physicalParameters->n == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 118, __pyx_L1_error)
-  }
-  __pyx_v_aux6 = (1.0 / __pyx_v_physicalParameters->n);
-
-  /* "script_Rocha_2020.pyx":120
- *     aux6 = 1 / physicalParameters.n
- *     #print(aux1,aux2,aux3,aux4,aux5)
- *     velocity = pow(aux5, aux6)             # <<<<<<<<<<<<<<
- *     return -velocity
- * 
- */
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_aux5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_aux6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = __Pyx_PyNumber_Power2(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 120, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 120, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_v_velocity = __pyx_t_3;
-
-  /* "script_Rocha_2020.pyx":121
- *     #print(aux1,aux2,aux3,aux4,aux5)
- *     velocity = pow(aux5, aux6)
- *     return -velocity             # <<<<<<<<<<<<<<
- * 
- * cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):
- */
-  __pyx_r = (-__pyx_v_velocity);
-  goto __pyx_L0;
-
-  /* "script_Rocha_2020.pyx":88
- * #     return -velocity
- * 
- * cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):             # <<<<<<<<<<<<<<
- *     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
- *     # cdef clarifiedParameters = ConstantParameters(
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_WriteUnraisable("script_Rocha_2020.vel", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "script_Rocha_2020.pyx":123
- *     return -velocity
- * 
- * cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):             # <<<<<<<<<<<<<<
- *     cdef double concentration_gradient
- * 
- */
-
-static double __pyx_f_17script_Rocha_2020_conc_grad(PyArrayObject *__pyx_v_Concentration, int __pyx_v_index, int __pyx_v_N_len, double __pyx_v_L) {
-  double __pyx_v_concentration_gradient;
-  double __pyx_r;
-  __Pyx_RefNannyDeclarations
-  long __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  double __pyx_t_5;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("conc_grad", 0);
-
-  /* "script_Rocha_2020.pyx":126
- *     cdef double concentration_gradient
- * 
- *     concentration_gradient = (Concentration[index + 1] - Concentration[index]) / (L / N_len)             # <<<<<<<<<<<<<<
- * 
- *     return concentration_gradient
- */
-  __pyx_t_1 = (__pyx_v_index + 1);
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyNumber_Subtract(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(__pyx_v_N_len == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 126, __pyx_L1_error)
-  }
-  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 126, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_concentration_gradient = __pyx_t_5;
-
-  /* "script_Rocha_2020.pyx":128
- *     concentration_gradient = (Concentration[index + 1] - Concentration[index]) / (L / N_len)
- * 
- *     return concentration_gradient             # <<<<<<<<<<<<<<
- * 
- * cdef class ConstantParameters:
- */
-  __pyx_r = __pyx_v_concentration_gradient;
-  goto __pyx_L0;
-
-  /* "script_Rocha_2020.pyx":123
- *     return -velocity
- * 
- * cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):             # <<<<<<<<<<<<<<
- *     cdef double concentration_gradient
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_WriteUnraisable("script_Rocha_2020.conc_grad", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "script_Rocha_2020.pyx":137
  *     cdef double p_ref
  * 
  *     def __init__(self, delta, k0, beta, ref_conc, p_ref):             # <<<<<<<<<<<<<<
@@ -2896,29 +2408,29 @@ static int __pyx_pw_17script_Rocha_2020_18ConstantParameters_1__init__(PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(0, 137, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(0, 20, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_beta)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(0, 137, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(0, 20, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ref_conc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(0, 137, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(0, 20, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_p_ref)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(0, 137, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(0, 20, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 137, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 20, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -2937,7 +2449,7 @@ static int __pyx_pw_17script_Rocha_2020_18ConstantParameters_1__init__(PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 137, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 20, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("script_Rocha_2020.ConstantParameters.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2959,57 +2471,57 @@ static int __pyx_pf_17script_Rocha_2020_18ConstantParameters___init__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "script_Rocha_2020.pyx":138
+  /* "script_Rocha_2020.pyx":21
  * 
  *     def __init__(self, delta, k0, beta, ref_conc, p_ref):
  *         self.delta = delta             # <<<<<<<<<<<<<<
  *         self.k0 = k0
  *         self.beta = beta
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_delta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_delta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L1_error)
   __pyx_v_self->delta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":139
+  /* "script_Rocha_2020.pyx":22
  *     def __init__(self, delta, k0, beta, ref_conc, p_ref):
  *         self.delta = delta
  *         self.k0 = k0             # <<<<<<<<<<<<<<
  *         self.beta = beta
  *         self.ref_conc = ref_conc
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_k0); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_k0); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 22, __pyx_L1_error)
   __pyx_v_self->k0 = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":140
+  /* "script_Rocha_2020.pyx":23
  *         self.delta = delta
  *         self.k0 = k0
  *         self.beta = beta             # <<<<<<<<<<<<<<
  *         self.ref_conc = ref_conc
  *         self.p_ref = p_ref
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_beta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_beta); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
   __pyx_v_self->beta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":141
+  /* "script_Rocha_2020.pyx":24
  *         self.k0 = k0
  *         self.beta = beta
  *         self.ref_conc = ref_conc             # <<<<<<<<<<<<<<
  *         self.p_ref = p_ref
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_ref_conc); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_ref_conc); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
   __pyx_v_self->ref_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":142
+  /* "script_Rocha_2020.pyx":25
  *         self.beta = beta
  *         self.ref_conc = ref_conc
  *         self.p_ref = p_ref             # <<<<<<<<<<<<<<
  * 
  * cdef class PhysicalParameters:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p_ref); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_p_ref); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
   __pyx_v_self->p_ref = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":137
+  /* "script_Rocha_2020.pyx":20
  *     cdef double p_ref
  * 
  *     def __init__(self, delta, k0, beta, ref_conc, p_ref):             # <<<<<<<<<<<<<<
@@ -3348,7 +2860,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_18ConstantParameters_4__setstate_c
   return __pyx_r;
 }
 
-/* "script_Rocha_2020.pyx":155
+/* "script_Rocha_2020.pyx":38
  *     cdef double n
  * 
  *     def __init__(self, height,initial_conc,particle_diam,particle_esphericity,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):             # <<<<<<<<<<<<<<
@@ -3411,53 +2923,53 @@ static int __pyx_pw_17script_Rocha_2020_18PhysicalParameters_1__init__(PyObject 
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_initial_conc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 1); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 1); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_particle_diam)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 2); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 2); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_particle_esphericity)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 3); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 3); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_solid_density)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 4); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 4); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_fluid_density)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 5); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 5); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
         if (likely((values[6] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max_conc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 6); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 6); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_powerLawFluid_M)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 7); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 7); __PYX_ERR(0, 38, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (likely((values[8] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_powerLawFluid_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 8); __PYX_ERR(0, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, 8); __PYX_ERR(0, 38, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 155, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 38, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 9) {
       goto __pyx_L5_argtuple_error;
@@ -3484,7 +2996,7 @@ static int __pyx_pw_17script_Rocha_2020_18PhysicalParameters_1__init__(PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 155, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 9, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 38, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("script_Rocha_2020.PhysicalParameters.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3506,97 +3018,97 @@ static int __pyx_pf_17script_Rocha_2020_18PhysicalParameters___init__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "script_Rocha_2020.pyx":156
+  /* "script_Rocha_2020.pyx":39
  * 
  *     def __init__(self, height,initial_conc,particle_diam,particle_esphericity,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):
  *         self.L = height             # <<<<<<<<<<<<<<
  *         self.initial_conc = initial_conc
  *         self.particle_diam = particle_diam
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_height); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 156, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_height); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L1_error)
   __pyx_v_self->L = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":157
+  /* "script_Rocha_2020.pyx":40
  *     def __init__(self, height,initial_conc,particle_diam,particle_esphericity,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):
  *         self.L = height
  *         self.initial_conc = initial_conc             # <<<<<<<<<<<<<<
  *         self.particle_diam = particle_diam
  *         self.particle_esphericity = particle_esphericity
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_initial_conc); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_initial_conc); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
   __pyx_v_self->initial_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":158
+  /* "script_Rocha_2020.pyx":41
  *         self.L = height
  *         self.initial_conc = initial_conc
  *         self.particle_diam = particle_diam             # <<<<<<<<<<<<<<
  *         self.particle_esphericity = particle_esphericity
  *         self.solid_density = solid_density
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_particle_diam); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_particle_diam); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L1_error)
   __pyx_v_self->particle_diam = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":159
+  /* "script_Rocha_2020.pyx":42
  *         self.initial_conc = initial_conc
  *         self.particle_diam = particle_diam
  *         self.particle_esphericity = particle_esphericity             # <<<<<<<<<<<<<<
  *         self.solid_density = solid_density
  *         self.fluid_density = fluid_density
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_particle_esphericity); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_particle_esphericity); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_v_self->particle_esphericity = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":160
+  /* "script_Rocha_2020.pyx":43
  *         self.particle_diam = particle_diam
  *         self.particle_esphericity = particle_esphericity
  *         self.solid_density = solid_density             # <<<<<<<<<<<<<<
  *         self.fluid_density = fluid_density
  *         self.max_conc = max_conc
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_solid_density); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 160, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_solid_density); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L1_error)
   __pyx_v_self->solid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":161
+  /* "script_Rocha_2020.pyx":44
  *         self.particle_esphericity = particle_esphericity
  *         self.solid_density = solid_density
  *         self.fluid_density = fluid_density             # <<<<<<<<<<<<<<
  *         self.max_conc = max_conc
  *         self.M = powerLawFluid_M
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_fluid_density); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_fluid_density); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_v_self->fluid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":162
+  /* "script_Rocha_2020.pyx":45
  *         self.solid_density = solid_density
  *         self.fluid_density = fluid_density
  *         self.max_conc = max_conc             # <<<<<<<<<<<<<<
  *         self.M = powerLawFluid_M
  *         self.n = powerLawFluid_n
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_max_conc); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_max_conc); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
   __pyx_v_self->max_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":163
+  /* "script_Rocha_2020.pyx":46
  *         self.fluid_density = fluid_density
  *         self.max_conc = max_conc
  *         self.M = powerLawFluid_M             # <<<<<<<<<<<<<<
  *         self.n = powerLawFluid_n
  * 
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_powerLawFluid_M); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_powerLawFluid_M); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_v_self->M = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":164
+  /* "script_Rocha_2020.pyx":47
  *         self.max_conc = max_conc
  *         self.M = powerLawFluid_M
  *         self.n = powerLawFluid_n             # <<<<<<<<<<<<<<
  * 
  * cdef class NumericalParameters:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_powerLawFluid_n); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_powerLawFluid_n); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
   __pyx_v_self->n = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":155
+  /* "script_Rocha_2020.pyx":38
  *     cdef double n
  * 
  *     def __init__(self, height,initial_conc,particle_diam,particle_esphericity,solid_density,fluid_density,max_conc,powerLawFluid_M,powerLawFluid_n):             # <<<<<<<<<<<<<<
@@ -3963,10 +3475,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_18PhysicalParameters_4__setstate_c
   return __pyx_r;
 }
 
-/* "script_Rocha_2020.pyx":172
- *     cdef double maxResidual
+/* "script_Rocha_2020.pyx":56
+ *     cdef indexesToPlot
  * 
- *     def __init__(self, z_divs,total_time,timestep,maxResidual):             # <<<<<<<<<<<<<<
+ *     def __init__(self, z_divs,total_time,timestep,maxResidual, indexesToPlot):             # <<<<<<<<<<<<<<
  *         self.N_len = z_divs
  *         self.total_time = total_time
  */
@@ -3978,6 +3490,7 @@ static int __pyx_pw_17script_Rocha_2020_19NumericalParameters_1__init__(PyObject
   PyObject *__pyx_v_total_time = 0;
   PyObject *__pyx_v_timestep = 0;
   PyObject *__pyx_v_maxResidual = 0;
+  PyObject *__pyx_v_indexesToPlot = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3985,12 +3498,14 @@ static int __pyx_pw_17script_Rocha_2020_19NumericalParameters_1__init__(PyObject
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_z_divs,&__pyx_n_s_total_time,&__pyx_n_s_timestep,&__pyx_n_s_maxResidual,0};
-    PyObject* values[4] = {0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_z_divs,&__pyx_n_s_total_time,&__pyx_n_s_timestep,&__pyx_n_s_maxResidual,&__pyx_n_s_indexesToPlot,0};
+    PyObject* values[5] = {0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
@@ -4011,53 +3526,61 @@ static int __pyx_pw_17script_Rocha_2020_19NumericalParameters_1__init__(PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_total_time)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); __PYX_ERR(0, 172, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 1); __PYX_ERR(0, 56, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_timestep)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); __PYX_ERR(0, 172, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 2); __PYX_ERR(0, 56, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_maxResidual)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); __PYX_ERR(0, 172, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 3); __PYX_ERR(0, 56, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexesToPlot)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, 4); __PYX_ERR(0, 56, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 172, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 56, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
     }
     __pyx_v_z_divs = values[0];
     __pyx_v_total_time = values[1];
     __pyx_v_timestep = values[2];
     __pyx_v_maxResidual = values[3];
+    __pyx_v_indexesToPlot = values[4];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 172, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 56, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("script_Rocha_2020.NumericalParameters.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(((struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)__pyx_v_self), __pyx_v_z_divs, __pyx_v_total_time, __pyx_v_timestep, __pyx_v_maxResidual);
+  __pyx_r = __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(((struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)__pyx_v_self), __pyx_v_z_divs, __pyx_v_total_time, __pyx_v_timestep, __pyx_v_maxResidual, __pyx_v_indexesToPlot);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_self, PyObject *__pyx_v_z_divs, PyObject *__pyx_v_total_time, PyObject *__pyx_v_timestep, PyObject *__pyx_v_maxResidual) {
+static int __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_self, PyObject *__pyx_v_z_divs, PyObject *__pyx_v_total_time, PyObject *__pyx_v_timestep, PyObject *__pyx_v_maxResidual, PyObject *__pyx_v_indexesToPlot) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -4067,50 +3590,63 @@ static int __pyx_pf_17script_Rocha_2020_19NumericalParameters___init__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "script_Rocha_2020.pyx":173
+  /* "script_Rocha_2020.pyx":57
  * 
- *     def __init__(self, z_divs,total_time,timestep,maxResidual):
+ *     def __init__(self, z_divs,total_time,timestep,maxResidual, indexesToPlot):
  *         self.N_len = z_divs             # <<<<<<<<<<<<<<
  *         self.total_time = total_time
  *         self.timestep = timestep
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_z_divs); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 173, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_z_divs); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L1_error)
   __pyx_v_self->N_len = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":174
- *     def __init__(self, z_divs,total_time,timestep,maxResidual):
+  /* "script_Rocha_2020.pyx":58
+ *     def __init__(self, z_divs,total_time,timestep,maxResidual, indexesToPlot):
  *         self.N_len = z_divs
  *         self.total_time = total_time             # <<<<<<<<<<<<<<
  *         self.timestep = timestep
  *         self.maxResidual = maxResidual
  */
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_total_time); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_total_time); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
   __pyx_v_self->total_time = __pyx_t_2;
 
-  /* "script_Rocha_2020.pyx":175
+  /* "script_Rocha_2020.pyx":59
  *         self.N_len = z_divs
  *         self.total_time = total_time
  *         self.timestep = timestep             # <<<<<<<<<<<<<<
  *         self.maxResidual = maxResidual
- * 
+ *         self.indexesToPlot = indexesToPlot
  */
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_timestep); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 175, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_timestep); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 59, __pyx_L1_error)
   __pyx_v_self->timestep = __pyx_t_2;
 
-  /* "script_Rocha_2020.pyx":176
+  /* "script_Rocha_2020.pyx":60
  *         self.total_time = total_time
  *         self.timestep = timestep
  *         self.maxResidual = maxResidual             # <<<<<<<<<<<<<<
- * 
+ *         self.indexesToPlot = indexesToPlot
  * 
  */
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_maxResidual); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_v_maxResidual); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
   __pyx_v_self->maxResidual = __pyx_t_2;
 
-  /* "script_Rocha_2020.pyx":172
- *     cdef double maxResidual
+  /* "script_Rocha_2020.pyx":61
+ *         self.timestep = timestep
+ *         self.maxResidual = maxResidual
+ *         self.indexesToPlot = indexesToPlot             # <<<<<<<<<<<<<<
  * 
- *     def __init__(self, z_divs,total_time,timestep,maxResidual):             # <<<<<<<<<<<<<<
+ * DTYPE = np.double
+ */
+  __Pyx_INCREF(__pyx_v_indexesToPlot);
+  __Pyx_GIVEREF(__pyx_v_indexesToPlot);
+  __Pyx_GOTREF(__pyx_v_self->indexesToPlot);
+  __Pyx_DECREF(__pyx_v_self->indexesToPlot);
+  __pyx_v_self->indexesToPlot = __pyx_v_indexesToPlot;
+
+  /* "script_Rocha_2020.pyx":56
+ *     cdef indexesToPlot
+ * 
+ *     def __init__(self, z_divs,total_time,timestep,maxResidual, indexesToPlot):             # <<<<<<<<<<<<<<
  *         self.N_len = z_divs
  *         self.total_time = total_time
  */
@@ -4166,7 +3702,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.N_len, self.maxResidual, self.timestep, self.total_time)             # <<<<<<<<<<<<<<
+ *     state = (self.N_len, self.indexesToPlot, self.maxResidual, self.timestep, self.total_time)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
@@ -4178,16 +3714,19 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->total_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 5, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+  __Pyx_INCREF(__pyx_v_self->indexesToPlot);
+  __Pyx_GIVEREF(__pyx_v_self->indexesToPlot);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_self->indexesToPlot);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_t_4);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
@@ -4197,7 +3736,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.N_len, self.maxResidual, self.timestep, self.total_time)
+ *     state = (self.N_len, self.indexesToPlot, self.maxResidual, self.timestep, self.total_time)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
@@ -4208,7 +3747,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
   __pyx_t_5 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.N_len, self.maxResidual, self.timestep, self.total_time)
+ *     state = (self.N_len, self.indexesToPlot, self.maxResidual, self.timestep, self.total_time)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -4241,12 +3780,12 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
  *         state += (_dict,)
  *         use_setstate = True             # <<<<<<<<<<<<<<
  *     else:
- *         use_setstate = False
+ *         use_setstate = self.indexesToPlot is not None
  */
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.N_len, self.maxResidual, self.timestep, self.total_time)
+ *     state = (self.N_len, self.indexesToPlot, self.maxResidual, self.timestep, self.total_time)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -4258,31 +3797,32 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
   /* "(tree fragment)":11
  *         use_setstate = True
  *     else:
- *         use_setstate = False             # <<<<<<<<<<<<<<
+ *         use_setstate = self.indexesToPlot is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, None), state
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, None), state
  */
   /*else*/ {
-    __pyx_v_use_setstate = 0;
+    __pyx_t_7 = (__pyx_v_self->indexesToPlot != Py_None);
+    __pyx_v_use_setstate = __pyx_t_7;
   }
   __pyx_L3:;
 
   /* "(tree fragment)":12
  *     else:
- *         use_setstate = False
+ *         use_setstate = self.indexesToPlot is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, None), state
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, None), state
  *     else:
  */
   __pyx_t_7 = (__pyx_v_use_setstate != 0);
   if (__pyx_t_7) {
 
     /* "(tree fragment)":13
- *         use_setstate = False
+ *         use_setstate = self.indexesToPlot is not None
  *     if use_setstate:
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, state)
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, state)
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pyx_unpickle_NumericalParamete); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 13, __pyx_L1_error)
@@ -4292,9 +3832,9 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_18420091);
-    __Pyx_GIVEREF(__pyx_int_18420091);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_18420091);
+    __Pyx_INCREF(__pyx_int_249160139);
+    __Pyx_GIVEREF(__pyx_int_249160139);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_249160139);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
     PyTuple_SET_ITEM(__pyx_t_5, 2, Py_None);
@@ -4315,17 +3855,17 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
 
     /* "(tree fragment)":12
  *     else:
- *         use_setstate = False
+ *         use_setstate = self.indexesToPlot is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, None), state
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, None), state
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, None), state
  *     else:
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_NumericalParameters__set_state(self, __pyx_state)
  */
@@ -4338,9 +3878,9 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_18420091);
-    __Pyx_GIVEREF(__pyx_int_18420091);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_18420091);
+    __Pyx_INCREF(__pyx_int_249160139);
+    __Pyx_GIVEREF(__pyx_int_249160139);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_int_249160139);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
     PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_v_state);
@@ -4382,7 +3922,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_2__reduce_cy
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, state)
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_NumericalParameters__set_state(self, __pyx_state)
  */
@@ -4410,7 +3950,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_4__setstate_
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, state)
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_NumericalParameters__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -4421,7 +3961,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_4__setstate_
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_NumericalParameters, (type(self), 0x119117b, state)
+ *         return __pyx_unpickle_NumericalParameters, (type(self), 0xed9e1cb, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_NumericalParameters__set_state(self, __pyx_state)
  */
@@ -4439,8 +3979,640 @@ static PyObject *__pyx_pf_17script_Rocha_2020_19NumericalParameters_4__setstate_
   return __pyx_r;
 }
 
-/* "script_Rocha_2020.pyx":179
+/* "script_Rocha_2020.pyx":71
+ * #     return permeability
  * 
+ * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ *     cdef double permeability
+ *     if concentration <= 0:
+ */
+
+static double __pyx_f_17script_Rocha_2020_perm(double __pyx_v_concentration, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters) {
+  double __pyx_v_permeability;
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("perm", 0);
+
+  /* "script_Rocha_2020.pyx":73
+ * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):
+ *     cdef double permeability
+ *     if concentration <= 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
+ */
+  __pyx_t_1 = ((__pyx_v_concentration <= 0.0) != 0);
+  if (__pyx_t_1) {
+
+    /* "script_Rocha_2020.pyx":74
+ *     cdef double permeability
+ *     if concentration <= 0:
+ *         return 0             # <<<<<<<<<<<<<<
+ *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
+ *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+ */
+    __pyx_r = 0.0;
+    goto __pyx_L0;
+
+    /* "script_Rocha_2020.pyx":73
+ * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):
+ *     cdef double permeability
+ *     if concentration <= 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
+ */
+  }
+
+  /* "script_Rocha_2020.pyx":75
+ *     if concentration <= 0:
+ *         return 0
+ *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta             # <<<<<<<<<<<<<<
+ *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+ *     if permeability < 0:
+ */
+  if (unlikely(__pyx_v_concentration == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 75, __pyx_L1_error)
+  }
+  __pyx_v_permeability = ((__pyx_v_constantParameters->k0 * pow(__pyx_v_physicalParameters->particle_diam, 2.0)) * pow(((__pyx_v_physicalParameters->max_conc / __pyx_v_concentration) - 1.0), __pyx_v_constantParameters->delta));
+
+  /* "script_Rocha_2020.pyx":77
+ *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
+ *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+ *     if permeability < 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ *     return permeability
+ */
+  __pyx_t_1 = ((__pyx_v_permeability < 0.0) != 0);
+  if (__pyx_t_1) {
+
+    /* "script_Rocha_2020.pyx":78
+ *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+ *     if permeability < 0:
+ *         return 0             # <<<<<<<<<<<<<<
+ *     return permeability
+ * 
+ */
+    __pyx_r = 0.0;
+    goto __pyx_L0;
+
+    /* "script_Rocha_2020.pyx":77
+ *     permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
+ *     # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+ *     if permeability < 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ *     return permeability
+ */
+  }
+
+  /* "script_Rocha_2020.pyx":79
+ *     if permeability < 0:
+ *         return 0
+ *     return permeability             # <<<<<<<<<<<<<<
+ * 
+ * cdef double esp(double x):
+ */
+  __pyx_r = __pyx_v_permeability;
+  goto __pyx_L0;
+
+  /* "script_Rocha_2020.pyx":71
+ * #     return permeability
+ * 
+ * cdef double perm(double concentration,PhysicalParameters physicalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ *     cdef double permeability
+ *     if concentration <= 0:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("script_Rocha_2020.perm", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":81
+ *     return permeability
+ * 
+ * cdef double esp(double x):             # <<<<<<<<<<<<<<
+ *     cdef double esphericity
+ *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
+ */
+
+static double __pyx_f_17script_Rocha_2020_esp(double __pyx_v_x) {
+  double __pyx_v_esphericity;
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("esp", 0);
+
+  /* "script_Rocha_2020.pyx":83
+ * cdef double esp(double x):
+ *     cdef double esphericity
+ *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41             # <<<<<<<<<<<<<<
+ *     return esphericity
+ * 
+ */
+  __pyx_v_esphericity = (((-3.45 * pow(__pyx_v_x, 2.0)) + (5.25 * __pyx_v_x)) - 1.41);
+
+  /* "script_Rocha_2020.pyx":84
+ *     cdef double esphericity
+ *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
+ *     return esphericity             # <<<<<<<<<<<<<<
+ * 
+ * # cdef double press_grad(double x,double p_ref,double beta,double x_ref):
+ */
+  __pyx_r = __pyx_v_esphericity;
+  goto __pyx_L0;
+
+  /* "script_Rocha_2020.pyx":81
+ *     return permeability
+ * 
+ * cdef double esp(double x):             # <<<<<<<<<<<<<<
+ *     cdef double esphericity
+ *     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":96
+ * #     return pressure_gradient
+ * 
+ * cdef double press_grad(double concentration,ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ *     cdef double aux, pressure_gradient
+ *     if concentration <= 0:
+ */
+
+static double __pyx_f_17script_Rocha_2020_press_grad(double __pyx_v_concentration, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters) {
+  double __pyx_v_aux;
+  double __pyx_v_pressure_gradient;
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("press_grad", 0);
+
+  /* "script_Rocha_2020.pyx":98
+ * cdef double press_grad(double concentration,ConstantParameters constantParameters):
+ *     cdef double aux, pressure_gradient
+ *     if concentration <= 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_concentration <= 0.0) != 0);
+  if (__pyx_t_1) {
+
+    /* "script_Rocha_2020.pyx":99
+ *     cdef double aux, pressure_gradient
+ *     if concentration <= 0:
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)
+ */
+    __pyx_r = 0.0;
+    goto __pyx_L0;
+
+    /* "script_Rocha_2020.pyx":98
+ * cdef double press_grad(double concentration,ConstantParameters constantParameters):
+ *     cdef double aux, pressure_gradient
+ *     if concentration <= 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ * 
+ */
+  }
+
+  /* "script_Rocha_2020.pyx":101
+ *         return 0
+ * 
+ *     aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)             # <<<<<<<<<<<<<<
+ *     pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp
+ * 
+ */
+  __pyx_t_2 = ((-__pyx_v_constantParameters->beta) * (__pyx_v_constantParameters->ref_conc - __pyx_v_concentration));
+  __pyx_t_3 = (__pyx_v_concentration * __pyx_v_constantParameters->ref_conc);
+  if (unlikely(__pyx_t_3 == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 101, __pyx_L1_error)
+  }
+  __pyx_v_aux = (__pyx_t_2 / __pyx_t_3);
+
+  /* "script_Rocha_2020.pyx":102
+ * 
+ *     aux = -constantParameters.beta * (constantParameters.ref_conc - concentration) / (concentration * constantParameters.ref_conc)
+ *     pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp             # <<<<<<<<<<<<<<
+ * 
+ *     return pressure_gradient
+ */
+  __pyx_t_3 = (__pyx_v_constantParameters->p_ref * __pyx_v_constantParameters->beta);
+  __pyx_t_2 = pow(__pyx_v_concentration, 2.0);
+  if (unlikely(__pyx_t_2 == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 102, __pyx_L1_error)
+  }
+  __pyx_v_pressure_gradient = ((__pyx_t_3 / __pyx_t_2) * exp(__pyx_v_aux));
+
+  /* "script_Rocha_2020.pyx":104
+ *     pressure_gradient = (constantParameters.p_ref * constantParameters.beta / concentration ** 2) * exp(aux) #Trocar o exp
+ * 
+ *     return pressure_gradient             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = __pyx_v_pressure_gradient;
+  goto __pyx_L0;
+
+  /* "script_Rocha_2020.pyx":96
+ * #     return pressure_gradient
+ * 
+ * cdef double press_grad(double concentration,ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ *     cdef double aux, pressure_gradient
+ *     if concentration <= 0:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("script_Rocha_2020.press_grad", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":141
+ * #     return -velocity
+ * 
+ * cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):             # <<<<<<<<<<<<<<
+ *     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
+ * 
+ */
+
+static double __pyx_f_17script_Rocha_2020_vel(PyArrayObject *__pyx_v_Concentration, int __pyx_v_index, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters, double __pyx_v_esph, double __pyx_v_rho_susp, double __pyx_v_conc_grad) {
+  double __pyx_v_K;
+  double __pyx_v_aux1;
+  double __pyx_v_aux2;
+  double __pyx_v_aux3;
+  double __pyx_v_aux4;
+  double __pyx_v_aux5;
+  double __pyx_v_aux6;
+  double __pyx_v_velocity;
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  long __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  double __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("vel", 0);
+
+  /* "script_Rocha_2020.pyx":144
+ *     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
+ * 
+ *     K = perm(Concentration[index + 1],physicalParameters,constantParameters)             # <<<<<<<<<<<<<<
+ *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ */
+  __pyx_t_1 = (__pyx_v_index + 1);
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_K = __pyx_f_17script_Rocha_2020_perm(__pyx_t_3, __pyx_v_physicalParameters, __pyx_v_constantParameters);
+
+  /* "script_Rocha_2020.pyx":145
+ * 
+ *     K = perm(Concentration[index + 1],physicalParameters,constantParameters)
+ *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad             # <<<<<<<<<<<<<<
+ *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
+ */
+  __pyx_t_1 = (__pyx_v_index + 1);
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 145, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_aux4 = ((-__pyx_f_17script_Rocha_2020_press_grad(__pyx_t_3, __pyx_v_constantParameters)) * __pyx_v_conc_grad);
+
+  /* "script_Rocha_2020.pyx":146
+ *     K = perm(Concentration[index + 1],physicalParameters,constantParameters)
+ *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad             # <<<<<<<<<<<<<<
+ *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
+ *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
+ */
+  __pyx_t_1 = (__pyx_v_index + 1);
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_aux4 = (__pyx_f_17script_Rocha_2020_press_grad(__pyx_t_3, __pyx_v_constantParameters) * __pyx_v_conc_grad);
+
+  /* "script_Rocha_2020.pyx":147
+ *     aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))             # <<<<<<<<<<<<<<
+ *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
+ *     aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)
+ */
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_K); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_physicalParameters->M); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = (__pyx_v_index + 1);
+  __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_t_5, 1, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = PyFloat_FromDouble((1.0 - __pyx_v_physicalParameters->n)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = PyNumber_Power(__pyx_t_6, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_v_aux1 = __pyx_t_3;
+
+  /* "script_Rocha_2020.pyx":148
+ *     aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad
+ *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
+ *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))             # <<<<<<<<<<<<<<
+ *     aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)
+ * 
+ */
+  if (unlikely(__pyx_v_esph == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 148, __pyx_L1_error)
+  }
+  __pyx_t_3 = (__pyx_v_rho_susp - (__pyx_v_physicalParameters->solid_density * __pyx_v_physicalParameters->initial_conc));
+  if (unlikely(__pyx_t_3 == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 148, __pyx_L1_error)
+  }
+  __pyx_v_aux2 = (pow((__pyx_v_physicalParameters->particle_diam / __pyx_v_esph), (__pyx_v_physicalParameters->n - 1.0)) * (__pyx_v_rho_susp / __pyx_t_3));
+
+  /* "script_Rocha_2020.pyx":149
+ *     aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
+ *     aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
+ *     aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_1 = (__pyx_v_index + 1);
+  __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = PyFloat_FromDouble((__pyx_v_physicalParameters->solid_density - __pyx_v_physicalParameters->fluid_density)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_2 = PyNumber_Multiply(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_float_neg_9_81); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_aux3 = __pyx_t_3;
+
+  /* "script_Rocha_2020.pyx":152
+ * 
+ * 
+ *     aux5 = aux1 * aux2 * (aux3 - aux4)             # <<<<<<<<<<<<<<
+ * 
+ *     if aux5 == 0:
+ */
+  __pyx_v_aux5 = ((__pyx_v_aux1 * __pyx_v_aux2) * (__pyx_v_aux3 - __pyx_v_aux4));
+
+  /* "script_Rocha_2020.pyx":154
+ *     aux5 = aux1 * aux2 * (aux3 - aux4)
+ * 
+ *     if aux5 == 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ *     elif aux5 <= 0:
+ */
+  __pyx_t_8 = ((__pyx_v_aux5 == 0.0) != 0);
+  if (__pyx_t_8) {
+
+    /* "script_Rocha_2020.pyx":155
+ * 
+ *     if aux5 == 0:
+ *         return 0             # <<<<<<<<<<<<<<
+ *     elif aux5 <= 0:
+ *         aux5 = -aux5
+ */
+    __pyx_r = 0.0;
+    goto __pyx_L0;
+
+    /* "script_Rocha_2020.pyx":154
+ *     aux5 = aux1 * aux2 * (aux3 - aux4)
+ * 
+ *     if aux5 == 0:             # <<<<<<<<<<<<<<
+ *         return 0
+ *     elif aux5 <= 0:
+ */
+  }
+
+  /* "script_Rocha_2020.pyx":156
+ *     if aux5 == 0:
+ *         return 0
+ *     elif aux5 <= 0:             # <<<<<<<<<<<<<<
+ *         aux5 = -aux5
+ *     aux6 = 1 / physicalParameters.n
+ */
+  __pyx_t_8 = ((__pyx_v_aux5 <= 0.0) != 0);
+  if (__pyx_t_8) {
+
+    /* "script_Rocha_2020.pyx":157
+ *         return 0
+ *     elif aux5 <= 0:
+ *         aux5 = -aux5             # <<<<<<<<<<<<<<
+ *     aux6 = 1 / physicalParameters.n
+ *     velocity = pow(aux5, aux6)
+ */
+    __pyx_v_aux5 = (-__pyx_v_aux5);
+
+    /* "script_Rocha_2020.pyx":156
+ *     if aux5 == 0:
+ *         return 0
+ *     elif aux5 <= 0:             # <<<<<<<<<<<<<<
+ *         aux5 = -aux5
+ *     aux6 = 1 / physicalParameters.n
+ */
+  }
+
+  /* "script_Rocha_2020.pyx":158
+ *     elif aux5 <= 0:
+ *         aux5 = -aux5
+ *     aux6 = 1 / physicalParameters.n             # <<<<<<<<<<<<<<
+ *     velocity = pow(aux5, aux6)
+ *     return -velocity
+ */
+  if (unlikely(__pyx_v_physicalParameters->n == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 158, __pyx_L1_error)
+  }
+  __pyx_v_aux6 = (1.0 / __pyx_v_physicalParameters->n);
+
+  /* "script_Rocha_2020.pyx":159
+ *         aux5 = -aux5
+ *     aux6 = 1 / physicalParameters.n
+ *     velocity = pow(aux5, aux6)             # <<<<<<<<<<<<<<
+ *     return -velocity
+ * 
+ */
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_aux5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_aux6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_7 = __Pyx_PyNumber_Power2(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 159, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_v_velocity = __pyx_t_3;
+
+  /* "script_Rocha_2020.pyx":160
+ *     aux6 = 1 / physicalParameters.n
+ *     velocity = pow(aux5, aux6)
+ *     return -velocity             # <<<<<<<<<<<<<<
+ * 
+ * cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):
+ */
+  __pyx_r = (-__pyx_v_velocity);
+  goto __pyx_L0;
+
+  /* "script_Rocha_2020.pyx":141
+ * #     return -velocity
+ * 
+ * cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):             # <<<<<<<<<<<<<<
+ *     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_WriteUnraisable("script_Rocha_2020.vel", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":162
+ *     return -velocity
+ * 
+ * cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):             # <<<<<<<<<<<<<<
+ *     cdef double concentration_gradient
+ * 
+ */
+
+static double __pyx_f_17script_Rocha_2020_conc_grad(PyArrayObject *__pyx_v_Concentration, int __pyx_v_index, int __pyx_v_N_len, double __pyx_v_L) {
+  double __pyx_v_concentration_gradient;
+  double __pyx_r;
+  __Pyx_RefNannyDeclarations
+  long __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  double __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("conc_grad", 0);
+
+  /* "script_Rocha_2020.pyx":165
+ *     cdef double concentration_gradient
+ * 
+ *     concentration_gradient = (Concentration[index + 1] - Concentration[index]) / (L / N_len)             # <<<<<<<<<<<<<<
+ * 
+ *     return concentration_gradient
+ */
+  __pyx_t_1 = (__pyx_v_index + 1);
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyNumber_Subtract(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(__pyx_v_N_len == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 165, __pyx_L1_error)
+  }
+  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_concentration_gradient = __pyx_t_5;
+
+  /* "script_Rocha_2020.pyx":167
+ *     concentration_gradient = (Concentration[index + 1] - Concentration[index]) / (L / N_len)
+ * 
+ *     return concentration_gradient             # <<<<<<<<<<<<<<
+ * 
+ * cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):
+ */
+  __pyx_r = __pyx_v_concentration_gradient;
+  goto __pyx_L0;
+
+  /* "script_Rocha_2020.pyx":162
+ *     return -velocity
+ * 
+ * cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):             # <<<<<<<<<<<<<<
+ *     cdef double concentration_gradient
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_WriteUnraisable("script_Rocha_2020.conc_grad", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":169
+ *     return concentration_gradient
  * 
  * cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):             # <<<<<<<<<<<<<<
  *     cdef double initialmassPerArea, massPerArea = 0
@@ -4465,7 +4637,7 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evalMassConservation", 0);
 
-  /* "script_Rocha_2020.pyx":180
+  /* "script_Rocha_2020.pyx":170
  * 
  * cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):
  *     cdef double initialmassPerArea, massPerArea = 0             # <<<<<<<<<<<<<<
@@ -4474,7 +4646,7 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
  */
   __pyx_v_massPerArea = 0.0;
 
-  /* "script_Rocha_2020.pyx":181
+  /* "script_Rocha_2020.pyx":171
  * cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):
  *     cdef double initialmassPerArea, massPerArea = 0
  *     initialmassPerArea = solid_density * length * n_divs * initial_conc             # <<<<<<<<<<<<<<
@@ -4483,7 +4655,7 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
  */
   __pyx_v_initialmassPerArea = (((__pyx_v_solid_density * __pyx_v_length) * __pyx_v_n_divs) * __pyx_v_initial_conc);
 
-  /* "script_Rocha_2020.pyx":182
+  /* "script_Rocha_2020.pyx":172
  *     cdef double initialmassPerArea, massPerArea = 0
  *     initialmassPerArea = solid_density * length * n_divs * initial_conc
  *     for local_concentration in Concentration:             # <<<<<<<<<<<<<<
@@ -4494,26 +4666,26 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
     __pyx_t_1 = ((PyObject *)__pyx_v_Concentration); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_Concentration)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_Concentration)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 182, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 172, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -4523,7 +4695,7 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 182, __pyx_L1_error)
+          else __PYX_ERR(0, 172, __pyx_L1_error)
         }
         break;
       }
@@ -4532,29 +4704,29 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
     __Pyx_XDECREF_SET(__pyx_v_local_concentration, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "script_Rocha_2020.pyx":183
+    /* "script_Rocha_2020.pyx":173
  *     initialmassPerArea = solid_density * length * n_divs * initial_conc
  *     for local_concentration in Concentration:
  *         massPerArea += solid_density * length * local_concentration             # <<<<<<<<<<<<<<
  * 
  *     print("\nInitial mass per area: " + str(initialmassPerArea)
  */
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_massPerArea); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_massPerArea); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_solid_density * __pyx_v_length)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_solid_density * __pyx_v_length)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_v_local_concentration); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_v_local_concentration); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_massPerArea = __pyx_t_7;
 
-    /* "script_Rocha_2020.pyx":182
+    /* "script_Rocha_2020.pyx":172
  *     cdef double initialmassPerArea, massPerArea = 0
  *     initialmassPerArea = solid_density * length * n_divs * initial_conc
  *     for local_concentration in Concentration:             # <<<<<<<<<<<<<<
@@ -4564,69 +4736,69 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "script_Rocha_2020.pyx":185
+  /* "script_Rocha_2020.pyx":175
  *         massPerArea += solid_density * length * local_concentration
  * 
  *     print("\nInitial mass per area: " + str(initialmassPerArea)             # <<<<<<<<<<<<<<
  *     + " [Kg/m2]\nCurrent total mass per area: " + str(massPerArea)
  *     + " [Kg/m2]\nTotal variation (loss): " + str(initialmassPerArea - massPerArea) + " [Kg/m2]")
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_initialmassPerArea); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_initialmassPerArea); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_Initial_mass_per_area, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_Initial_mass_per_area, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":186
+  /* "script_Rocha_2020.pyx":176
  * 
  *     print("\nInitial mass per area: " + str(initialmassPerArea)
  *     + " [Kg/m2]\nCurrent total mass per area: " + str(massPerArea)             # <<<<<<<<<<<<<<
  *     + " [Kg/m2]\nTotal variation (loss): " + str(initialmassPerArea - massPerArea) + " [Kg/m2]")
  * 
  */
-  __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_Kg_m2_Current_total_mass_per_ar); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_Kg_m2_Current_total_mass_per_ar); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_massPerArea); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_massPerArea); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":187
+  /* "script_Rocha_2020.pyx":177
  *     print("\nInitial mass per area: " + str(initialmassPerArea)
  *     + " [Kg/m2]\nCurrent total mass per area: " + str(massPerArea)
  *     + " [Kg/m2]\nTotal variation (loss): " + str(initialmassPerArea - massPerArea) + " [Kg/m2]")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_Kg_m2_Total_variation_loss); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_Kg_m2_Total_variation_loss); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyFloat_FromDouble((__pyx_v_initialmassPerArea - __pyx_v_massPerArea)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble((__pyx_v_initialmassPerArea - __pyx_v_massPerArea)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_Kg_m2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_kp_s_Kg_m2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PrintOne(0, __pyx_t_5) < 0) __PYX_ERR(0, 185, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_5) < 0) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":179
- * 
+  /* "script_Rocha_2020.pyx":169
+ *     return concentration_gradient
  * 
  * cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):             # <<<<<<<<<<<<<<
  *     cdef double initialmassPerArea, massPerArea = 0
@@ -4650,7 +4822,7 @@ static PyObject *__pyx_f_17script_Rocha_2020_evalMassConservation(double __pyx_v
   return __pyx_r;
 }
 
-/* "script_Rocha_2020.pyx":190
+/* "script_Rocha_2020.pyx":180
  * 
  * 
  * def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
@@ -4696,17 +4868,17 @@ static PyObject *__pyx_pw_17script_Rocha_2020_1EulerSolver(PyObject *__pyx_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_numericalParameters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("EulerSolver", 1, 3, 3, 1); __PYX_ERR(0, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("EulerSolver", 1, 3, 3, 1); __PYX_ERR(0, 180, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_constantParameters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("EulerSolver", 1, 3, 3, 2); __PYX_ERR(0, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("EulerSolver", 1, 3, 3, 2); __PYX_ERR(0, 180, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "EulerSolver") < 0)) __PYX_ERR(0, 190, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "EulerSolver") < 0)) __PYX_ERR(0, 180, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4721,15 +4893,15 @@ static PyObject *__pyx_pw_17script_Rocha_2020_1EulerSolver(PyObject *__pyx_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("EulerSolver", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 190, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("EulerSolver", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 180, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("script_Rocha_2020.EulerSolver", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_physicalParameters), __pyx_ptype_17script_Rocha_2020_PhysicalParameters, 1, "physicalParameters", 0))) __PYX_ERR(0, 190, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_numericalParameters), __pyx_ptype_17script_Rocha_2020_NumericalParameters, 1, "numericalParameters", 0))) __PYX_ERR(0, 190, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_constantParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "constantParameters", 0))) __PYX_ERR(0, 190, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_physicalParameters), __pyx_ptype_17script_Rocha_2020_PhysicalParameters, 1, "physicalParameters", 0))) __PYX_ERR(0, 180, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_numericalParameters), __pyx_ptype_17script_Rocha_2020_NumericalParameters, 1, "numericalParameters", 0))) __PYX_ERR(0, 180, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_constantParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "constantParameters", 0))) __PYX_ERR(0, 180, __pyx_L1_error)
   __pyx_r = __pyx_pf_17script_Rocha_2020_EulerSolver(__pyx_self, __pyx_v_physicalParameters, __pyx_v_numericalParameters, __pyx_v_constantParameters);
 
   /* function exit code */
@@ -4757,6 +4929,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   double __pyx_v_beta;
   double __pyx_v_p_ref;
   double __pyx_v_ref_conc;
+  PyObject *__pyx_v_clarifiedParameters = 0;
   CYTHON_UNUSED double __pyx_v_M;
   CYTHON_UNUSED double __pyx_v_n;
   double __pyx_v_esph;
@@ -4765,6 +4938,8 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   PyArrayObject *__pyx_v_Velocity = 0;
   CYTHON_UNUSED PyArrayObject *__pyx_v_Position = 0;
   double __pyx_v_currentTime;
+  PyObject *__pyx_v_Time = NULL;
+  int __pyx_v_days;
   PyArrayObject *__pyx_v_Pres = 0;
   PyArrayObject *__pyx_v_Perm = 0;
   int __pyx_v_f;
@@ -4773,6 +4948,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   int __pyx_v_count;
   int __pyx_v_dia;
   int __pyx_v_i;
+  int __pyx_v_packingIndex;
   double __pyx_v_grad;
   PyObject *__pyx_v_update = NULL;
   PyObject *__pyx_r = NULL;
@@ -4785,20 +4961,22 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   int __pyx_t_8;
-  long __pyx_t_9;
-  PyObject *__pyx_t_10 = NULL;
+  int __pyx_t_9;
+  long __pyx_t_10;
   PyObject *__pyx_t_11 = NULL;
-  int __pyx_t_12;
+  PyObject *__pyx_t_12 = NULL;
   int __pyx_t_13;
   long __pyx_t_14;
-  int __pyx_t_15;
+  long __pyx_t_15;
   int __pyx_t_16;
+  int __pyx_t_17;
+  int __pyx_t_18;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("EulerSolver", 0);
 
-  /* "script_Rocha_2020.pyx":193
+  /* "script_Rocha_2020.pyx":183
  * 
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L             # <<<<<<<<<<<<<<
@@ -4808,7 +4986,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->L;
   __pyx_v_L = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":195
+  /* "script_Rocha_2020.pyx":185
  *     cdef double L = physicalParameters.L
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
  *     cdef int N_len = numericalParameters.N_len             # <<<<<<<<<<<<<<
@@ -4818,7 +4996,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_2 = __pyx_v_numericalParameters->N_len;
   __pyx_v_N_len = __pyx_t_2;
 
-  /* "script_Rocha_2020.pyx":196
+  /* "script_Rocha_2020.pyx":186
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
  *     cdef int N_len = numericalParameters.N_len
  *     cdef double z_resolution = N_len / L             # <<<<<<<<<<<<<<
@@ -4827,11 +5005,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  */
   if (unlikely(__pyx_v_L == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 196, __pyx_L1_error)
+    __PYX_ERR(0, 186, __pyx_L1_error)
   }
   __pyx_v_z_resolution = (__pyx_v_N_len / __pyx_v_L);
 
-  /* "script_Rocha_2020.pyx":199
+  /* "script_Rocha_2020.pyx":189
  * 
  *     # Parametros de sedimentaao
  *     cdef double initial_conc = physicalParameters.initial_conc             # <<<<<<<<<<<<<<
@@ -4841,7 +5019,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->initial_conc;
   __pyx_v_initial_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":200
+  /* "script_Rocha_2020.pyx":190
  *     # Parametros de sedimentaao
  *     cdef double initial_conc = physicalParameters.initial_conc
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50             # <<<<<<<<<<<<<<
@@ -4851,7 +5029,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->particle_diam;
   __pyx_v_particle_diam = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":201
+  /* "script_Rocha_2020.pyx":191
  *     cdef double initial_conc = physicalParameters.initial_conc
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
  *     cdef double solid_density = physicalParameters.solid_density             # <<<<<<<<<<<<<<
@@ -4861,7 +5039,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->solid_density;
   __pyx_v_solid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":202
+  /* "script_Rocha_2020.pyx":192
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
  *     cdef double solid_density = physicalParameters.solid_density
  *     cdef double fluid_density = physicalParameters.fluid_density             # <<<<<<<<<<<<<<
@@ -4871,7 +5049,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->fluid_density;
   __pyx_v_fluid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":205
+  /* "script_Rocha_2020.pyx":195
  * 
  *     # Parametros de simulaao
  *     cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000             # <<<<<<<<<<<<<<
@@ -4881,7 +5059,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_numericalParameters->total_time;
   __pyx_v_total_time = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":206
+  /* "script_Rocha_2020.pyx":196
  *     # Parametros de simulaao
  *     cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
  *     cdef double timestep = numericalParameters.timestep             # <<<<<<<<<<<<<<
@@ -4891,7 +5069,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_numericalParameters->timestep;
   __pyx_v_timestep = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":210
+  /* "script_Rocha_2020.pyx":200
  *     # Parametros estimados
  *     #Permeabilidade
  *     cdef double delta = constantParameters.delta             # <<<<<<<<<<<<<<
@@ -4901,7 +5079,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_constantParameters->delta;
   __pyx_v_delta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":211
+  /* "script_Rocha_2020.pyx":201
  *     #Permeabilidade
  *     cdef double delta = constantParameters.delta
  *     cdef double k0 = constantParameters.k0             # <<<<<<<<<<<<<<
@@ -4911,7 +5089,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_constantParameters->k0;
   __pyx_v_k0 = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":212
+  /* "script_Rocha_2020.pyx":202
  *     cdef double delta = constantParameters.delta
  *     cdef double k0 = constantParameters.k0
  *     cdef double max_conc = physicalParameters.max_conc             # <<<<<<<<<<<<<<
@@ -4921,7 +5099,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->max_conc;
   __pyx_v_max_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":215
+  /* "script_Rocha_2020.pyx":205
  * 
  *     #Pressao nos solidos
  *     cdef double beta = constantParameters.beta             # <<<<<<<<<<<<<<
@@ -4931,7 +5109,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_constantParameters->beta;
   __pyx_v_beta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":216
+  /* "script_Rocha_2020.pyx":206
  *     #Pressao nos solidos
  *     cdef double beta = constantParameters.beta
  *     cdef double p_ref = constantParameters.p_ref             # <<<<<<<<<<<<<<
@@ -4941,17 +5119,27 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_constantParameters->p_ref;
   __pyx_v_p_ref = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":217
+  /* "script_Rocha_2020.pyx":207
  *     cdef double beta = constantParameters.beta
  *     cdef double p_ref = constantParameters.p_ref
  *     cdef double ref_conc = constantParameters.ref_conc             # <<<<<<<<<<<<<<
  * 
- *     #Parametros do fluido
+ *     #Regiao do clarificado
  */
   __pyx_t_1 = __pyx_v_constantParameters->ref_conc;
   __pyx_v_ref_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":220
+  /* "script_Rocha_2020.pyx":210
+ * 
+ *     #Regiao do clarificado
+ *     cdef clarifiedParameters = constantParameters             # <<<<<<<<<<<<<<
+ * 
+ *     #Parametros do fluido
+ */
+  __Pyx_INCREF(((PyObject *)__pyx_v_constantParameters));
+  __pyx_v_clarifiedParameters = ((PyObject *)__pyx_v_constantParameters);
+
+  /* "script_Rocha_2020.pyx":213
  * 
  *     #Parametros do fluido
  *     cdef double M = physicalParameters.M             # <<<<<<<<<<<<<<
@@ -4961,7 +5149,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->M;
   __pyx_v_M = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":221
+  /* "script_Rocha_2020.pyx":214
  *     #Parametros do fluido
  *     cdef double M = physicalParameters.M
  *     cdef double n = physicalParameters.n             # <<<<<<<<<<<<<<
@@ -4971,99 +5159,99 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_t_1 = __pyx_v_physicalParameters->n;
   __pyx_v_n = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":224
+  /* "script_Rocha_2020.pyx":217
  * 
  * 
- *     cdef double esph = esp(1)             # <<<<<<<<<<<<<<
+ *     cdef double esph = esp(physicalParameters.particle_esphericity)             # <<<<<<<<<<<<<<
  *     cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
  * 
  */
-  __pyx_v_esph = __pyx_f_17script_Rocha_2020_esp(1.0);
+  __pyx_v_esph = __pyx_f_17script_Rocha_2020_esp(__pyx_v_physicalParameters->particle_esphericity);
 
-  /* "script_Rocha_2020.pyx":225
+  /* "script_Rocha_2020.pyx":218
  * 
- *     cdef double esph = esp(1)
+ *     cdef double esph = esp(physicalParameters.particle_esphericity)
  *     cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc             # <<<<<<<<<<<<<<
  * 
  *     #Inicializacao do data set
  */
   __pyx_v_mixture_density = (__pyx_v_fluid_density + ((__pyx_v_solid_density - __pyx_v_fluid_density) * __pyx_v_initial_conc));
 
-  /* "script_Rocha_2020.pyx":228
+  /* "script_Rocha_2020.pyx":221
  * 
  *     #Inicializacao do data set
  *     cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc             # <<<<<<<<<<<<<<
  *     cdef np.ndarray Velocity = np.zeros(N_len - 1, dtype=DTYPE) #Velocidade nas fronteiras do n
  *     cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 228, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 221, __pyx_L1_error)
   __pyx_v_Concentration = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":229
+  /* "script_Rocha_2020.pyx":222
  *     #Inicializacao do data set
  *     cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray Velocity = np.zeros(N_len - 1, dtype=DTYPE) #Velocidade nas fronteiras do n             # <<<<<<<<<<<<<<
  *     cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  *     cdef double currentTime = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_N_len - 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_N_len - 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 229, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 222, __pyx_L1_error)
   __pyx_v_Velocity = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "script_Rocha_2020.pyx":230
+  /* "script_Rocha_2020.pyx":223
  *     cdef np.ndarray Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray Velocity = np.zeros(N_len - 1, dtype=DTYPE) #Velocidade nas fronteiras do n
  *     cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution             # <<<<<<<<<<<<<<
@@ -5072,153 +5260,194 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  */
   if (unlikely(__pyx_v_z_resolution == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 230, __pyx_L1_error)
+    __PYX_ERR(0, 223, __pyx_L1_error)
   }
-  __pyx_t_4 = PyFloat_FromDouble((0.5 / __pyx_v_z_resolution)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble((0.5 / __pyx_v_z_resolution)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_arange); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_arange); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_7, __pyx_int_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_7, __pyx_int_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyNumber_Add(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_t_7 = PyNumber_Add(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 230, __pyx_L1_error)
+  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 223, __pyx_L1_error)
   __pyx_v_Position = ((PyArrayObject *)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "script_Rocha_2020.pyx":231
+  /* "script_Rocha_2020.pyx":224
  *     cdef np.ndarray Velocity = np.zeros(N_len - 1, dtype=DTYPE) #Velocidade nas fronteiras do n
  *     cdef np.ndarray Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  *     cdef double currentTime = 0             # <<<<<<<<<<<<<<
  * 
- *     #Time = [currentTime]
+ *     Time = []
  */
   __pyx_v_currentTime = 0.0;
 
-  /* "script_Rocha_2020.pyx":235
- *     #Time = [currentTime]
+  /* "script_Rocha_2020.pyx":226
+ *     cdef double currentTime = 0
  * 
- *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)             # <<<<<<<<<<<<<<
- *     cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)
- *     cdef int f = 0
+ *     Time = []             # <<<<<<<<<<<<<<
+ *     Time.append(0)
+ * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 226, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_v_Time = ((PyObject*)__pyx_t_7);
+  __pyx_t_7 = 0;
+
+  /* "script_Rocha_2020.pyx":227
+ * 
+ *     Time = []
+ *     Time.append(0)             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int days = int(numericalParameters.total_time) / 86400
+ */
+  __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_Time, __pyx_int_0); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 227, __pyx_L1_error)
+
+  /* "script_Rocha_2020.pyx":229
+ *     Time.append(0)
+ * 
+ *     cdef int days = int(numericalParameters.total_time) / 86400             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)
+ */
+  __pyx_t_7 = __Pyx_PyInt_FromDouble(__pyx_v_numericalParameters->total_time); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_int_86400); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 229, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_days = __pyx_t_2;
+
+  /* "script_Rocha_2020.pyx":230
+ * 
+ *     cdef int days = int(numericalParameters.total_time) / 86400
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)
+ *     cdef int f = 0
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_days); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+  __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 230, __pyx_L1_error)
+  __pyx_v_Pres = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "script_Rocha_2020.pyx":231
+ *     cdef int days = int(numericalParameters.total_time) / 86400
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)             # <<<<<<<<<<<<<<
+ *     cdef int f = 0
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_days); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_4);
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_7);
-  __Pyx_INCREF(__pyx_int_365);
-  __Pyx_GIVEREF(__pyx_int_365);
-  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_365);
   __pyx_t_7 = 0;
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4);
-  __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 235, __pyx_L1_error)
-  __pyx_v_Pres = ((PyArrayObject *)__pyx_t_5);
-  __pyx_t_5 = 0;
-
-  /* "script_Rocha_2020.pyx":236
- * 
- *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
- *     cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)             # <<<<<<<<<<<<<<
- *     cdef int f = 0
- * 
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5);
-  __Pyx_INCREF(__pyx_int_365);
-  __Pyx_GIVEREF(__pyx_int_365);
-  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_int_365);
-  __pyx_t_5 = 0;
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7);
-  __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 236, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 231, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 236, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 231, __pyx_L1_error)
   __pyx_v_Perm = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "script_Rocha_2020.pyx":237
- *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
- *     cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)
+  /* "script_Rocha_2020.pyx":232
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)
  *     cdef int f = 0             # <<<<<<<<<<<<<<
  * 
  *     for h in range(0,N_len):
  */
   __pyx_v_f = 0;
 
-  /* "script_Rocha_2020.pyx":239
+  /* "script_Rocha_2020.pyx":234
  *     cdef int f = 0
  * 
  *     for h in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -5226,113 +5455,113 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  */
   __pyx_t_2 = __pyx_v_N_len;
-  __pyx_t_8 = __pyx_t_2;
-  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-    __pyx_v_h = __pyx_t_9;
+  __pyx_t_9 = __pyx_t_2;
+  for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+    __pyx_v_h = __pyx_t_10;
 
-    /* "script_Rocha_2020.pyx":240
+    /* "script_Rocha_2020.pyx":235
  * 
  *     for h in range(0,N_len):
  *         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_exp); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyFloat_FromDouble((-__pyx_v_beta)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyFloat_FromDouble((-__pyx_v_beta)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_11 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_6); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(__pyx_v_ref_conc == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 240, __pyx_L1_error)
+      __PYX_ERR(0, 235, __pyx_L1_error)
     }
-    __pyx_t_6 = PyFloat_FromDouble((1.0 / __pyx_v_ref_conc)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble((1.0 / __pyx_v_ref_conc)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_11 = PyNumber_Subtract(__pyx_t_10, __pyx_t_6); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_11);
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_12 = PyNumber_Subtract(__pyx_t_11, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_11)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_11);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __pyx_t_12 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_12)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_12);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_11, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __pyx_t_7 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_12, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 240, __pyx_L1_error)
+    if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyNumber_Multiply(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 235, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 240, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_7, __pyx_v_f, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_7, __pyx_v_f, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 235, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "script_Rocha_2020.pyx":242
+    /* "script_Rocha_2020.pyx":237
  *         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm(__pyx_t_1, __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 237, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 237, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm(__pyx_t_1, __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 237, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_7, __pyx_v_f, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 242, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_7, __pyx_v_f, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
 
-  /* "script_Rocha_2020.pyx":246
+  /* "script_Rocha_2020.pyx":241
  * 
  * 
  *     Data = []             # <<<<<<<<<<<<<<
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  * 
  */
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_v_Data = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_v_Data = ((PyObject*)__pyx_t_5);
+  __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":247
+  /* "script_Rocha_2020.pyx":242
  * 
  *     Data = []
  *     Data.append(np.copy(Concentration)) #Talvez precise typar             # <<<<<<<<<<<<<<
  * 
  *     cdef int count = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -5345,15 +5574,15 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Concentration));
+  __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Concentration));
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 247, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_4); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 247, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_5); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 242, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":249
+  /* "script_Rocha_2020.pyx":244
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  * 
  *     cdef int count = 0             # <<<<<<<<<<<<<<
@@ -5362,17 +5591,26 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  */
   __pyx_v_count = 0;
 
-  /* "script_Rocha_2020.pyx":250
+  /* "script_Rocha_2020.pyx":245
  * 
  *     cdef int count = 0
  *     cdef int dia = 0             # <<<<<<<<<<<<<<
  *     cdef int i
- * 
+ *     cdef int packingIndex = 0
  */
   __pyx_v_dia = 0;
 
-  /* "script_Rocha_2020.pyx":253
+  /* "script_Rocha_2020.pyx":247
+ *     cdef int dia = 0
  *     cdef int i
+ *     cdef int packingIndex = 0             # <<<<<<<<<<<<<<
+ * 
+ *     while (currentTime <= total_time):
+ */
+  __pyx_v_packingIndex = 0;
+
+  /* "script_Rocha_2020.pyx":249
+ *     cdef int packingIndex = 0
  * 
  *     while (currentTime <= total_time):             # <<<<<<<<<<<<<<
  * 
@@ -5382,41 +5620,102 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
     __pyx_t_13 = ((__pyx_v_currentTime <= __pyx_v_total_time) != 0);
     if (!__pyx_t_13) break;
 
-    /* "script_Rocha_2020.pyx":255
+    /* "script_Rocha_2020.pyx":251
  *     while (currentTime <= total_time):
  * 
  *         for i in range(0,N_len - 1):             # <<<<<<<<<<<<<<
  *             grad = conc_grad(Concentration, i, N_len, L)
  * 
  */
-    __pyx_t_9 = (__pyx_v_N_len - 1);
-    __pyx_t_14 = __pyx_t_9;
+    __pyx_t_10 = (__pyx_v_N_len - 1);
+    __pyx_t_14 = __pyx_t_10;
     for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_14; __pyx_t_2+=1) {
       __pyx_v_i = __pyx_t_2;
 
-      /* "script_Rocha_2020.pyx":256
+      /* "script_Rocha_2020.pyx":252
  * 
  *         for i in range(0,N_len - 1):
  *             grad = conc_grad(Concentration, i, N_len, L)             # <<<<<<<<<<<<<<
  * 
- *             Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+ *             if Concentration[i + 1] > 0.1395 and Concentration[i] > 0.1395 and i < packingIndex:
  */
       __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(__pyx_v_Concentration, __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-      /* "script_Rocha_2020.pyx":258
+      /* "script_Rocha_2020.pyx":254
  *             grad = conc_grad(Concentration, i, N_len, L)
  * 
- *             Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)             # <<<<<<<<<<<<<<
- * 
- * 
+ *             if Concentration[i + 1] > 0.1395 and Concentration[i] > 0.1395 and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             else:
  */
-      __pyx_t_4 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_vel(__pyx_v_Concentration, __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 258, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 258, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_15 = (__pyx_v_i + 1);
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_15, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = PyObject_RichCompare(__pyx_t_5, __pyx_float_0_1395, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (__pyx_t_16) {
+      } else {
+        __pyx_t_13 = __pyx_t_16;
+        goto __pyx_L10_bool_binop_done;
+      }
+      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_float_0_1395, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 254, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (__pyx_t_16) {
+      } else {
+        __pyx_t_13 = __pyx_t_16;
+        goto __pyx_L10_bool_binop_done;
+      }
+      __pyx_t_16 = ((__pyx_v_i < __pyx_v_packingIndex) != 0);
+      __pyx_t_13 = __pyx_t_16;
+      __pyx_L10_bool_binop_done:;
+      if (__pyx_t_13) {
+
+        /* "script_Rocha_2020.pyx":255
+ * 
+ *             if Concentration[i + 1] > 0.1395 and Concentration[i] > 0.1395 and i < packingIndex:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
+ *             else:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
+ */
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_vel(__pyx_v_Concentration, __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 255, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 255, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+        /* "script_Rocha_2020.pyx":254
+ *             grad = conc_grad(Concentration, i, N_len, L)
+ * 
+ *             if Concentration[i + 1] > 0.1395 and Concentration[i] > 0.1395 and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             else:
+ */
+        goto __pyx_L9;
+      }
+
+      /* "script_Rocha_2020.pyx":257
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             else:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado             # <<<<<<<<<<<<<<
+ * 
+ *             # Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
+ */
+      /*else*/ {
+        if (!(likely(((__pyx_v_clarifiedParameters) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_clarifiedParameters, __pyx_ptype_17script_Rocha_2020_ConstantParameters))))) __PYX_ERR(0, 257, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_vel(__pyx_v_Concentration, __pyx_v_i, __pyx_v_physicalParameters, ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)__pyx_v_clarifiedParameters), __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 257, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 257, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      }
+      __pyx_L9:;
     }
 
-    /* "script_Rocha_2020.pyx":262
+    /* "script_Rocha_2020.pyx":263
  * 
  * 
  *         for i in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -5424,11 +5723,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  *                 update = - timestep * (Concentration[i+1] * Velocity[i]) / (L / N_len)
  */
     __pyx_t_2 = __pyx_v_N_len;
-    __pyx_t_8 = __pyx_t_2;
-    for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_8; __pyx_t_15+=1) {
-      __pyx_v_i = __pyx_t_15;
+    __pyx_t_9 = __pyx_t_2;
+    for (__pyx_t_17 = 0; __pyx_t_17 < __pyx_t_9; __pyx_t_17+=1) {
+      __pyx_v_i = __pyx_t_17;
 
-      /* "script_Rocha_2020.pyx":263
+      /* "script_Rocha_2020.pyx":264
  * 
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
@@ -5438,52 +5737,52 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
       __pyx_t_13 = ((__pyx_v_i == 0) != 0);
       if (__pyx_t_13) {
 
-        /* "script_Rocha_2020.pyx":264
+        /* "script_Rocha_2020.pyx":265
  *         for i in range(0,N_len):
  *             if i == 0:
  *                 update = - timestep * (Concentration[i+1] * Velocity[i]) / (L / N_len)             # <<<<<<<<<<<<<<
  *             elif i == (N_len - 1):
  *                 update = + timestep * (Concentration[i] * Velocity[i - 1]) / (L / N_len)
  */
-        __pyx_t_4 = PyFloat_FromDouble((-__pyx_v_timestep)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 264, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_9 = (__pyx_v_i + 1);
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_9, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 264, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble((-__pyx_v_timestep)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_10 = (__pyx_v_i + 1);
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 264, __pyx_L1_error)
+        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 264, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Multiply(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         if (unlikely(__pyx_v_N_len == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 264, __pyx_L1_error)
+          __PYX_ERR(0, 265, __pyx_L1_error)
         }
-        __pyx_t_6 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 264, __pyx_L1_error)
+        __pyx_t_6 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 264, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_4);
-        __pyx_t_4 = 0;
+        __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_5);
+        __pyx_t_5 = 0;
 
-        /* "script_Rocha_2020.pyx":263
+        /* "script_Rocha_2020.pyx":264
  * 
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
  *                 update = - timestep * (Concentration[i+1] * Velocity[i]) / (L / N_len)
  *             elif i == (N_len - 1):
  */
-        goto __pyx_L11;
+        goto __pyx_L15;
       }
 
-      /* "script_Rocha_2020.pyx":265
+      /* "script_Rocha_2020.pyx":266
  *             if i == 0:
  *                 update = - timestep * (Concentration[i+1] * Velocity[i]) / (L / N_len)
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
@@ -5493,52 +5792,52 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
       __pyx_t_13 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
       if (__pyx_t_13) {
 
-        /* "script_Rocha_2020.pyx":266
+        /* "script_Rocha_2020.pyx":267
  *                 update = - timestep * (Concentration[i+1] * Velocity[i]) / (L / N_len)
  *             elif i == (N_len - 1):
  *                 update = + timestep * (Concentration[i] * Velocity[i - 1]) / (L / N_len)             # <<<<<<<<<<<<<<
  *             else:
  *                 update = - timestep * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / (L / N_len)
  */
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_timestep); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_timestep); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 267, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_9 = (__pyx_v_i - 1);
-        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_t_9, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_10 = (__pyx_v_i - 1);
+        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 267, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_3 = PyNumber_Multiply(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Multiply(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Multiply(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 267, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         if (unlikely(__pyx_v_N_len == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 266, __pyx_L1_error)
+          __PYX_ERR(0, 267, __pyx_L1_error)
         }
-        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_4);
-        __pyx_t_4 = 0;
+        __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_5);
+        __pyx_t_5 = 0;
 
-        /* "script_Rocha_2020.pyx":265
+        /* "script_Rocha_2020.pyx":266
  *             if i == 0:
  *                 update = - timestep * (Concentration[i+1] * Velocity[i]) / (L / N_len)
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
  *                 update = + timestep * (Concentration[i] * Velocity[i - 1]) / (L / N_len)
  *             else:
  */
-        goto __pyx_L11;
+        goto __pyx_L15;
       }
 
-      /* "script_Rocha_2020.pyx":268
+      /* "script_Rocha_2020.pyx":269
  *                 update = + timestep * (Concentration[i] * Velocity[i - 1]) / (L / N_len)
  *             else:
  *                 update = - timestep * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / (L / N_len)             # <<<<<<<<<<<<<<
@@ -5546,77 +5845,77 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  * 
  */
       /*else*/ {
-        __pyx_t_4 = PyFloat_FromDouble((-__pyx_v_timestep)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 268, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_9 = (__pyx_v_i + 1);
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_9, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble((-__pyx_v_timestep)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_10 = (__pyx_v_i + 1);
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_9 = (__pyx_v_i - 1);
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_t_9, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_10 = (__pyx_v_i - 1);
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Velocity), __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_11 = PyNumber_Multiply(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 268, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
+        __pyx_t_12 = PyNumber_Multiply(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Subtract(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Subtract(__pyx_t_6, __pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 268, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __pyx_t_12 = PyNumber_Multiply(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         if (unlikely(__pyx_v_N_len == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 268, __pyx_L1_error)
+          __PYX_ERR(0, 269, __pyx_L1_error)
         }
-        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble((__pyx_v_L / __pyx_v_N_len)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_11, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 268, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_4);
-        __pyx_t_4 = 0;
+        __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_5);
+        __pyx_t_5 = 0;
       }
-      __pyx_L11:;
+      __pyx_L15:;
 
-      /* "script_Rocha_2020.pyx":269
+      /* "script_Rocha_2020.pyx":270
  *             else:
  *                 update = - timestep * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / (L / N_len)
  *             Concentration[i] += update             # <<<<<<<<<<<<<<
  * 
  *         count += 1
  */
-      __pyx_t_16 = __pyx_v_i;
-      __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_16, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 269, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_4, __pyx_v_update); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __pyx_t_18 = __pyx_v_i;
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_18, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = PyNumber_InPlaceAdd(__pyx_t_5, __pyx_v_update); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 270, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_16, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_t_18, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 270, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
 
-    /* "script_Rocha_2020.pyx":271
+    /* "script_Rocha_2020.pyx":272
  *             Concentration[i] += update
  * 
  *         count += 1             # <<<<<<<<<<<<<<
  * 
- *         if count>86400 / timestep:
+ *         #Atualizar linha de empacotamento
  */
     __pyx_v_count = (__pyx_v_count + 1);
 
-    /* "script_Rocha_2020.pyx":273
- *         count += 1
+    /* "script_Rocha_2020.pyx":283
+ *         #         break
  * 
  *         if count>86400 / timestep:             # <<<<<<<<<<<<<<
  * 
@@ -5624,12 +5923,12 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  */
     if (unlikely(__pyx_v_timestep == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 273, __pyx_L1_error)
+      __PYX_ERR(0, 283, __pyx_L1_error)
     }
     __pyx_t_13 = ((__pyx_v_count > (86400.0 / __pyx_v_timestep)) != 0);
     if (__pyx_t_13) {
 
-      /* "script_Rocha_2020.pyx":275
+      /* "script_Rocha_2020.pyx":285
  *         if count>86400 / timestep:
  * 
  *             f += 1             # <<<<<<<<<<<<<<
@@ -5638,7 +5937,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "script_Rocha_2020.pyx":276
+      /* "script_Rocha_2020.pyx":286
  * 
  *             f += 1
  *             for h in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -5646,344 +5945,366 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  *                 # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  */
       __pyx_t_2 = __pyx_v_N_len;
-      __pyx_t_8 = __pyx_t_2;
-      for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-        __pyx_v_h = __pyx_t_9;
+      __pyx_t_9 = __pyx_t_2;
+      for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_9; __pyx_t_10+=1) {
+        __pyx_v_h = __pyx_t_10;
 
-        /* "script_Rocha_2020.pyx":277
+        /* "script_Rocha_2020.pyx":287
  *             f += 1
  *             for h in range(0,N_len):
  *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
  *                 # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
  */
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 287, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_exp); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_exp); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = PyFloat_FromDouble((-__pyx_v_beta)); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __pyx_t_12 = PyFloat_FromDouble((-__pyx_v_beta)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         if (unlikely(__pyx_v_ref_conc == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 277, __pyx_L1_error)
+          __PYX_ERR(0, 287, __pyx_L1_error)
         }
-        __pyx_t_7 = PyFloat_FromDouble((1.0 / __pyx_v_ref_conc)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
+        __pyx_t_7 = PyFloat_FromDouble((1.0 / __pyx_v_ref_conc)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_10 = PyNumber_Subtract(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_11 = PyNumber_Subtract(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_11);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_7 = PyNumber_Multiply(__pyx_t_11, __pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Multiply(__pyx_t_12, __pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = NULL;
+        __pyx_t_11 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-          __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_6);
-          if (likely(__pyx_t_10)) {
+          __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
+          if (likely(__pyx_t_11)) {
             PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-            __Pyx_INCREF(__pyx_t_10);
+            __Pyx_INCREF(__pyx_t_11);
             __Pyx_INCREF(function);
             __Pyx_DECREF_SET(__pyx_t_6, function);
           }
         }
-        __pyx_t_4 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_10, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
-        __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __pyx_t_5 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_11, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
+        __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
+        if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
+        __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 277, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_f, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 287, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "script_Rocha_2020.pyx":279
+        /* "script_Rocha_2020.pyx":289
  *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
  *                 # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-        __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 279, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Concentration), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L1_error)
+        __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 289, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm(__pyx_t_1, __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 279, __pyx_L1_error)
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm(__pyx_t_1, __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 279, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_f, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 289, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
 
-      /* "script_Rocha_2020.pyx":282
+      /* "script_Rocha_2020.pyx":292
  * 
  * 
  *             dia += 1             # <<<<<<<<<<<<<<
- *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
- *             Data.append(np.copy(Concentration))
+ * 
+ *             #Visualizaao da simulaao Debug
  */
       __pyx_v_dia = (__pyx_v_dia + 1);
 
-      /* "script_Rocha_2020.pyx":283
+      /* "script_Rocha_2020.pyx":295
  * 
- *             dia += 1
+ *             #Visualizaao da simulaao Debug
  *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))             # <<<<<<<<<<<<<<
- *             Data.append(np.copy(Concentration))
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
+ *             print(Concentration)
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
  */
-      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Add(__pyx_kp_s_Current_time, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_kp_s_Current_time, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_6, __pyx_kp_s_Dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 283, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_kp_s_Dia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Add(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_6) < 0) __PYX_ERR(0, 283, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_6) < 0) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "script_Rocha_2020.pyx":284
- *             dia += 1
+      /* "script_Rocha_2020.pyx":296
+ *             #Visualizaao da simulaao Debug
  *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
- *             Data.append(np.copy(Concentration))             # <<<<<<<<<<<<<<
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
+ *             print(Concentration)             # <<<<<<<<<<<<<<
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
-        }
-      }
-      __pyx_t_6 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Concentration));
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_6); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Concentration)) < 0) __PYX_ERR(0, 296, __pyx_L1_error)
 
-      /* "script_Rocha_2020.pyx":285
+      /* "script_Rocha_2020.pyx":297
  *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
- *             Data.append(np.copy(Concentration))
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")             # <<<<<<<<<<<<<<
+ *             print(Concentration)
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))             # <<<<<<<<<<<<<<
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_7);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_7, function);
-        }
-      }
-      __pyx_t_4 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_3, __pyx_v_Data) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_Data);
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_resultadosPre, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_7);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_7, function);
-        }
-      }
-      __pyx_t_6 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3);
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_packingIndex); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 297, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyNumber_Add(__pyx_kp_s_Posio_da_interface_de_empacotame, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_6) < 0) __PYX_ERR(0, 297, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "script_Rocha_2020.pyx":286
- *             Data.append(np.copy(Concentration))
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
+      /* "script_Rocha_2020.pyx":298
+ *             print(Concentration)
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))             # <<<<<<<<<<<<<<
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  */
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_5 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_5)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_5);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+        }
+      }
+      __pyx_t_6 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_where); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_7);
-        if (likely(__pyx_t_3)) {
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_11 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __pyx_t_12 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_11))) {
+        __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_11);
+        if (likely(__pyx_t_12)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+          __Pyx_INCREF(__pyx_t_12);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_11, function);
+        }
+      }
+      __pyx_t_5 = (__pyx_t_12) ? __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_12) : __Pyx_PyObject_CallNoArg(__pyx_t_11);
+      __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __pyx_t_11 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_7);
+        if (likely(__pyx_t_5)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_5);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_7, function);
         }
       }
-      __pyx_t_6 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Add(__pyx_t_7, __pyx_kp_s_); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_5, __pyx_t_11) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_11);
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_where); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_11)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_11);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_11) ? __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_11) : __Pyx_PyObject_CallNoArg(__pyx_t_10);
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
-        }
-      }
-      __pyx_t_7 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_t_10) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_10);
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_3 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_7) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "script_Rocha_2020.pyx":287
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
+      /* "script_Rocha_2020.pyx":299
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))             # <<<<<<<<<<<<<<
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
- *             count = 0
+ *             Time.append(dia)
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_6 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
         if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
           __Pyx_INCREF(__pyx_t_6);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __Pyx_DECREF_SET(__pyx_t_7, function);
         }
       }
-      __pyx_t_7 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+      __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_where); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 287, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 299, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_Add(__pyx_t_7, __pyx_kp_s_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_where); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_12 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_12)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_12);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      __pyx_t_6 = (__pyx_t_12) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_12) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_11))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_11);
+        if (likely(__pyx_t_6)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+          __Pyx_INCREF(__pyx_t_6);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_11, function);
+        }
+      }
+      __pyx_t_7 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_5);
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_11, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __pyx_t_11 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_7); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = PyNumber_Add(__pyx_t_3, __pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_7) < 0) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "script_Rocha_2020.pyx":300
+ *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+ *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+ *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)             # <<<<<<<<<<<<<<
+ *             Time.append(dia)
+ *             Data.append(np.copy(Concentration))
+ */
+      __pyx_t_7 = __pyx_f_17script_Rocha_2020_evalMassConservation(__pyx_v_initial_conc, __pyx_v_solid_density, __pyx_v_L, __pyx_v_N_len, __pyx_v_Concentration); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "script_Rocha_2020.pyx":301
+ *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+ *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+ *             Time.append(dia)             # <<<<<<<<<<<<<<
+ *             Data.append(np.copy(Concentration))
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
+ */
+      __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_Time, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 301, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "script_Rocha_2020.pyx":302
+ *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+ *             Time.append(dia)
+ *             Data.append(np.copy(Concentration))             # <<<<<<<<<<<<<<
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
+ *             count = 0
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_np); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       __pyx_t_11 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
         __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_3);
         if (likely(__pyx_t_11)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
@@ -5992,67 +6313,84 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
           __Pyx_DECREF_SET(__pyx_t_3, function);
         }
       }
-      __pyx_t_6 = (__pyx_t_11) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_11) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+      __pyx_t_7 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_11, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Concentration));
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-        }
-      }
-      __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_3);
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_7); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 302, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "script_Rocha_2020.pyx":288
- *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
- *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
- *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)             # <<<<<<<<<<<<<<
+      /* "script_Rocha_2020.pyx":303
+ *             Time.append(dia)
+ *             Data.append(np.copy(Concentration))
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")             # <<<<<<<<<<<<<<
  *             count = 0
  *         currentTime += timestep
  */
-      __pyx_t_4 = __pyx_f_17script_Rocha_2020_evalMassConservation(__pyx_v_initial_conc, __pyx_v_solid_density, __pyx_v_L, __pyx_v_N_len, __pyx_v_Concentration); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 288, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_pd); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __pyx_t_11 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_11)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_11);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_11, __pyx_v_Data) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_Data);
+      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_11 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_resultadosPre, __pyx_t_11); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __pyx_t_11 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_csv); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_11);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      __pyx_t_7 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, __pyx_t_11) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11);
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "script_Rocha_2020.pyx":289
- *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
- *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+      /* "script_Rocha_2020.pyx":304
+ *             Data.append(np.copy(Concentration))
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
  *             count = 0             # <<<<<<<<<<<<<<
  *         currentTime += timestep
- *         # Time.append(currentTime)
+ * 
  */
       __pyx_v_count = 0;
 
-      /* "script_Rocha_2020.pyx":273
- *         count += 1
+      /* "script_Rocha_2020.pyx":283
+ *         #         break
  * 
  *         if count>86400 / timestep:             # <<<<<<<<<<<<<<
  * 
@@ -6060,111 +6398,330 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
  */
     }
 
-    /* "script_Rocha_2020.pyx":290
- *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+    /* "script_Rocha_2020.pyx":305
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
  *             count = 0
  *         currentTime += timestep             # <<<<<<<<<<<<<<
- *         # Time.append(currentTime)
+ * 
  * 
  */
     __pyx_v_currentTime = (__pyx_v_currentTime + __pyx_v_timestep);
   }
 
-  /* "script_Rocha_2020.pyx":293
- *         # Time.append(currentTime)
+  /* "script_Rocha_2020.pyx":309
+ * 
+ *     #Gerar o plot de concentraao
+ *     PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len)             # <<<<<<<<<<<<<<
+ * 
+ *     #Gerar o plot de pressao
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_PlotConcentrationData); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_physicalParameters->L); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_numericalParameters->N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = NULL;
+  __pyx_t_2 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_2 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_6, __pyx_v_numericalParameters->indexesToPlot, __pyx_v_Data, __pyx_v_Time, __pyx_t_11, __pyx_t_3};
+    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_6, __pyx_v_numericalParameters->indexesToPlot, __pyx_v_Data, __pyx_v_Time, __pyx_t_11, __pyx_t_3};
+    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_12 = PyTuple_New(5+__pyx_t_2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_6); __pyx_t_6 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_GIVEREF(__pyx_v_numericalParameters->indexesToPlot);
+    PyTuple_SET_ITEM(__pyx_t_12, 0+__pyx_t_2, __pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_INCREF(__pyx_v_Data);
+    __Pyx_GIVEREF(__pyx_v_Data);
+    PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_2, __pyx_v_Data);
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_12, 2+__pyx_t_2, __pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_t_11);
+    PyTuple_SET_ITEM(__pyx_t_12, 3+__pyx_t_2, __pyx_t_11);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_12, 4+__pyx_t_2, __pyx_t_3);
+    __pyx_t_11 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_12, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "script_Rocha_2020.pyx":312
+ * 
+ *     #Gerar o plot de pressao
+ *     PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)             # <<<<<<<<<<<<<<
+ * 
+ *     #Gerar o plot de permeabilidade
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_PlotPressureData); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_physicalParameters->L); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_numericalParameters->N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_11 = NULL;
+  __pyx_t_2 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_11)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_11);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_2 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_11, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Pres), __pyx_v_Time, __pyx_t_12, __pyx_t_3};
+    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_11, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Pres), __pyx_v_Time, __pyx_t_12, __pyx_t_3};
+    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(5+__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_11) {
+      __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_11); __pyx_t_11 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_GIVEREF(__pyx_v_numericalParameters->indexesToPlot);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_2, __pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_INCREF(((PyObject *)__pyx_v_Pres));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Pres));
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_2, ((PyObject *)__pyx_v_Pres));
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_2, __pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_t_12);
+    PyTuple_SET_ITEM(__pyx_t_6, 3+__pyx_t_2, __pyx_t_12);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_6, 4+__pyx_t_2, __pyx_t_3);
+    __pyx_t_12 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 312, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "script_Rocha_2020.pyx":315
+ * 
+ *     #Gerar o plot de permeabilidade
+ *     PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)             # <<<<<<<<<<<<<<
+ * 
+ *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoEuler.csv")
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_PlotPermeabilityData); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_physicalParameters->L); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_numericalParameters->N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 315, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_12 = NULL;
+  __pyx_t_2 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_12)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_12);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_2 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_12, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Perm), __pyx_v_Time, __pyx_t_6, __pyx_t_3};
+    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 315, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_12, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Perm), __pyx_v_Time, __pyx_t_6, __pyx_t_3};
+    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 315, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_11 = PyTuple_New(5+__pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 315, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    if (__pyx_t_12) {
+      __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_12); __pyx_t_12 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_GIVEREF(__pyx_v_numericalParameters->indexesToPlot);
+    PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_2, __pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_INCREF(((PyObject *)__pyx_v_Perm));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Perm));
+    PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_2, ((PyObject *)__pyx_v_Perm));
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_11, 2+__pyx_t_2, __pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_11, 3+__pyx_t_2, __pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_11, 4+__pyx_t_2, __pyx_t_3);
+    __pyx_t_6 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 315, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "script_Rocha_2020.pyx":317
+ *     PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
  * 
  *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoEuler.csv")             # <<<<<<<<<<<<<<
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeEuler.csv")
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_pd); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 293, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_11, __pyx_n_s_pd); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = NULL;
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  __pyx_t_11 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_7)) {
+    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_11)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_11);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_10 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Pres));
-  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 293, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_5 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_11, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Pres));
+  __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = NULL;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_10)) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_10);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_4 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_10, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_2);
-  __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 293, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_2);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 317, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "script_Rocha_2020.pyx":294
+  /* "script_Rocha_2020.pyx":318
  * 
  *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoEuler.csv")
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeEuler.csv")             # <<<<<<<<<<<<<<
  * 
  *     return Data
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_pd); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 294, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_7);
-    if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_10);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_11))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_11);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_11, function);
     }
   }
-  __pyx_t_3 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_10, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_7, ((PyObject *)__pyx_v_Perm));
-  __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_5, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_11, ((PyObject *)__pyx_v_Perm));
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_11))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_11);
     if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_11, function);
     }
   }
-  __pyx_t_4 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_3, __pyx_kp_s_MVF_temporaryFiles_resultadosPer) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_kp_s_MVF_temporaryFiles_resultadosPer);
+  __pyx_t_7 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_11, __pyx_t_3, __pyx_kp_s_MVF_temporaryFiles_resultadosPer) : __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_kp_s_MVF_temporaryFiles_resultadosPer);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 294, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "script_Rocha_2020.pyx":296
+  /* "script_Rocha_2020.pyx":320
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeEuler.csv")
  * 
  *     return Data             # <<<<<<<<<<<<<<
@@ -6176,7 +6733,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __pyx_r = __pyx_v_Data;
   goto __pyx_L0;
 
-  /* "script_Rocha_2020.pyx":190
+  /* "script_Rocha_2020.pyx":180
  * 
  * 
  * def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
@@ -6191,14 +6748,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_AddTraceback("script_Rocha_2020.EulerSolver", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_clarifiedParameters);
   __Pyx_XDECREF((PyObject *)__pyx_v_Concentration);
   __Pyx_XDECREF((PyObject *)__pyx_v_Velocity);
   __Pyx_XDECREF((PyObject *)__pyx_v_Position);
+  __Pyx_XDECREF(__pyx_v_Time);
   __Pyx_XDECREF((PyObject *)__pyx_v_Pres);
   __Pyx_XDECREF((PyObject *)__pyx_v_Perm);
   __Pyx_XDECREF(__pyx_v_Data);
@@ -6208,7 +6767,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_EulerSolver(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "script_Rocha_2020.pyx":298
+/* "script_Rocha_2020.pyx":322
  *     return Data
  * 
  * def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
@@ -6254,17 +6813,17 @@ static PyObject *__pyx_pw_17script_Rocha_2020_3CrankSolver(PyObject *__pyx_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_numericalParameters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CrankSolver", 1, 3, 3, 1); __PYX_ERR(0, 298, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CrankSolver", 1, 3, 3, 1); __PYX_ERR(0, 322, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_constantParameters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CrankSolver", 1, 3, 3, 2); __PYX_ERR(0, 298, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CrankSolver", 1, 3, 3, 2); __PYX_ERR(0, 322, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CrankSolver") < 0)) __PYX_ERR(0, 298, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CrankSolver") < 0)) __PYX_ERR(0, 322, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -6279,15 +6838,15 @@ static PyObject *__pyx_pw_17script_Rocha_2020_3CrankSolver(PyObject *__pyx_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CrankSolver", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 298, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CrankSolver", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 322, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("script_Rocha_2020.CrankSolver", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_physicalParameters), __pyx_ptype_17script_Rocha_2020_PhysicalParameters, 1, "physicalParameters", 0))) __PYX_ERR(0, 298, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_numericalParameters), __pyx_ptype_17script_Rocha_2020_NumericalParameters, 1, "numericalParameters", 0))) __PYX_ERR(0, 298, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_constantParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "constantParameters", 0))) __PYX_ERR(0, 298, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_physicalParameters), __pyx_ptype_17script_Rocha_2020_PhysicalParameters, 1, "physicalParameters", 0))) __PYX_ERR(0, 322, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_numericalParameters), __pyx_ptype_17script_Rocha_2020_NumericalParameters, 1, "numericalParameters", 0))) __PYX_ERR(0, 322, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_constantParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "constantParameters", 0))) __PYX_ERR(0, 322, __pyx_L1_error)
   __pyx_r = __pyx_pf_17script_Rocha_2020_2CrankSolver(__pyx_self, __pyx_v_physicalParameters, __pyx_v_numericalParameters, __pyx_v_constantParameters);
 
   /* function exit code */
@@ -6430,7 +6989,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_pybuffernd_VectorB.data = NULL;
   __pyx_pybuffernd_VectorB.rcbuffer = &__pyx_pybuffer_VectorB;
 
-  /* "script_Rocha_2020.pyx":300
+  /* "script_Rocha_2020.pyx":324
  * def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)             # <<<<<<<<<<<<<<
@@ -6440,7 +6999,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->L;
   __pyx_v_L = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":302
+  /* "script_Rocha_2020.pyx":326
  *     cdef double L = physicalParameters.L #5000(m)
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
  *     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)             # <<<<<<<<<<<<<<
@@ -6450,7 +7009,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_2 = __pyx_v_numericalParameters->N_len;
   __pyx_v_N_len = __pyx_t_2;
 
-  /* "script_Rocha_2020.pyx":303
+  /* "script_Rocha_2020.pyx":327
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
  *     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
  *     cdef double z_resolution = N_len / L             # <<<<<<<<<<<<<<
@@ -6459,11 +7018,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   if (unlikely(__pyx_v_L == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 303, __pyx_L1_error)
+    __PYX_ERR(0, 327, __pyx_L1_error)
   }
   __pyx_v_z_resolution = (__pyx_v_N_len / __pyx_v_L);
 
-  /* "script_Rocha_2020.pyx":304
+  /* "script_Rocha_2020.pyx":328
  *     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
  *     cdef double z_resolution = N_len / L
  *     cdef double delta_z = L / N_len             # <<<<<<<<<<<<<<
@@ -6472,11 +7031,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   if (unlikely(__pyx_v_N_len == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 304, __pyx_L1_error)
+    __PYX_ERR(0, 328, __pyx_L1_error)
   }
   __pyx_v_delta_z = (__pyx_v_L / __pyx_v_N_len);
 
-  /* "script_Rocha_2020.pyx":305
+  /* "script_Rocha_2020.pyx":329
  *     cdef double z_resolution = N_len / L
  *     cdef double delta_z = L / N_len
  *     cdef double maxResidual = numericalParameters.maxResidual             # <<<<<<<<<<<<<<
@@ -6486,7 +7045,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_numericalParameters->maxResidual;
   __pyx_v_maxResidual = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":308
+  /* "script_Rocha_2020.pyx":332
  * 
  *     # Parametros de sedimentaao
  *     cdef double initial_conc = physicalParameters.initial_conc             # <<<<<<<<<<<<<<
@@ -6496,7 +7055,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->initial_conc;
   __pyx_v_initial_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":309
+  /* "script_Rocha_2020.pyx":333
  *     # Parametros de sedimentaao
  *     cdef double initial_conc = physicalParameters.initial_conc
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50             # <<<<<<<<<<<<<<
@@ -6506,7 +7065,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->particle_diam;
   __pyx_v_particle_diam = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":310
+  /* "script_Rocha_2020.pyx":334
  *     cdef double initial_conc = physicalParameters.initial_conc
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
  *     cdef double solid_density = physicalParameters.solid_density             # <<<<<<<<<<<<<<
@@ -6516,7 +7075,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->solid_density;
   __pyx_v_solid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":311
+  /* "script_Rocha_2020.pyx":335
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
  *     cdef double solid_density = physicalParameters.solid_density
  *     cdef double fluid_density = physicalParameters.fluid_density             # <<<<<<<<<<<<<<
@@ -6526,7 +7085,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->fluid_density;
   __pyx_v_fluid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":314
+  /* "script_Rocha_2020.pyx":338
  * 
  *     # Parametros de simulaao
  *     cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000             # <<<<<<<<<<<<<<
@@ -6536,7 +7095,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_numericalParameters->total_time;
   __pyx_v_total_time = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":315
+  /* "script_Rocha_2020.pyx":339
  *     # Parametros de simulaao
  *     cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
  *     cdef double timestep = numericalParameters.timestep             # <<<<<<<<<<<<<<
@@ -6546,7 +7105,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_numericalParameters->timestep;
   __pyx_v_timestep = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":319
+  /* "script_Rocha_2020.pyx":343
  *     # Parametros estimados
  *     #Permeabilidade
  *     cdef double delta = constantParameters.delta             # <<<<<<<<<<<<<<
@@ -6556,7 +7115,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_constantParameters->delta;
   __pyx_v_delta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":320
+  /* "script_Rocha_2020.pyx":344
  *     #Permeabilidade
  *     cdef double delta = constantParameters.delta
  *     cdef double k0 = constantParameters.k0             # <<<<<<<<<<<<<<
@@ -6566,7 +7125,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_constantParameters->k0;
   __pyx_v_k0 = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":321
+  /* "script_Rocha_2020.pyx":345
  *     cdef double delta = constantParameters.delta
  *     cdef double k0 = constantParameters.k0
  *     cdef double max_conc = physicalParameters.max_conc             # <<<<<<<<<<<<<<
@@ -6576,7 +7135,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->max_conc;
   __pyx_v_max_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":324
+  /* "script_Rocha_2020.pyx":348
  * 
  *     #Pressao nos solidos
  *     cdef double beta = constantParameters.beta             # <<<<<<<<<<<<<<
@@ -6586,7 +7145,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_constantParameters->beta;
   __pyx_v_beta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":325
+  /* "script_Rocha_2020.pyx":349
  *     #Pressao nos solidos
  *     cdef double beta = constantParameters.beta
  *     cdef double p_ref = constantParameters.p_ref             # <<<<<<<<<<<<<<
@@ -6596,7 +7155,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_constantParameters->p_ref;
   __pyx_v_p_ref = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":326
+  /* "script_Rocha_2020.pyx":350
  *     cdef double beta = constantParameters.beta
  *     cdef double p_ref = constantParameters.p_ref
  *     cdef double ref_conc = constantParameters.ref_conc             # <<<<<<<<<<<<<<
@@ -6606,7 +7165,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_constantParameters->ref_conc;
   __pyx_v_ref_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":329
+  /* "script_Rocha_2020.pyx":353
  * 
  *     #Parametros do fluido
  *     cdef double M = physicalParameters.M             # <<<<<<<<<<<<<<
@@ -6616,7 +7175,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->M;
   __pyx_v_M = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":330
+  /* "script_Rocha_2020.pyx":354
  *     #Parametros do fluido
  *     cdef double M = physicalParameters.M
  *     cdef double n = physicalParameters.n             # <<<<<<<<<<<<<<
@@ -6626,7 +7185,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = __pyx_v_physicalParameters->n;
   __pyx_v_n = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":333
+  /* "script_Rocha_2020.pyx":357
  * 
  * 
  *     cdef double esph = esp(0.75)             # <<<<<<<<<<<<<<
@@ -6635,7 +7194,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   __pyx_v_esph = __pyx_f_17script_Rocha_2020_esp(0.75);
 
-  /* "script_Rocha_2020.pyx":334
+  /* "script_Rocha_2020.pyx":358
  * 
  *     cdef double esph = esp(0.75)
  *     cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc             # <<<<<<<<<<<<<<
@@ -6644,7 +7203,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   __pyx_v_mixture_density = (__pyx_v_fluid_density + ((__pyx_v_solid_density - __pyx_v_fluid_density) * __pyx_v_initial_conc));
 
-  /* "script_Rocha_2020.pyx":337
+  /* "script_Rocha_2020.pyx":361
  * 
  *     #Variveis auxiliares
  *     cdef double c = timestep / (2 * delta_z)             # <<<<<<<<<<<<<<
@@ -6654,47 +7213,47 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_1 = (2.0 * __pyx_v_delta_z);
   if (unlikely(__pyx_t_1 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 337, __pyx_L1_error)
+    __PYX_ERR(0, 361, __pyx_L1_error)
   }
   __pyx_v_c = (__pyx_v_timestep / __pyx_t_1);
 
-  /* "script_Rocha_2020.pyx":340
+  /* "script_Rocha_2020.pyx":364
  *     cdef double residual
  *     cdef double distance
  *     cdef np.ndarray[np.double_t, ndim=1] Concentration_residual = np.ones(N_len, dtype=DTYPE)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 340, __pyx_L1_error)
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 364, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_6);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer, (PyObject*)__pyx_t_7, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Concentration_residual = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 340, __pyx_L1_error)
+      __PYX_ERR(0, 364, __pyx_L1_error)
     } else {__pyx_pybuffernd_Concentration_residual.diminfo[0].strides = __pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration_residual.diminfo[0].shape = __pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6702,49 +7261,49 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_Concentration_residual = ((PyArrayObject *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":344
+  /* "script_Rocha_2020.pyx":368
  * 
  *     #Inicializacao do data set
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_update = np.copy(Concentration)
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 344, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 368, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 344, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 368, __pyx_L1_error)
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Concentration.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Concentration = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 344, __pyx_L1_error)
+      __PYX_ERR(0, 368, __pyx_L1_error)
     } else {__pyx_pybuffernd_Concentration.diminfo[0].strides = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration.diminfo[0].shape = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6752,16 +7311,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_Concentration = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":345
+  /* "script_Rocha_2020.pyx":369
  *     #Inicializacao do data set
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_update = np.copy(Concentration)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity_update = np.copy(Velocity)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 345, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -6776,16 +7335,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Concentration));
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 345, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 345, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 369, __pyx_L1_error)
   __pyx_t_9 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer, (PyObject*)__pyx_t_9, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Concentration_update = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 345, __pyx_L1_error)
+      __PYX_ERR(0, 369, __pyx_L1_error)
     } else {__pyx_pybuffernd_Concentration_update.diminfo[0].strides = __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration_update.diminfo[0].shape = __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6793,43 +7352,43 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_Concentration_update = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":346
+  /* "script_Rocha_2020.pyx":370
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_update = np.copy(Concentration)
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity_update = np.copy(Velocity)
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_N_len - 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_long((__pyx_v_N_len - 1)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 346, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 346, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 370, __pyx_L1_error)
   __pyx_t_10 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Velocity.rcbuffer->pybuffer, (PyObject*)__pyx_t_10, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Velocity = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 346, __pyx_L1_error)
+      __PYX_ERR(0, 370, __pyx_L1_error)
     } else {__pyx_pybuffernd_Velocity.diminfo[0].strides = __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Velocity.diminfo[0].shape = __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6837,16 +7396,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_Velocity = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "script_Rocha_2020.pyx":347
+  /* "script_Rocha_2020.pyx":371
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_update = np.copy(Concentration)
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity_update = np.copy(Velocity)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  *     cdef double currentTime = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -6861,16 +7420,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, ((PyObject *)__pyx_v_Velocity)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_Velocity));
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 347, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 371, __pyx_L1_error)
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer, (PyObject*)__pyx_t_11, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Velocity_update = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 347, __pyx_L1_error)
+      __PYX_ERR(0, 371, __pyx_L1_error)
     } else {__pyx_pybuffernd_Velocity_update.diminfo[0].strides = __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Velocity_update.diminfo[0].shape = __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6878,7 +7437,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_Velocity_update = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "script_Rocha_2020.pyx":348
+  /* "script_Rocha_2020.pyx":372
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity_update = np.copy(Velocity)
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution             # <<<<<<<<<<<<<<
@@ -6887,53 +7446,53 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   if (unlikely(__pyx_v_z_resolution == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 348, __pyx_L1_error)
+    __PYX_ERR(0, 372, __pyx_L1_error)
   }
-  __pyx_t_3 = PyFloat_FromDouble((0.5 / __pyx_v_z_resolution)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble((0.5 / __pyx_v_z_resolution)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_arange); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_arange); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(0, 348, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyNumber_Multiply(__pyx_t_12, __pyx_int_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_12, __pyx_int_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 348, __pyx_L1_error)
+  __pyx_t_12 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 348, __pyx_L1_error)
+  if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 372, __pyx_L1_error)
   __pyx_t_13 = ((PyArrayObject *)__pyx_t_12);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Position.rcbuffer->pybuffer, (PyObject*)__pyx_t_13, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Position = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Position.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 348, __pyx_L1_error)
+      __PYX_ERR(0, 372, __pyx_L1_error)
     } else {__pyx_pybuffernd_Position.diminfo[0].strides = __pyx_pybuffernd_Position.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Position.diminfo[0].shape = __pyx_pybuffernd_Position.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6941,7 +7500,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_Position = ((PyArrayObject *)__pyx_t_12);
   __pyx_t_12 = 0;
 
-  /* "script_Rocha_2020.pyx":349
+  /* "script_Rocha_2020.pyx":373
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity_update = np.copy(Velocity)
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  *     cdef double currentTime = 0             # <<<<<<<<<<<<<<
@@ -6950,23 +7509,23 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   __pyx_v_currentTime = 0.0;
 
-  /* "script_Rocha_2020.pyx":352
+  /* "script_Rocha_2020.pyx":376
  * 
  *     #Inicializaao da matrix tridiagonal
  *     cdef np.ndarray[np.double_t,ndim=2] MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)
  *     print("\n\nData set initialized\n\n")
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_12);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_12);
@@ -6974,29 +7533,29 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_3);
   __pyx_t_12 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(0, 352, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 352, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 352, __pyx_L1_error)
+  if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 376, __pyx_L1_error)
   __pyx_t_14 = ((PyArrayObject *)__pyx_t_12);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_MatrixA.rcbuffer->pybuffer, (PyObject*)__pyx_t_14, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
       __pyx_v_MatrixA = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_MatrixA.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 352, __pyx_L1_error)
+      __PYX_ERR(0, 376, __pyx_L1_error)
     } else {__pyx_pybuffernd_MatrixA.diminfo[0].strides = __pyx_pybuffernd_MatrixA.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_MatrixA.diminfo[0].shape = __pyx_pybuffernd_MatrixA.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_MatrixA.diminfo[1].strides = __pyx_pybuffernd_MatrixA.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_MatrixA.diminfo[1].shape = __pyx_pybuffernd_MatrixA.rcbuffer->pybuffer.shape[1];
     }
   }
@@ -7004,43 +7563,43 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_MatrixA = ((PyArrayObject *)__pyx_t_12);
   __pyx_t_12 = 0;
 
-  /* "script_Rocha_2020.pyx":353
+  /* "script_Rocha_2020.pyx":377
  *     #Inicializaao da matrix tridiagonal
  *     cdef np.ndarray[np.double_t,ndim=2] MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)             # <<<<<<<<<<<<<<
  *     print("\n\nData set initialized\n\n")
  *     Data = []
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_12);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_12);
   __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 353, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 353, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 377, __pyx_L1_error)
   __pyx_t_15 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_VectorB.rcbuffer->pybuffer, (PyObject*)__pyx_t_15, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_VectorB = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 353, __pyx_L1_error)
+      __PYX_ERR(0, 377, __pyx_L1_error)
     } else {__pyx_pybuffernd_VectorB.diminfo[0].strides = __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_VectorB.diminfo[0].shape = __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -7048,37 +7607,37 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_v_VectorB = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "script_Rocha_2020.pyx":354
+  /* "script_Rocha_2020.pyx":378
  *     cdef np.ndarray[np.double_t,ndim=2] MatrixA = np.zeros((N_len,N_len), dtype = DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)
  *     print("\n\nData set initialized\n\n")             # <<<<<<<<<<<<<<
  *     Data = []
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  */
-  if (__Pyx_PrintOne(0, __pyx_kp_s_Data_set_initialized) < 0) __PYX_ERR(0, 354, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_kp_s_Data_set_initialized) < 0) __PYX_ERR(0, 378, __pyx_L1_error)
 
-  /* "script_Rocha_2020.pyx":355
+  /* "script_Rocha_2020.pyx":379
  *     cdef np.ndarray[np.double_t,ndim=1] VectorB = np.zeros(N_len, dtype = DTYPE)
  *     print("\n\nData set initialized\n\n")
  *     Data = []             # <<<<<<<<<<<<<<
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  * 
  */
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 355, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_v_Data = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "script_Rocha_2020.pyx":356
+  /* "script_Rocha_2020.pyx":380
  *     print("\n\nData set initialized\n\n")
  *     Data = []
  *     Data.append(np.copy(Concentration)) #Talvez precise typar             # <<<<<<<<<<<<<<
  * 
  *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 380, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 380, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_t_12 = NULL;
@@ -7093,27 +7652,27 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_4 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_12, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Concentration));
   __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 356, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 380, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_4); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 356, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_4); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 380, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "script_Rocha_2020.pyx":358
+  /* "script_Rocha_2020.pyx":382
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  * 
  *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)
  *     cdef int f = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_4);
@@ -7121,41 +7680,41 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __Pyx_GIVEREF(__pyx_int_365);
   PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_int_365);
   __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_12);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_12);
   __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 358, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 382, __pyx_L1_error)
   __pyx_v_Pres = ((PyArrayObject *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":359
+  /* "script_Rocha_2020.pyx":383
  * 
  *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
  *     cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef int f = 0
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6);
@@ -7163,27 +7722,27 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __Pyx_GIVEREF(__pyx_int_365);
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_int_365);
   __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 359, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 383, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 359, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 383, __pyx_L1_error)
   __pyx_v_Perm = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "script_Rocha_2020.pyx":360
+  /* "script_Rocha_2020.pyx":384
  *     cdef np.ndarray Pres = np.zeros((N_len, 365), dtype=DTYPE)
  *     cdef np.ndarray Perm = np.zeros((N_len, 365), dtype=DTYPE)
  *     cdef int f = 0             # <<<<<<<<<<<<<<
@@ -7192,7 +7751,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   __pyx_v_f = 0;
 
-  /* "script_Rocha_2020.pyx":362
+  /* "script_Rocha_2020.pyx":386
  *     cdef int f = 0
  * 
  *     for h in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -7204,31 +7763,31 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
     __pyx_v_h = __pyx_t_18;
 
-    /* "script_Rocha_2020.pyx":363
+    /* "script_Rocha_2020.pyx":387
  * 
  *     for h in range(0,N_len):
  *         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_exp); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_exp); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_19 = __pyx_v_h;
     __pyx_t_20 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides));
     if (unlikely(__pyx_t_20 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 363, __pyx_L1_error)
+      __PYX_ERR(0, 387, __pyx_L1_error)
     }
     if (unlikely(__pyx_v_ref_conc == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 363, __pyx_L1_error)
+      __PYX_ERR(0, 387, __pyx_L1_error)
     }
-    __pyx_t_6 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -7243,20 +7802,20 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 363, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_12 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_12 = PyNumber_Multiply(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 363, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 387, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-    /* "script_Rocha_2020.pyx":365
+    /* "script_Rocha_2020.pyx":389
  *         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)             # <<<<<<<<<<<<<<
@@ -7264,16 +7823,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  * 
  */
     __pyx_t_19 = __pyx_v_h;
-    __pyx_t_12 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 365, __pyx_L1_error)
+    __pyx_t_12 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 365, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   }
 
-  /* "script_Rocha_2020.pyx":368
+  /* "script_Rocha_2020.pyx":392
  * 
  * 
  *     cdef int count = 0             # <<<<<<<<<<<<<<
@@ -7282,7 +7841,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   __pyx_v_count = 0;
 
-  /* "script_Rocha_2020.pyx":369
+  /* "script_Rocha_2020.pyx":393
  * 
  *     cdef int count = 0
  *     cdef int dia = 0             # <<<<<<<<<<<<<<
@@ -7291,7 +7850,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
   __pyx_v_dia = 0;
 
-  /* "script_Rocha_2020.pyx":375
+  /* "script_Rocha_2020.pyx":399
  *     cdef int i
  * 
  *     for i in xrange(0,N_len-1):             # <<<<<<<<<<<<<<
@@ -7303,7 +7862,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_21; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "script_Rocha_2020.pyx":376
+    /* "script_Rocha_2020.pyx":400
  * 
  *     for i in xrange(0,N_len-1):
  *             grad = conc_grad(Concentration, i, N_len, L)             # <<<<<<<<<<<<<<
@@ -7312,7 +7871,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-    /* "script_Rocha_2020.pyx":379
+    /* "script_Rocha_2020.pyx":403
  * 
  *             # Velocity[i] = vel(Concentration,i,particle_diam,k0,delta,max_conc,M,esph,n,mixture_density,solid_density,fluid_density,initial_conc,p_ref,beta,ref_conc,grad)
  *             vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)             # <<<<<<<<<<<<<<
@@ -7322,7 +7881,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
     (void)(__pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad));
   }
 
-  /* "script_Rocha_2020.pyx":381
+  /* "script_Rocha_2020.pyx":405
  *             vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad)
  * 
  *     while (currentTime <= total_time):             # <<<<<<<<<<<<<<
@@ -7333,16 +7892,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
     __pyx_t_22 = ((__pyx_v_currentTime <= __pyx_v_total_time) != 0);
     if (!__pyx_t_22) break;
 
-    /* "script_Rocha_2020.pyx":382
+    /* "script_Rocha_2020.pyx":406
  * 
  *     while (currentTime <= total_time):
  *         Velocity_update = np.copy(Velocity)             # <<<<<<<<<<<<<<
  * 
  *         residual = 1
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 382, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -7357,10 +7916,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
     }
     __pyx_t_12 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, ((PyObject *)__pyx_v_Velocity)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Velocity));
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 382, __pyx_L1_error)
+    if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 406, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 382, __pyx_L1_error)
+    if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 406, __pyx_L1_error)
     __pyx_t_11 = ((PyArrayObject *)__pyx_t_12);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -7377,13 +7936,13 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_23 = __pyx_t_24 = __pyx_t_25 = 0;
       }
       __pyx_pybuffernd_Velocity_update.diminfo[0].strides = __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Velocity_update.diminfo[0].shape = __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 382, __pyx_L1_error)
+      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 406, __pyx_L1_error)
     }
     __pyx_t_11 = 0;
     __Pyx_DECREF_SET(__pyx_v_Velocity_update, ((PyArrayObject *)__pyx_t_12));
     __pyx_t_12 = 0;
 
-    /* "script_Rocha_2020.pyx":384
+    /* "script_Rocha_2020.pyx":408
  *         Velocity_update = np.copy(Velocity)
  * 
  *         residual = 1             # <<<<<<<<<<<<<<
@@ -7392,7 +7951,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     __pyx_v_residual = 1.0;
 
-    /* "script_Rocha_2020.pyx":385
+    /* "script_Rocha_2020.pyx":409
  * 
  *         residual = 1
  *         resIterations = 0             # <<<<<<<<<<<<<<
@@ -7401,7 +7960,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     __pyx_v_resIterations = 0;
 
-    /* "script_Rocha_2020.pyx":386
+    /* "script_Rocha_2020.pyx":410
  *         residual = 1
  *         resIterations = 0
  *         while(residual > maxResidual):             # <<<<<<<<<<<<<<
@@ -7412,7 +7971,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       __pyx_t_22 = ((__pyx_v_residual > __pyx_v_maxResidual) != 0);
       if (!__pyx_t_22) break;
 
-      /* "script_Rocha_2020.pyx":387
+      /* "script_Rocha_2020.pyx":411
  *         resIterations = 0
  *         while(residual > maxResidual):
  *             resIterations += 1             # <<<<<<<<<<<<<<
@@ -7421,7 +7980,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
       __pyx_v_resIterations = (__pyx_v_resIterations + 1);
 
-      /* "script_Rocha_2020.pyx":389
+      /* "script_Rocha_2020.pyx":413
  *             resIterations += 1
  *             #Arranjo na matriz
  *             for i in xrange(0, N_len) :             # <<<<<<<<<<<<<<
@@ -7433,7 +7992,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       for (__pyx_t_26 = 0; __pyx_t_26 < __pyx_t_17; __pyx_t_26+=1) {
         __pyx_v_i = __pyx_t_26;
 
-        /* "script_Rocha_2020.pyx":390
+        /* "script_Rocha_2020.pyx":414
  *             #Arranjo na matriz
  *             for i in xrange(0, N_len) :
  *                 if i == 0:             # <<<<<<<<<<<<<<
@@ -7443,7 +8002,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_22 = ((__pyx_v_i == 0) != 0);
         if (__pyx_t_22) {
 
-          /* "script_Rocha_2020.pyx":391
+          /* "script_Rocha_2020.pyx":415
  *             for i in xrange(0, N_len) :
  *                 if i == 0:
  *                     VectorB[i] = Concentration[i] - c * Concentration[i+1] * Velocity[i]             # <<<<<<<<<<<<<<
@@ -7456,19 +8015,19 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           __pyx_t_29 = __pyx_v_i;
           *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_VectorB.diminfo[0].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) - ((__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides))) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_Velocity.diminfo[0].strides))));
 
-          /* "script_Rocha_2020.pyx":392
+          /* "script_Rocha_2020.pyx":416
  *                 if i == 0:
  *                     VectorB[i] = Concentration[i] - c * Concentration[i+1] * Velocity[i]
  *                     MatrixA[i][i] = 1             # <<<<<<<<<<<<<<
  *                     MatrixA[i][i+1] = c * Velocity_update[i]
  *                 elif i == N_len - 1:
  */
-          __pyx_t_12 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 392, __pyx_L1_error)
+          __pyx_t_12 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 416, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
-          if (unlikely(__Pyx_SetItemInt(__pyx_t_12, __pyx_v_i, __pyx_int_1, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 392, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_12, __pyx_v_i, __pyx_int_1, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 416, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-          /* "script_Rocha_2020.pyx":393
+          /* "script_Rocha_2020.pyx":417
  *                     VectorB[i] = Concentration[i] - c * Concentration[i+1] * Velocity[i]
  *                     MatrixA[i][i] = 1
  *                     MatrixA[i][i+1] = c * Velocity_update[i]             # <<<<<<<<<<<<<<
@@ -7476,16 +8035,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  *                     VectorB[i] = Concentration[i] * (1 + c * Velocity[i-1])
  */
           __pyx_t_28 = __pyx_v_i;
-          __pyx_t_12 = PyFloat_FromDouble((__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_Velocity_update.diminfo[0].strides)))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 393, __pyx_L1_error)
+          __pyx_t_12 = PyFloat_FromDouble((__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_Velocity_update.diminfo[0].strides)))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 417, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 393, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 417, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_t_18 = (__pyx_v_i + 1);
-          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_t_18, __pyx_t_12, long, 1, __Pyx_PyInt_From_long, 0, 0, 0) < 0)) __PYX_ERR(0, 393, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_t_18, __pyx_t_12, long, 1, __Pyx_PyInt_From_long, 0, 0, 0) < 0)) __PYX_ERR(0, 417, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-          /* "script_Rocha_2020.pyx":390
+          /* "script_Rocha_2020.pyx":414
  *             #Arranjo na matriz
  *             for i in xrange(0, N_len) :
  *                 if i == 0:             # <<<<<<<<<<<<<<
@@ -7495,7 +8054,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           goto __pyx_L13;
         }
 
-        /* "script_Rocha_2020.pyx":394
+        /* "script_Rocha_2020.pyx":418
  *                     MatrixA[i][i] = 1
  *                     MatrixA[i][i+1] = c * Velocity_update[i]
  *                 elif i == N_len - 1:             # <<<<<<<<<<<<<<
@@ -7505,7 +8064,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_22 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
         if (__pyx_t_22) {
 
-          /* "script_Rocha_2020.pyx":395
+          /* "script_Rocha_2020.pyx":419
  *                     MatrixA[i][i+1] = c * Velocity_update[i]
  *                 elif i == N_len - 1:
  *                     VectorB[i] = Concentration[i] * (1 + c * Velocity[i-1])             # <<<<<<<<<<<<<<
@@ -7517,7 +8076,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           __pyx_t_19 = __pyx_v_i;
           *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_VectorB.diminfo[0].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (1.0 + (__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides)))));
 
-          /* "script_Rocha_2020.pyx":396
+          /* "script_Rocha_2020.pyx":420
  *                 elif i == N_len - 1:
  *                     VectorB[i] = Concentration[i] * (1 + c * Velocity[i-1])
  *                     MatrixA[i][i] = (1 - c * Velocity_update[i-1])             # <<<<<<<<<<<<<<
@@ -7525,15 +8084,15 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  *                     VectorB[i] = Concentration[i] - c * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i-1])
  */
           __pyx_t_27 = (__pyx_v_i - 1);
-          __pyx_t_12 = PyFloat_FromDouble((1.0 - (__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity_update.diminfo[0].strides))))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 396, __pyx_L1_error)
+          __pyx_t_12 = PyFloat_FromDouble((1.0 - (__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity_update.diminfo[0].strides))))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 420, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 396, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 420, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_i, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 396, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_i, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 420, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-          /* "script_Rocha_2020.pyx":394
+          /* "script_Rocha_2020.pyx":418
  *                     MatrixA[i][i] = 1
  *                     MatrixA[i][i+1] = c * Velocity_update[i]
  *                 elif i == N_len - 1:             # <<<<<<<<<<<<<<
@@ -7543,7 +8102,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           goto __pyx_L13;
         }
 
-        /* "script_Rocha_2020.pyx":398
+        /* "script_Rocha_2020.pyx":422
  *                     MatrixA[i][i] = (1 - c * Velocity_update[i-1])
  *                 else :
  *                     VectorB[i] = Concentration[i] - c * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i-1])             # <<<<<<<<<<<<<<
@@ -7559,7 +8118,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           __pyx_t_31 = __pyx_v_i;
           *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_31, __pyx_pybuffernd_VectorB.diminfo[0].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) - (__pyx_v_c * (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides))) - ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Velocity.diminfo[0].strides))))));
 
-          /* "script_Rocha_2020.pyx":399
+          /* "script_Rocha_2020.pyx":423
  *                 else :
  *                     VectorB[i] = Concentration[i] - c * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i-1])
  *                     MatrixA[i][i] = (1 - c * Velocity_update[i-1])             # <<<<<<<<<<<<<<
@@ -7567,15 +8126,15 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  * 
  */
           __pyx_t_30 = (__pyx_v_i - 1);
-          __pyx_t_12 = PyFloat_FromDouble((1.0 - (__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Velocity_update.diminfo[0].strides))))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 399, __pyx_L1_error)
+          __pyx_t_12 = PyFloat_FromDouble((1.0 - (__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Velocity_update.diminfo[0].strides))))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 423, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 423, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_i, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 399, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_i, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 423, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-          /* "script_Rocha_2020.pyx":400
+          /* "script_Rocha_2020.pyx":424
  *                     VectorB[i] = Concentration[i] - c * (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i-1])
  *                     MatrixA[i][i] = (1 - c * Velocity_update[i-1])
  *                     MatrixA[i][i+1] = c * Velocity_update[i]             # <<<<<<<<<<<<<<
@@ -7583,28 +8142,28 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  *             #Vetor para analise dos residuos
  */
           __pyx_t_30 = __pyx_v_i;
-          __pyx_t_12 = PyFloat_FromDouble((__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Velocity_update.diminfo[0].strides)))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 400, __pyx_L1_error)
+          __pyx_t_12 = PyFloat_FromDouble((__pyx_v_c * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Velocity_update.diminfo[0].strides)))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 424, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 424, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_t_18 = (__pyx_v_i + 1);
-          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_t_18, __pyx_t_12, long, 1, __Pyx_PyInt_From_long, 0, 0, 0) < 0)) __PYX_ERR(0, 400, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_t_18, __pyx_t_12, long, 1, __Pyx_PyInt_From_long, 0, 0, 0) < 0)) __PYX_ERR(0, 424, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         }
         __pyx_L13:;
       }
 
-      /* "script_Rocha_2020.pyx":403
+      /* "script_Rocha_2020.pyx":427
  * 
  *             #Vetor para analise dos residuos
  *             Concentration_residual = np.copy(Concentration_update)             # <<<<<<<<<<<<<<
  * 
  *             #Back substitution
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 403, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 403, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_3 = NULL;
@@ -7619,10 +8178,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_12 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, ((PyObject *)__pyx_v_Concentration_update)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Concentration_update));
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 403, __pyx_L1_error)
+      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 403, __pyx_L1_error)
+      if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 427, __pyx_L1_error)
       __pyx_t_7 = ((PyArrayObject *)__pyx_t_12);
       {
         __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -7639,13 +8198,13 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           __pyx_t_25 = __pyx_t_24 = __pyx_t_23 = 0;
         }
         __pyx_pybuffernd_Concentration_residual.diminfo[0].strides = __pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration_residual.diminfo[0].shape = __pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer.shape[0];
-        if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 403, __pyx_L1_error)
+        if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 427, __pyx_L1_error)
       }
       __pyx_t_7 = 0;
       __Pyx_DECREF_SET(__pyx_v_Concentration_residual, ((PyArrayObject *)__pyx_t_12));
       __pyx_t_12 = 0;
 
-      /* "script_Rocha_2020.pyx":406
+      /* "script_Rocha_2020.pyx":430
  * 
  *             #Back substitution
  *             for i in reversed(xrange(0,N_len)):             # <<<<<<<<<<<<<<
@@ -7655,7 +8214,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       for (__pyx_t_2 = __pyx_v_N_len-1; __pyx_t_2 >= 0; __pyx_t_2-=1) {
         __pyx_v_i = __pyx_t_2;
 
-        /* "script_Rocha_2020.pyx":407
+        /* "script_Rocha_2020.pyx":431
  *             #Back substitution
  *             for i in reversed(xrange(0,N_len)):
  *                 if i == N_len - 1:             # <<<<<<<<<<<<<<
@@ -7665,7 +8224,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_22 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
         if (__pyx_t_22) {
 
-          /* "script_Rocha_2020.pyx":408
+          /* "script_Rocha_2020.pyx":432
  *             for i in reversed(xrange(0,N_len)):
  *                 if i == N_len - 1:
  *                     Concentration_update[i] = VectorB[i] / MatrixA[i][i]             # <<<<<<<<<<<<<<
@@ -7673,23 +8232,23 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  *                     Concentration_update[i] = (VectorB[i] - MatrixA[i][i+1] * Concentration_update[i+1]) / MatrixA[i][i]
  */
           __pyx_t_30 = __pyx_v_i;
-          __pyx_t_12 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_VectorB.diminfo[0].strides))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 408, __pyx_L1_error)
+          __pyx_t_12 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_VectorB.diminfo[0].strides))); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 432, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 408, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 408, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 432, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 408, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_20 == ((npy_double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 408, __pyx_L1_error)
+          __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_20 == ((npy_double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 432, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __pyx_t_30 = __pyx_v_i;
           *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Concentration_update.diminfo[0].strides) = __pyx_t_20;
 
-          /* "script_Rocha_2020.pyx":407
+          /* "script_Rocha_2020.pyx":431
  *             #Back substitution
  *             for i in reversed(xrange(0,N_len)):
  *                 if i == N_len - 1:             # <<<<<<<<<<<<<<
@@ -7699,7 +8258,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
           goto __pyx_L16;
         }
 
-        /* "script_Rocha_2020.pyx":410
+        /* "script_Rocha_2020.pyx":434
  *                     Concentration_update[i] = VectorB[i] / MatrixA[i][i]
  *                 else:
  *                     Concentration_update[i] = (VectorB[i] - MatrixA[i][i+1] * Concentration_update[i+1]) / MatrixA[i][i]             # <<<<<<<<<<<<<<
@@ -7708,35 +8267,35 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
         /*else*/ {
           __pyx_t_30 = __pyx_v_i;
-          __pyx_t_4 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_VectorB.diminfo[0].strides))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_4 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_VectorB.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_VectorB.diminfo[0].strides))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __pyx_t_18 = (__pyx_v_i + 1);
-          __pyx_t_12 = __Pyx_GetItemInt(__pyx_t_3, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_12 = __Pyx_GetItemInt(__pyx_t_3, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __pyx_t_30 = (__pyx_v_i + 1);
-          __pyx_t_3 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Concentration_update.diminfo[0].strides))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_3 = PyFloat_FromDouble((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Concentration_update.diminfo[0].strides))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_6 = PyNumber_Multiply(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_6 = PyNumber_Multiply(__pyx_t_12, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = PyNumber_Subtract(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_3 = PyNumber_Subtract(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_MatrixA), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_20 == ((npy_double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 410, __pyx_L1_error)
+          __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_20 == ((npy_double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 434, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __pyx_t_30 = __pyx_v_i;
           *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Concentration_update.diminfo[0].strides) = __pyx_t_20;
@@ -7744,7 +8303,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_L16:;
       }
 
-      /* "script_Rocha_2020.pyx":414
+      /* "script_Rocha_2020.pyx":438
  * 
  *             #Update velocity
  *             for i in xrange(0,N_len-1):             # <<<<<<<<<<<<<<
@@ -7756,7 +8315,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_21; __pyx_t_2+=1) {
         __pyx_v_i = __pyx_t_2;
 
-        /* "script_Rocha_2020.pyx":415
+        /* "script_Rocha_2020.pyx":439
  *             #Update velocity
  *             for i in xrange(0,N_len-1):
  *                 grad = conc_grad(Concentration_update, i, N_len, L)             # <<<<<<<<<<<<<<
@@ -7765,7 +8324,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
         __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(((PyArrayObject *)__pyx_v_Concentration_update), __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-        /* "script_Rocha_2020.pyx":416
+        /* "script_Rocha_2020.pyx":440
  *             for i in xrange(0,N_len-1):
  *                 grad = conc_grad(Concentration_update, i, N_len, L)
  *                 Velocity_update[i] = vel(Concentration_update,i,physicalParameters, constantParameters, esph, mixture_density, grad)             # <<<<<<<<<<<<<<
@@ -7776,7 +8335,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity_update.rcbuffer->pybuffer.buf, __pyx_t_30, __pyx_pybuffernd_Velocity_update.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration_update), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
       }
 
-      /* "script_Rocha_2020.pyx":420
+      /* "script_Rocha_2020.pyx":444
  * 
  *             #Residuals evaluation
  *             residual = 0             # <<<<<<<<<<<<<<
@@ -7785,7 +8344,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
       __pyx_v_residual = 0.0;
 
-      /* "script_Rocha_2020.pyx":421
+      /* "script_Rocha_2020.pyx":445
  *             #Residuals evaluation
  *             residual = 0
  *             for i in xrange(0,N_len):             # <<<<<<<<<<<<<<
@@ -7797,7 +8356,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       for (__pyx_t_26 = 0; __pyx_t_26 < __pyx_t_17; __pyx_t_26+=1) {
         __pyx_v_i = __pyx_t_26;
 
-        /* "script_Rocha_2020.pyx":422
+        /* "script_Rocha_2020.pyx":446
  *             residual = 0
  *             for i in xrange(0,N_len):
  *                 distance = abs(Concentration_update[i] - Concentration_residual[i]) / Concentration_residual[i]             # <<<<<<<<<<<<<<
@@ -7811,11 +8370,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_20 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_residual.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration_residual.diminfo[0].strides));
         if (unlikely(__pyx_t_20 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 422, __pyx_L1_error)
+          __PYX_ERR(0, 446, __pyx_L1_error)
         }
         __pyx_v_distance = (__pyx_t_1 / __pyx_t_20);
 
-        /* "script_Rocha_2020.pyx":423
+        /* "script_Rocha_2020.pyx":447
  *             for i in xrange(0,N_len):
  *                 distance = abs(Concentration_update[i] - Concentration_residual[i]) / Concentration_residual[i]
  *                 if residual < distance:             # <<<<<<<<<<<<<<
@@ -7825,7 +8384,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_22 = ((__pyx_v_residual < __pyx_v_distance) != 0);
         if (__pyx_t_22) {
 
-          /* "script_Rocha_2020.pyx":424
+          /* "script_Rocha_2020.pyx":448
  *                 distance = abs(Concentration_update[i] - Concentration_residual[i]) / Concentration_residual[i]
  *                 if residual < distance:
  *                     residual = distance             # <<<<<<<<<<<<<<
@@ -7834,7 +8393,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
           __pyx_v_residual = __pyx_v_distance;
 
-          /* "script_Rocha_2020.pyx":423
+          /* "script_Rocha_2020.pyx":447
  *             for i in xrange(0,N_len):
  *                 distance = abs(Concentration_update[i] - Concentration_residual[i]) / Concentration_residual[i]
  *                 if residual < distance:             # <<<<<<<<<<<<<<
@@ -7845,7 +8404,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
     }
 
-    /* "script_Rocha_2020.pyx":426
+    /* "script_Rocha_2020.pyx":450
  *                     residual = distance
  * 
  *         count += 1             # <<<<<<<<<<<<<<
@@ -7854,7 +8413,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     __pyx_v_count = (__pyx_v_count + 1);
 
-    /* "script_Rocha_2020.pyx":428
+    /* "script_Rocha_2020.pyx":452
  *         count += 1
  *         #print(resIterations,residual)
  *         if count>86400 / timestep:             # <<<<<<<<<<<<<<
@@ -7863,12 +8422,12 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     if (unlikely(__pyx_v_timestep == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 428, __pyx_L1_error)
+      __PYX_ERR(0, 452, __pyx_L1_error)
     }
     __pyx_t_22 = ((__pyx_v_count > (86400.0 / __pyx_v_timestep)) != 0);
     if (__pyx_t_22) {
 
-      /* "script_Rocha_2020.pyx":429
+      /* "script_Rocha_2020.pyx":453
  *         #print(resIterations,residual)
  *         if count>86400 / timestep:
  *             f += 1             # <<<<<<<<<<<<<<
@@ -7877,7 +8436,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "script_Rocha_2020.pyx":430
+      /* "script_Rocha_2020.pyx":454
  *         if count>86400 / timestep:
  *             f += 1
  *             for h in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -7889,31 +8448,31 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
         __pyx_v_h = __pyx_t_18;
 
-        /* "script_Rocha_2020.pyx":431
+        /* "script_Rocha_2020.pyx":455
  *             f += 1
  *             for h in range(0,N_len):
  *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
  *                 # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
  */
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 431, __pyx_L1_error)
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 431, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_exp); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 431, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_exp); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_t_29 = __pyx_v_h;
         __pyx_t_20 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides));
         if (unlikely(__pyx_t_20 == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 431, __pyx_L1_error)
+          __PYX_ERR(0, 455, __pyx_L1_error)
         }
         if (unlikely(__pyx_v_ref_conc == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 431, __pyx_L1_error)
+          __PYX_ERR(0, 455, __pyx_L1_error)
         }
-        __pyx_t_3 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 431, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __pyx_t_5 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_12))) {
@@ -7928,20 +8487,20 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_3);
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 431, __pyx_L1_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-        __pyx_t_12 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 431, __pyx_L1_error)
+        __pyx_t_12 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 431, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 431, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 455, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-        /* "script_Rocha_2020.pyx":433
+        /* "script_Rocha_2020.pyx":457
  *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
  *                 # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
  *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)             # <<<<<<<<<<<<<<
@@ -7949,16 +8508,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  *             dia += 1
  */
         __pyx_t_29 = __pyx_v_h;
-        __pyx_t_12 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 433, __pyx_L1_error)
+        __pyx_t_12 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 457, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 457, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 433, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 457, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       }
 
-      /* "script_Rocha_2020.pyx":435
+      /* "script_Rocha_2020.pyx":459
  *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
  * 
  *             dia += 1             # <<<<<<<<<<<<<<
@@ -7967,46 +8526,46 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
       __pyx_v_dia = (__pyx_v_dia + 1);
 
-      /* "script_Rocha_2020.pyx":436
+      /* "script_Rocha_2020.pyx":460
  * 
  *             dia += 1
  *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))             # <<<<<<<<<<<<<<
  *             Data.append(np.copy(Concentration))
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")
  */
-      __pyx_t_12 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_12 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_12); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_12 = PyNumber_Add(__pyx_kp_s_Current_time, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_12 = PyNumber_Add(__pyx_kp_s_Current_time, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_12, __pyx_kp_s_Dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Add(__pyx_t_12, __pyx_kp_s_Dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_12 = PyNumber_Add(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 436, __pyx_L1_error)
+      __pyx_t_12 = PyNumber_Add(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_12) < 0) __PYX_ERR(0, 436, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_12) < 0) __PYX_ERR(0, 460, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "script_Rocha_2020.pyx":437
+      /* "script_Rocha_2020.pyx":461
  *             dia += 1
  *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
  *             Data.append(np.copy(Concentration))             # <<<<<<<<<<<<<<
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 437, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 461, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 437, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 461, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_6 = NULL;
@@ -8021,22 +8580,22 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_12 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Concentration));
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 437, __pyx_L1_error)
+      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 461, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_12); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 437, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_12); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 461, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "script_Rocha_2020.pyx":438
+      /* "script_Rocha_2020.pyx":462
  *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
  *             Data.append(np.copy(Concentration))
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")             # <<<<<<<<<<<<<<
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pd); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pd); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_6 = NULL;
@@ -8051,21 +8610,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_v_Data) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_Data);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_resultadosPre_3, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_resultadosPre_3, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_csv); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 438, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_csv); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = NULL;
@@ -8081,19 +8640,19 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       __pyx_t_12 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 438, __pyx_L1_error)
+      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 462, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
-      /* "script_Rocha_2020.pyx":439
+      /* "script_Rocha_2020.pyx":463
  *             Data.append(np.copy(Concentration))
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))             # <<<<<<<<<<<<<<
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_6 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -8107,21 +8666,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_12 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 439, __pyx_L1_error)
+      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_12 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_12 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_where); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_where); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_32 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -8135,10 +8694,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_6 = (__pyx_t_32) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_32) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_32); __pyx_t_32 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 439, __pyx_L1_error)
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_5 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_6 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -8153,33 +8712,33 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_12, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_12, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 463, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "script_Rocha_2020.pyx":440
+      /* "script_Rocha_2020.pyx":464
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresDia" + str(dia) + ".csv")
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))             # <<<<<<<<<<<<<<
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  *             count = 0
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_12 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -8193,21 +8752,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_3 = (__pyx_t_12) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_12) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_kp_s_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_np); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_where); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_where); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_32 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -8221,10 +8780,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       }
       __pyx_t_12 = (__pyx_t_32) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_32) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
       __Pyx_XDECREF(__pyx_t_32); __pyx_t_32 = 0;
-      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 440, __pyx_L1_error)
+      if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_12, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_6 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_12, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
       __pyx_t_12 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -8239,37 +8798,37 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
       __pyx_t_4 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_12, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 440, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 464, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "script_Rocha_2020.pyx":441
+      /* "script_Rocha_2020.pyx":465
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)             # <<<<<<<<<<<<<<
  *             count = 0
  *         currentTime += timestep
  */
-      __pyx_t_4 = __pyx_f_17script_Rocha_2020_evalMassConservation(__pyx_v_initial_conc, __pyx_v_solid_density, __pyx_v_L, __pyx_v_N_len, ((PyArrayObject *)__pyx_v_Concentration)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_4 = __pyx_f_17script_Rocha_2020_evalMassConservation(__pyx_v_initial_conc, __pyx_v_solid_density, __pyx_v_L, __pyx_v_N_len, ((PyArrayObject *)__pyx_v_Concentration)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 465, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "script_Rocha_2020.pyx":442
+      /* "script_Rocha_2020.pyx":466
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  *             count = 0             # <<<<<<<<<<<<<<
@@ -8278,7 +8837,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
       __pyx_v_count = 0;
 
-      /* "script_Rocha_2020.pyx":428
+      /* "script_Rocha_2020.pyx":452
  *         count += 1
  *         #print(resIterations,residual)
  *         if count>86400 / timestep:             # <<<<<<<<<<<<<<
@@ -8287,7 +8846,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     }
 
-    /* "script_Rocha_2020.pyx":443
+    /* "script_Rocha_2020.pyx":467
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  *             count = 0
  *         currentTime += timestep             # <<<<<<<<<<<<<<
@@ -8296,16 +8855,16 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
  */
     __pyx_v_currentTime = (__pyx_v_currentTime + __pyx_v_timestep);
 
-    /* "script_Rocha_2020.pyx":444
+    /* "script_Rocha_2020.pyx":468
  *             count = 0
  *         currentTime += timestep
  *         Velocity = np.copy(Velocity_update)             # <<<<<<<<<<<<<<
  *         Concentration = np.copy(Concentration_update)
  *         # Time.append(currentTime)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 444, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -8320,10 +8879,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
     }
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, ((PyObject *)__pyx_v_Velocity_update)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Velocity_update));
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 444, __pyx_L1_error)
+    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 468, __pyx_L1_error)
     __pyx_t_10 = ((PyArrayObject *)__pyx_t_4);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -8340,22 +8899,22 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_23 = __pyx_t_24 = __pyx_t_25 = 0;
       }
       __pyx_pybuffernd_Velocity.diminfo[0].strides = __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Velocity.diminfo[0].shape = __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 444, __pyx_L1_error)
+      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 468, __pyx_L1_error)
     }
     __pyx_t_10 = 0;
     __Pyx_DECREF_SET(__pyx_v_Velocity, ((PyArrayObject *)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "script_Rocha_2020.pyx":445
+    /* "script_Rocha_2020.pyx":469
  *         currentTime += timestep
  *         Velocity = np.copy(Velocity_update)
  *         Concentration = np.copy(Concentration_update)             # <<<<<<<<<<<<<<
  *         # Time.append(currentTime)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 445, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 469, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 445, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 469, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -8370,10 +8929,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
     }
     __pyx_t_4 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, ((PyObject *)__pyx_v_Concentration_update)) : __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_Concentration_update));
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 469, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 445, __pyx_L1_error)
+    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 469, __pyx_L1_error)
     __pyx_t_8 = ((PyArrayObject *)__pyx_t_4);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -8390,27 +8949,27 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
         __pyx_t_25 = __pyx_t_24 = __pyx_t_23 = 0;
       }
       __pyx_pybuffernd_Concentration.diminfo[0].strides = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration.diminfo[0].shape = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 445, __pyx_L1_error)
+      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 469, __pyx_L1_error)
     }
     __pyx_t_8 = 0;
     __Pyx_DECREF_SET(__pyx_v_Concentration, ((PyArrayObject *)__pyx_t_4));
     __pyx_t_4 = 0;
   }
 
-  /* "script_Rocha_2020.pyx":448
+  /* "script_Rocha_2020.pyx":472
  *         # Time.append(currentTime)
  * 
  *     Data.append([z_resolution,c,N_len])             # <<<<<<<<<<<<<<
  * 
  *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressao.csv")
  */
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_c); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_c); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = PyList_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_6 = PyList_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_4);
   PyList_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
@@ -8421,19 +8980,19 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_6); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_6); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":450
+  /* "script_Rocha_2020.pyx":474
  *     Data.append([z_resolution,c,N_len])
  * 
  *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressao.csv")             # <<<<<<<<<<<<<<
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidade.csv")
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -8448,10 +9007,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Pres));
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 450, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -8466,21 +9025,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_6 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_4) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 450, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":451
+  /* "script_Rocha_2020.pyx":475
  * 
  *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressao.csv")
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidade.csv")             # <<<<<<<<<<<<<<
  * 
  *     return Data
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_pd); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -8495,10 +9054,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_4 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_Perm));
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 451, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -8513,24 +9072,24 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   }
   __pyx_t_6 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_2) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 451, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 475, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":453
+  /* "script_Rocha_2020.pyx":477
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidade.csv")
  * 
  *     return Data             # <<<<<<<<<<<<<<
  * 
- * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
+ * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_Data);
   __pyx_r = __pyx_v_Data;
   goto __pyx_L0;
 
-  /* "script_Rocha_2020.pyx":298
+  /* "script_Rocha_2020.pyx":322
  *     return Data
  * 
  * def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
@@ -8588,10 +9147,10 @@ static PyObject *__pyx_pf_17script_Rocha_2020_2CrankSolver(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "script_Rocha_2020.pyx":455
+/* "script_Rocha_2020.pyx":479
  *     return Data
  * 
- * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):             # <<<<<<<<<<<<<<
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)
  */
@@ -8602,7 +9161,8 @@ static PyMethodDef __pyx_mdef_17script_Rocha_2020_5RK4Solver = {"RK4Solver", (Py
 static PyObject *__pyx_pw_17script_Rocha_2020_5RK4Solver(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters = 0;
   struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters = 0;
-  struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters = 0;
+  struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_packingParameters = 0;
+  struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_clarifiedParameters = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8610,12 +9170,14 @@ static PyObject *__pyx_pw_17script_Rocha_2020_5RK4Solver(PyObject *__pyx_self, P
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("RK4Solver (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_physicalParameters,&__pyx_n_s_numericalParameters,&__pyx_n_s_constantParameters,0};
-    PyObject* values[3] = {0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_physicalParameters,&__pyx_n_s_numericalParameters,&__pyx_n_s_packingParameters,&__pyx_n_s_clarifiedParameters,0};
+    PyObject* values[4] = {0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         CYTHON_FALLTHROUGH;
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
@@ -8634,41 +9196,50 @@ static PyObject *__pyx_pw_17script_Rocha_2020_5RK4Solver(PyObject *__pyx_self, P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_numericalParameters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 3, 3, 1); __PYX_ERR(0, 455, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 4, 4, 1); __PYX_ERR(0, 479, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_constantParameters)) != 0)) kw_args--;
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_packingParameters)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 3, 3, 2); __PYX_ERR(0, 455, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 4, 4, 2); __PYX_ERR(0, 479, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_clarifiedParameters)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 4, 4, 3); __PYX_ERR(0, 479, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "RK4Solver") < 0)) __PYX_ERR(0, 455, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "RK4Solver") < 0)) __PYX_ERR(0, 479, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
     __pyx_v_physicalParameters = ((struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *)values[0]);
     __pyx_v_numericalParameters = ((struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)values[1]);
-    __pyx_v_constantParameters = ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)values[2]);
+    __pyx_v_packingParameters = ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)values[2]);
+    __pyx_v_clarifiedParameters = ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)values[3]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 455, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("RK4Solver", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 479, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("script_Rocha_2020.RK4Solver", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_physicalParameters), __pyx_ptype_17script_Rocha_2020_PhysicalParameters, 1, "physicalParameters", 0))) __PYX_ERR(0, 455, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_numericalParameters), __pyx_ptype_17script_Rocha_2020_NumericalParameters, 1, "numericalParameters", 0))) __PYX_ERR(0, 455, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_constantParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "constantParameters", 0))) __PYX_ERR(0, 455, __pyx_L1_error)
-  __pyx_r = __pyx_pf_17script_Rocha_2020_4RK4Solver(__pyx_self, __pyx_v_physicalParameters, __pyx_v_numericalParameters, __pyx_v_constantParameters);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_physicalParameters), __pyx_ptype_17script_Rocha_2020_PhysicalParameters, 1, "physicalParameters", 0))) __PYX_ERR(0, 479, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_numericalParameters), __pyx_ptype_17script_Rocha_2020_NumericalParameters, 1, "numericalParameters", 0))) __PYX_ERR(0, 479, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_packingParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "packingParameters", 0))) __PYX_ERR(0, 479, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_clarifiedParameters), __pyx_ptype_17script_Rocha_2020_ConstantParameters, 1, "clarifiedParameters", 0))) __PYX_ERR(0, 479, __pyx_L1_error)
+  __pyx_r = __pyx_pf_17script_Rocha_2020_4RK4Solver(__pyx_self, __pyx_v_physicalParameters, __pyx_v_numericalParameters, __pyx_v_packingParameters, __pyx_v_clarifiedParameters);
 
   /* function exit code */
   goto __pyx_L0;
@@ -8679,7 +9250,7 @@ static PyObject *__pyx_pw_17script_Rocha_2020_5RK4Solver(PyObject *__pyx_self, P
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_constantParameters) {
+static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_17script_Rocha_2020_PhysicalParameters *__pyx_v_physicalParameters, struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v_numericalParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_packingParameters, struct __pyx_obj_17script_Rocha_2020_ConstantParameters *__pyx_v_clarifiedParameters) {
   double __pyx_v_L;
   int __pyx_v_N_len;
   double __pyx_v_z_resolution;
@@ -8694,7 +9265,6 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   CYTHON_UNUSED double __pyx_v_delta;
   CYTHON_UNUSED double __pyx_v_k0;
   CYTHON_UNUSED double __pyx_v_max_conc;
-  PyObject *__pyx_v_clarifiedParameters = 0;
   double __pyx_v_beta;
   double __pyx_v_p_ref;
   double __pyx_v_ref_conc;
@@ -8705,15 +9275,17 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   PyArrayObject *__pyx_v_Concentration = 0;
   PyArrayObject *__pyx_v_Concentration_aux = 0;
   PyArrayObject *__pyx_v_Velocity = 0;
-  CYTHON_UNUSED PyArrayObject *__pyx_v_Position = 0;
+  PyArrayObject *__pyx_v_Position = 0;
   double __pyx_v_currentTime;
   PyArrayObject *__pyx_v_K1 = 0;
   PyArrayObject *__pyx_v_K2 = 0;
   PyArrayObject *__pyx_v_K3 = 0;
   PyArrayObject *__pyx_v_K4 = 0;
   PyObject *__pyx_v_Data = NULL;
+  int __pyx_v_days;
   PyArrayObject *__pyx_v_Pres = 0;
   PyArrayObject *__pyx_v_Perm = 0;
+  PyObject *__pyx_v_Time = NULL;
   int __pyx_v_f;
   long __pyx_v_h;
   int __pyx_v_count;
@@ -8722,6 +9294,9 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   double __pyx_v_update;
   int __pyx_v_nanHit;
   int __pyx_v_packingIndex;
+  CYTHON_UNUSED int __pyx_v_indexToPlot;
+  CYTHON_UNUSED double __pyx_v_positionToPlot;
+  double __pyx_v_concentrationLimit;
   double __pyx_v_grad;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_Concentration;
   __Pyx_Buffer __pyx_pybuffer_Concentration;
@@ -8773,8 +9348,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   PyObject *__pyx_t_30 = NULL;
   PyObject *__pyx_t_31 = NULL;
   PyObject *__pyx_t_32 = NULL;
-  int __pyx_t_33;
-  PyObject *__pyx_t_34 = NULL;
+  PyObject *__pyx_t_33 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -8812,8 +9386,8 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_pybuffernd_K4.data = NULL;
   __pyx_pybuffernd_K4.rcbuffer = &__pyx_pybuffer_K4;
 
-  /* "script_Rocha_2020.pyx":457
- * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):
+  /* "script_Rocha_2020.pyx":481
+ * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)             # <<<<<<<<<<<<<<
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
@@ -8822,7 +9396,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_physicalParameters->L;
   __pyx_v_L = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":459
+  /* "script_Rocha_2020.pyx":483
  *     cdef double L = physicalParameters.L #5000(m)
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
  *     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)             # <<<<<<<<<<<<<<
@@ -8832,7 +9406,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_2 = __pyx_v_numericalParameters->N_len;
   __pyx_v_N_len = __pyx_t_2;
 
-  /* "script_Rocha_2020.pyx":460
+  /* "script_Rocha_2020.pyx":484
  *     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
  *     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
  *     cdef double z_resolution = N_len / L             # <<<<<<<<<<<<<<
@@ -8841,11 +9415,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   if (unlikely(__pyx_v_L == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 460, __pyx_L1_error)
+    __PYX_ERR(0, 484, __pyx_L1_error)
   }
   __pyx_v_z_resolution = (__pyx_v_N_len / __pyx_v_L);
 
-  /* "script_Rocha_2020.pyx":461
+  /* "script_Rocha_2020.pyx":485
  *     cdef int N_len = numericalParameters.N_len #int(L * z_resolution)
  *     cdef double z_resolution = N_len / L
  *     cdef double delta_z = L / N_len             # <<<<<<<<<<<<<<
@@ -8854,11 +9428,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   if (unlikely(__pyx_v_N_len == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 461, __pyx_L1_error)
+    __PYX_ERR(0, 485, __pyx_L1_error)
   }
   __pyx_v_delta_z = (__pyx_v_L / __pyx_v_N_len);
 
-  /* "script_Rocha_2020.pyx":462
+  /* "script_Rocha_2020.pyx":486
  *     cdef double z_resolution = N_len / L
  *     cdef double delta_z = L / N_len
  *     cdef double maxResidual = numericalParameters.maxResidual             # <<<<<<<<<<<<<<
@@ -8868,7 +9442,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_numericalParameters->maxResidual;
   __pyx_v_maxResidual = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":465
+  /* "script_Rocha_2020.pyx":489
  * 
  *     # Parametros de sedimentaao
  *     cdef double initial_conc = physicalParameters.initial_conc             # <<<<<<<<<<<<<<
@@ -8878,7 +9452,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_physicalParameters->initial_conc;
   __pyx_v_initial_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":466
+  /* "script_Rocha_2020.pyx":490
  *     # Parametros de sedimentaao
  *     cdef double initial_conc = physicalParameters.initial_conc
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50             # <<<<<<<<<<<<<<
@@ -8888,7 +9462,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_physicalParameters->particle_diam;
   __pyx_v_particle_diam = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":467
+  /* "script_Rocha_2020.pyx":491
  *     cdef double initial_conc = physicalParameters.initial_conc
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
  *     cdef double solid_density = physicalParameters.solid_density             # <<<<<<<<<<<<<<
@@ -8898,7 +9472,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_physicalParameters->solid_density;
   __pyx_v_solid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":468
+  /* "script_Rocha_2020.pyx":492
  *     cdef double particle_diam = physicalParameters.particle_diam # (m) D10 - 3.008 microns D50 - 40.803 mic D90 - 232.247 mic -> Usar D50
  *     cdef double solid_density = physicalParameters.solid_density
  *     cdef double fluid_density = physicalParameters.fluid_density             # <<<<<<<<<<<<<<
@@ -8908,7 +9482,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_physicalParameters->fluid_density;
   __pyx_v_fluid_density = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":471
+  /* "script_Rocha_2020.pyx":495
  * 
  *     # Parametros de simulaao
  *     cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000             # <<<<<<<<<<<<<<
@@ -8918,7 +9492,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_numericalParameters->total_time;
   __pyx_v_total_time = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":472
+  /* "script_Rocha_2020.pyx":496
  *     # Parametros de simulaao
  *     cdef double total_time = numericalParameters.total_time #31536000#(s) 31,536,000 -> um ano / 50 dias - 4,320,000
  *     cdef double timestep = numericalParameters.timestep             # <<<<<<<<<<<<<<
@@ -8928,95 +9502,67 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_numericalParameters->timestep;
   __pyx_v_timestep = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":476
+  /* "script_Rocha_2020.pyx":500
  *     # Parametros estimados
  *     #Permeabilidade
- *     cdef double delta = constantParameters.delta             # <<<<<<<<<<<<<<
- *     cdef double k0 = constantParameters.k0
+ *     cdef double delta = packingParameters.delta             # <<<<<<<<<<<<<<
+ *     cdef double k0 = packingParameters.k0
  *     cdef double max_conc = physicalParameters.max_conc
  */
-  __pyx_t_1 = __pyx_v_constantParameters->delta;
+  __pyx_t_1 = __pyx_v_packingParameters->delta;
   __pyx_v_delta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":477
+  /* "script_Rocha_2020.pyx":501
  *     #Permeabilidade
- *     cdef double delta = constantParameters.delta
- *     cdef double k0 = constantParameters.k0             # <<<<<<<<<<<<<<
+ *     cdef double delta = packingParameters.delta
+ *     cdef double k0 = packingParameters.k0             # <<<<<<<<<<<<<<
  *     cdef double max_conc = physicalParameters.max_conc
  * 
  */
-  __pyx_t_1 = __pyx_v_constantParameters->k0;
+  __pyx_t_1 = __pyx_v_packingParameters->k0;
   __pyx_v_k0 = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":478
- *     cdef double delta = constantParameters.delta
- *     cdef double k0 = constantParameters.k0
+  /* "script_Rocha_2020.pyx":502
+ *     cdef double delta = packingParameters.delta
+ *     cdef double k0 = packingParameters.k0
  *     cdef double max_conc = physicalParameters.max_conc             # <<<<<<<<<<<<<<
  * 
- *     cdef clarifiedParameters = ConstantParameters(
+ *     #Pressao nos solidos
  */
   __pyx_t_1 = __pyx_v_physicalParameters->max_conc;
   __pyx_v_max_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":481
- * 
- *     cdef clarifiedParameters = ConstantParameters(
- *         delta = 1.04, # Permeabilidade - Rocha (2020)             # <<<<<<<<<<<<<<
- *         k0 = 52.67, # Permeabilidade - Rocha (2020)
- *         beta = 1.0, # Pressao nos solidos
- */
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 481, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_delta, __pyx_float_1_04) < 0) __PYX_ERR(0, 481, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_k0, __pyx_float_52_67) < 0) __PYX_ERR(0, 481, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_beta, __pyx_float_1_0) < 0) __PYX_ERR(0, 481, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_ref_conc, __pyx_float_0_145) < 0) __PYX_ERR(0, 481, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_p_ref, __pyx_float_3_31) < 0) __PYX_ERR(0, 481, __pyx_L1_error)
-
-  /* "script_Rocha_2020.pyx":480
- *     cdef double max_conc = physicalParameters.max_conc
- * 
- *     cdef clarifiedParameters = ConstantParameters(             # <<<<<<<<<<<<<<
- *         delta = 1.04, # Permeabilidade - Rocha (2020)
- *         k0 = 52.67, # Permeabilidade - Rocha (2020)
- */
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_17script_Rocha_2020_ConstantParameters), __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 480, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_clarifiedParameters = __pyx_t_4;
-  __pyx_t_4 = 0;
-
-  /* "script_Rocha_2020.pyx":489
+  /* "script_Rocha_2020.pyx":505
  * 
  *     #Pressao nos solidos
- *     cdef double beta = constantParameters.beta             # <<<<<<<<<<<<<<
- *     cdef double p_ref = constantParameters.p_ref
- *     cdef double ref_conc = constantParameters.ref_conc
+ *     cdef double beta = packingParameters.beta             # <<<<<<<<<<<<<<
+ *     cdef double p_ref = packingParameters.p_ref
+ *     cdef double ref_conc = packingParameters.ref_conc
  */
-  __pyx_t_1 = __pyx_v_constantParameters->beta;
+  __pyx_t_1 = __pyx_v_packingParameters->beta;
   __pyx_v_beta = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":490
+  /* "script_Rocha_2020.pyx":506
  *     #Pressao nos solidos
- *     cdef double beta = constantParameters.beta
- *     cdef double p_ref = constantParameters.p_ref             # <<<<<<<<<<<<<<
- *     cdef double ref_conc = constantParameters.ref_conc
+ *     cdef double beta = packingParameters.beta
+ *     cdef double p_ref = packingParameters.p_ref             # <<<<<<<<<<<<<<
+ *     cdef double ref_conc = packingParameters.ref_conc
  * 
  */
-  __pyx_t_1 = __pyx_v_constantParameters->p_ref;
+  __pyx_t_1 = __pyx_v_packingParameters->p_ref;
   __pyx_v_p_ref = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":491
- *     cdef double beta = constantParameters.beta
- *     cdef double p_ref = constantParameters.p_ref
- *     cdef double ref_conc = constantParameters.ref_conc             # <<<<<<<<<<<<<<
+  /* "script_Rocha_2020.pyx":507
+ *     cdef double beta = packingParameters.beta
+ *     cdef double p_ref = packingParameters.p_ref
+ *     cdef double ref_conc = packingParameters.ref_conc             # <<<<<<<<<<<<<<
  * 
  *     #Parametros do fluido
  */
-  __pyx_t_1 = __pyx_v_constantParameters->ref_conc;
+  __pyx_t_1 = __pyx_v_packingParameters->ref_conc;
   __pyx_v_ref_conc = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":494
+  /* "script_Rocha_2020.pyx":510
  * 
  *     #Parametros do fluido
  *     cdef double M = physicalParameters.M             # <<<<<<<<<<<<<<
@@ -9026,18 +9572,18 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_t_1 = __pyx_v_physicalParameters->M;
   __pyx_v_M = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":495
+  /* "script_Rocha_2020.pyx":511
  *     #Parametros do fluido
  *     cdef double M = physicalParameters.M
  *     cdef double n = physicalParameters.n             # <<<<<<<<<<<<<<
  * 
- * 
+ *     cdef double esph = esp(physicalParameters.particle_esphericity)
  */
   __pyx_t_1 = __pyx_v_physicalParameters->n;
   __pyx_v_n = __pyx_t_1;
 
-  /* "script_Rocha_2020.pyx":498
- * 
+  /* "script_Rocha_2020.pyx":513
+ *     cdef double n = physicalParameters.n
  * 
  *     cdef double esph = esp(physicalParameters.particle_esphericity)             # <<<<<<<<<<<<<<
  *     cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc
@@ -9045,58 +9591,58 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   __pyx_v_esph = __pyx_f_17script_Rocha_2020_esp(__pyx_v_physicalParameters->particle_esphericity);
 
-  /* "script_Rocha_2020.pyx":499
+  /* "script_Rocha_2020.pyx":514
  * 
  *     cdef double esph = esp(physicalParameters.particle_esphericity)
  *     cdef double mixture_density = fluid_density + (solid_density - fluid_density) * initial_conc             # <<<<<<<<<<<<<<
  * 
- *     # #Variveis auxiliares
+ *     #Inicializacao do data set
  */
   __pyx_v_mixture_density = (__pyx_v_fluid_density + ((__pyx_v_solid_density - __pyx_v_fluid_density) * __pyx_v_initial_conc));
 
-  /* "script_Rocha_2020.pyx":505
+  /* "script_Rocha_2020.pyx":517
  * 
  *     #Inicializacao do data set
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 505, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 505, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
-  __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
+  __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 505, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 505, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 517, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 505, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 517, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Concentration.rcbuffer->pybuffer, (PyObject*)__pyx_t_7, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Concentration = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 505, __pyx_L1_error)
+      __PYX_ERR(0, 517, __pyx_L1_error)
     } else {__pyx_pybuffernd_Concentration.diminfo[0].strides = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration.diminfo[0].shape = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9104,49 +9650,49 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_Concentration = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":506
+  /* "script_Rocha_2020.pyx":518
  *     #Inicializacao do data set
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 506, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ones); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 518, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 506, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 506, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 506, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 518, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 518, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_initial_conc); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 506, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 518, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 506, __pyx_L1_error)
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 518, __pyx_L1_error)
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_6);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer, (PyObject*)__pyx_t_8, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Concentration_aux = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 506, __pyx_L1_error)
+      __PYX_ERR(0, 518, __pyx_L1_error)
     } else {__pyx_pybuffernd_Concentration_aux.diminfo[0].strides = __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration_aux.diminfo[0].shape = __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9154,51 +9700,51 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_Concentration_aux = ((PyArrayObject *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":507
+  /* "script_Rocha_2020.pyx":519
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  *     cdef double currentTime = 0
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_N_len - 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_N_len - 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 507, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 507, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 507, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 507, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 507, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 519, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 507, __pyx_L1_error)
-  __pyx_t_9 = ((PyArrayObject *)__pyx_t_4);
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 519, __pyx_L1_error)
+  __pyx_t_9 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Velocity.rcbuffer->pybuffer, (PyObject*)__pyx_t_9, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Velocity = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 507, __pyx_L1_error)
+      __PYX_ERR(0, 519, __pyx_L1_error)
     } else {__pyx_pybuffernd_Velocity.diminfo[0].strides = __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Velocity.diminfo[0].shape = __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.shape[0];
     }
   }
   __pyx_t_9 = 0;
-  __pyx_v_Velocity = ((PyArrayObject *)__pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_v_Velocity = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
 
-  /* "script_Rocha_2020.pyx":508
+  /* "script_Rocha_2020.pyx":520
  *     cdef np.ndarray[np.double_t,ndim=1] Concentration_aux = np.ones(N_len, dtype=DTYPE) * initial_conc
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution             # <<<<<<<<<<<<<<
@@ -9207,53 +9753,53 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   if (unlikely(__pyx_v_z_resolution == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 508, __pyx_L1_error)
+    __PYX_ERR(0, 520, __pyx_L1_error)
   }
-  __pyx_t_4 = PyFloat_FromDouble((0.5 / __pyx_v_z_resolution)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 508, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 508, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_arange); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble((0.5 / __pyx_v_z_resolution)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_arange); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 508, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 508, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyNumber_Multiply(__pyx_t_10, __pyx_int_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 508, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 508, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 508, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = PyNumber_Add(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 508, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 508, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_10, __pyx_int_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_z_resolution); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = PyNumber_Add(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 520, __pyx_L1_error)
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_10);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_Position.rcbuffer->pybuffer, (PyObject*)__pyx_t_11, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_Position = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_Position.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 508, __pyx_L1_error)
+      __PYX_ERR(0, 520, __pyx_L1_error)
     } else {__pyx_pybuffernd_Position.diminfo[0].strides = __pyx_pybuffernd_Position.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Position.diminfo[0].shape = __pyx_pybuffernd_Position.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9261,7 +9807,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_Position = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "script_Rocha_2020.pyx":509
+  /* "script_Rocha_2020.pyx":521
  *     cdef np.ndarray[np.double_t,ndim=1] Velocity = np.zeros(N_len-1, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] Position = 0.5 / z_resolution + np.arange(N_len, dtype=DTYPE) * 1 / z_resolution
  *     cdef double currentTime = 0             # <<<<<<<<<<<<<<
@@ -9270,43 +9816,43 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   __pyx_v_currentTime = 0.0;
 
-  /* "script_Rocha_2020.pyx":512
+  /* "script_Rocha_2020.pyx":524
  * 
  *     #Inicializaao dos vetores de inclinao
  *     cdef np.ndarray[np.double_t,ndim=1] K1 = np.zeros(N_len, dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 512, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 524, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_10);
   __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 512, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 524, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 512, __pyx_L1_error)
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 524, __pyx_L1_error)
   __pyx_t_12 = ((PyArrayObject *)__pyx_t_6);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_K1.rcbuffer->pybuffer, (PyObject*)__pyx_t_12, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_K1 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 512, __pyx_L1_error)
+      __PYX_ERR(0, 524, __pyx_L1_error)
     } else {__pyx_pybuffernd_K1.diminfo[0].strides = __pyx_pybuffernd_K1.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_K1.diminfo[0].shape = __pyx_pybuffernd_K1.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9314,43 +9860,43 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_K1 = ((PyArrayObject *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":513
+  /* "script_Rocha_2020.pyx":525
  *     #Inicializaao dos vetores de inclinao
  *     cdef np.ndarray[np.double_t,ndim=1] K1 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 525, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 513, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 513, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 513, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 525, __pyx_L1_error)
   __pyx_t_13 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_K2.rcbuffer->pybuffer, (PyObject*)__pyx_t_13, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_K2 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 513, __pyx_L1_error)
+      __PYX_ERR(0, 525, __pyx_L1_error)
     } else {__pyx_pybuffernd_K2.diminfo[0].strides = __pyx_pybuffernd_K2.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_K2.diminfo[0].shape = __pyx_pybuffernd_K2.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9358,43 +9904,43 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_K2 = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":514
+  /* "script_Rocha_2020.pyx":526
  *     cdef np.ndarray[np.double_t,ndim=1] K1 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.double_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 514, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 514, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 526, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 514, __pyx_L1_error)
+  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 526, __pyx_L1_error)
   __pyx_t_14 = ((PyArrayObject *)__pyx_t_10);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_K3.rcbuffer->pybuffer, (PyObject*)__pyx_t_14, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_K3 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 514, __pyx_L1_error)
+      __PYX_ERR(0, 526, __pyx_L1_error)
     } else {__pyx_pybuffernd_K3.diminfo[0].strides = __pyx_pybuffernd_K3.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_K3.diminfo[0].shape = __pyx_pybuffernd_K3.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9402,43 +9948,43 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_K3 = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "script_Rocha_2020.pyx":515
+  /* "script_Rocha_2020.pyx":527
  *     cdef np.ndarray[np.double_t,ndim=1] K2 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K3 = np.zeros(N_len, dtype=DTYPE)
  *     cdef np.ndarray[np.double_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)             # <<<<<<<<<<<<<<
  * 
- * 
+ *     Data = []
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 527, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_10);
   __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 515, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 515, __pyx_L1_error)
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 527, __pyx_L1_error)
   __pyx_t_15 = ((PyArrayObject *)__pyx_t_6);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_K4.rcbuffer->pybuffer, (PyObject*)__pyx_t_15, &__Pyx_TypeInfo_nn___pyx_t_5numpy_double_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_K4 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_K4.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 515, __pyx_L1_error)
+      __PYX_ERR(0, 527, __pyx_L1_error)
     } else {__pyx_pybuffernd_K4.diminfo[0].strides = __pyx_pybuffernd_K4.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_K4.diminfo[0].shape = __pyx_pybuffernd_K4.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -9446,151 +9992,183 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __pyx_v_K4 = ((PyArrayObject *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":519
+  /* "script_Rocha_2020.pyx":529
+ *     cdef np.ndarray[np.double_t,ndim=1] K4 = np.zeros(N_len, dtype=DTYPE)
  * 
- * 
- *     print("\n\nData set initialized\n\n")             # <<<<<<<<<<<<<<
- *     Data = []
- *     Data.append(np.copy(Concentration)) #Talvez precise typar
- */
-  if (__Pyx_PrintOne(0, __pyx_kp_s_Data_set_initialized) < 0) __PYX_ERR(0, 519, __pyx_L1_error)
-
-  /* "script_Rocha_2020.pyx":520
- * 
- *     print("\n\nData set initialized\n\n")
  *     Data = []             # <<<<<<<<<<<<<<
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  * 
  */
-  __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 529, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_Data = ((PyObject*)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":521
- *     print("\n\nData set initialized\n\n")
+  /* "script_Rocha_2020.pyx":530
+ * 
  *     Data = []
  *     Data.append(np.copy(Concentration)) #Talvez precise typar             # <<<<<<<<<<<<<<
  * 
- *     cdef np.ndarray Pres = np.zeros((N_len, 3660), dtype=DTYPE)
+ *     cdef int days = int(numericalParameters.total_time) / 86400
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 521, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __pyx_t_10 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_3);
     if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
     }
   }
-  __pyx_t_6 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_10, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Concentration));
+  __pyx_t_6 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_10, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Concentration));
   __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 521, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_6); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 521, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_6); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "script_Rocha_2020.pyx":523
+  /* "script_Rocha_2020.pyx":532
  *     Data.append(np.copy(Concentration)) #Talvez precise typar
  * 
- *     cdef np.ndarray Pres = np.zeros((N_len, 3660), dtype=DTYPE)             # <<<<<<<<<<<<<<
- *     cdef np.ndarray Perm = np.zeros((N_len, 3660), dtype=DTYPE)
- *     cdef int f = 0
+ *     cdef int days = int(numericalParameters.total_time) / 86400             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 523, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_FromDouble(__pyx_v_numericalParameters->total_time); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 523, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_int_86400); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 532, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 523, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 532, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_days = __pyx_t_2;
+
+  /* "script_Rocha_2020.pyx":533
+ * 
+ *     cdef int days = int(numericalParameters.total_time) / 86400
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 523, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_days); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_10);
+  __pyx_t_3 = 0;
+  __pyx_t_10 = 0;
+  __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_5);
+  __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 533, __pyx_L1_error)
+  __pyx_v_Pres = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "script_Rocha_2020.pyx":534
+ *     cdef int days = int(numericalParameters.total_time) / 86400
+ *     cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)
+ *     cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)             # <<<<<<<<<<<<<<
+ * 
+ *     # DataToPlot = []
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_days); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_10);
+  __pyx_t_3 = 0;
+  __pyx_t_10 = 0;
+  __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_6);
-  __Pyx_INCREF(__pyx_int_3660);
-  __Pyx_GIVEREF(__pyx_int_3660);
-  PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_int_3660);
   __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 523, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_10);
-  __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 523, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 523, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_10, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 523, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_10, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 523, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 523, __pyx_L1_error)
-  __pyx_v_Pres = ((PyArrayObject *)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 534, __pyx_L1_error)
+  __pyx_v_Perm = ((PyArrayObject *)__pyx_t_3);
+  __pyx_t_3 = 0;
 
-  /* "script_Rocha_2020.pyx":524
+  /* "script_Rocha_2020.pyx":537
  * 
- *     cdef np.ndarray Pres = np.zeros((N_len, 3660), dtype=DTYPE)
- *     cdef np.ndarray Perm = np.zeros((N_len, 3660), dtype=DTYPE)             # <<<<<<<<<<<<<<
+ *     # DataToPlot = []
+ *     Time = []             # <<<<<<<<<<<<<<
+ *     Time.append(0)
+ *     cdef int f = 0
+ */
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_v_Time = ((PyObject*)__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "script_Rocha_2020.pyx":538
+ *     # DataToPlot = []
+ *     Time = []
+ *     Time.append(0)             # <<<<<<<<<<<<<<
  *     cdef int f = 0
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
-  __Pyx_INCREF(__pyx_int_3660);
-  __Pyx_GIVEREF(__pyx_int_3660);
-  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_int_3660);
-  __pyx_t_5 = 0;
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6);
-  __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_DTYPE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 524, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 524, __pyx_L1_error)
-  __pyx_v_Perm = ((PyArrayObject *)__pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Time, __pyx_int_0); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 538, __pyx_L1_error)
 
-  /* "script_Rocha_2020.pyx":525
- *     cdef np.ndarray Pres = np.zeros((N_len, 3660), dtype=DTYPE)
- *     cdef np.ndarray Perm = np.zeros((N_len, 3660), dtype=DTYPE)
+  /* "script_Rocha_2020.pyx":539
+ *     Time = []
+ *     Time.append(0)
  *     cdef int f = 0             # <<<<<<<<<<<<<<
  * 
  *     for h in range(0,N_len):
  */
   __pyx_v_f = 0;
 
-  /* "script_Rocha_2020.pyx":527
+  /* "script_Rocha_2020.pyx":541
  *     cdef int f = 0
  * 
  *     for h in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -9602,77 +10180,86 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
     __pyx_v_h = __pyx_t_18;
 
-    /* "script_Rocha_2020.pyx":528
+    /* "script_Rocha_2020.pyx":542
  * 
  *     for h in range(0,N_len):
  *         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
- *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+ *         Perm[h][f] = perm(Concentration[h], physicalParameters, clarifiedParameters)
  */
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 528, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_exp); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 542, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_np); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 542, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_exp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 542, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __pyx_t_19 = __pyx_v_h;
     __pyx_t_20 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides));
     if (unlikely(__pyx_t_20 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 528, __pyx_L1_error)
+      __PYX_ERR(0, 542, __pyx_L1_error)
     }
     if (unlikely(__pyx_v_ref_conc == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 528, __pyx_L1_error)
+      __PYX_ERR(0, 542, __pyx_L1_error)
     }
-    __pyx_t_5 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 528, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
-      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_10);
-      if (likely(__pyx_t_3)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-        __Pyx_INCREF(__pyx_t_3);
+    __pyx_t_10 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 542, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_10, function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    __pyx_t_6 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_6 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_t_10) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_10);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 542, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 528, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyNumber_Multiply(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 528, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 542, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 542, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_6, __pyx_v_f, __pyx_t_10, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 528, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_6, __pyx_v_f, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 542, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "script_Rocha_2020.pyx":530
+    /* "script_Rocha_2020.pyx":544
  *         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
  *         # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
- *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)             # <<<<<<<<<<<<<<
+ *         Perm[h][f] = perm(Concentration[h], physicalParameters, clarifiedParameters)             # <<<<<<<<<<<<<<
+ * 
+ *     print("\n\nData set initialized\n\n")
+ */
+    __pyx_t_19 = __pyx_v_h;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_clarifiedParameters)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 544, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 544, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_6, __pyx_v_f, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 544, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+
+  /* "script_Rocha_2020.pyx":546
+ *         Perm[h][f] = perm(Concentration[h], physicalParameters, clarifiedParameters)
+ * 
+ *     print("\n\nData set initialized\n\n")             # <<<<<<<<<<<<<<
  * 
  *     cdef int count = 0
  */
-    __pyx_t_19 = __pyx_v_h;
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 530, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 530, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_6, __pyx_v_f, __pyx_t_10, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 530, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  }
+  if (__Pyx_PrintOne(0, __pyx_kp_s_Data_set_initialized) < 0) __PYX_ERR(0, 546, __pyx_L1_error)
 
-  /* "script_Rocha_2020.pyx":532
- *         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+  /* "script_Rocha_2020.pyx":548
+ *     print("\n\nData set initialized\n\n")
  * 
  *     cdef int count = 0             # <<<<<<<<<<<<<<
  *     cdef int dia = 0
@@ -9680,7 +10267,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   __pyx_v_count = 0;
 
-  /* "script_Rocha_2020.pyx":533
+  /* "script_Rocha_2020.pyx":549
  * 
  *     cdef int count = 0
  *     cdef int dia = 0             # <<<<<<<<<<<<<<
@@ -9689,7 +10276,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   __pyx_v_dia = 0;
 
-  /* "script_Rocha_2020.pyx":538
+  /* "script_Rocha_2020.pyx":554
  *     cdef double update
  * 
  *     cdef int nanHit = 0             # <<<<<<<<<<<<<<
@@ -9698,28 +10285,118 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
   __pyx_v_nanHit = 0;
 
-  /* "script_Rocha_2020.pyx":539
+  /* "script_Rocha_2020.pyx":555
  * 
  *     cdef int nanHit = 0
  *     cdef int packingIndex = 0             # <<<<<<<<<<<<<<
  * 
- *     while (currentTime <= total_time):
+ *     #plotting variables
  */
   __pyx_v_packingIndex = 0;
 
-  /* "script_Rocha_2020.pyx":541
- *     cdef int packingIndex = 0
+  /* "script_Rocha_2020.pyx":558
  * 
- *     while (currentTime <= total_time):             # <<<<<<<<<<<<<<
+ *     #plotting variables
+ *     cdef int indexToPlot = 0             # <<<<<<<<<<<<<<
+ *     cdef double positionToPlot = 0
  * 
+ */
+  __pyx_v_indexToPlot = 0;
+
+  /* "script_Rocha_2020.pyx":559
+ *     #plotting variables
+ *     cdef int indexToPlot = 0
+ *     cdef double positionToPlot = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef double concentrationLimit = 0.1395
+ */
+  __pyx_v_positionToPlot = 0.0;
+
+  /* "script_Rocha_2020.pyx":561
+ *     cdef double positionToPlot = 0
+ * 
+ *     cdef double concentrationLimit = 0.1395             # <<<<<<<<<<<<<<
+ *     saveFrame(Position, Concentration, dia)
+ *     while (currentTime <= total_time):
+ */
+  __pyx_v_concentrationLimit = 0.1395;
+
+  /* "script_Rocha_2020.pyx":562
+ * 
+ *     cdef double concentrationLimit = 0.1395
+ *     saveFrame(Position, Concentration, dia)             # <<<<<<<<<<<<<<
+ *     while (currentTime <= total_time):
  *         #Calculo do vetor de velocidade
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_saveFrame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 562, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 562, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_10 = NULL;
+  __pyx_t_2 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_10)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_10);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __pyx_t_2 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_6)) {
+    PyObject *__pyx_temp[4] = {__pyx_t_10, ((PyObject *)__pyx_v_Position), ((PyObject *)__pyx_v_Concentration), __pyx_t_3};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_2, 3+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 562, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+    PyObject *__pyx_temp[4] = {__pyx_t_10, ((PyObject *)__pyx_v_Position), ((PyObject *)__pyx_v_Concentration), __pyx_t_3};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_2, 3+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 562, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_4 = PyTuple_New(3+__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 562, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (__pyx_t_10) {
+      __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_10); __pyx_t_10 = NULL;
+    }
+    __Pyx_INCREF(((PyObject *)__pyx_v_Position));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Position));
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_2, ((PyObject *)__pyx_v_Position));
+    __Pyx_INCREF(((PyObject *)__pyx_v_Concentration));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Concentration));
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_2, ((PyObject *)__pyx_v_Concentration));
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_4, 2+__pyx_t_2, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 562, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "script_Rocha_2020.pyx":563
+ *     cdef double concentrationLimit = 0.1395
+ *     saveFrame(Position, Concentration, dia)
+ *     while (currentTime <= total_time):             # <<<<<<<<<<<<<<
+ *         #Calculo do vetor de velocidade
+ *         for i in range(0,N_len - 1):
  */
   while (1) {
     __pyx_t_21 = ((__pyx_v_currentTime <= __pyx_v_total_time) != 0);
     if (!__pyx_t_21) break;
 
-    /* "script_Rocha_2020.pyx":544
- * 
+    /* "script_Rocha_2020.pyx":565
+ *     while (currentTime <= total_time):
  *         #Calculo do vetor de velocidade
  *         for i in range(0,N_len - 1):             # <<<<<<<<<<<<<<
  *             grad = conc_grad(Concentration, i, N_len, L)
@@ -9730,31 +10407,31 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_22; __pyx_t_2+=1) {
       __pyx_v_i = __pyx_t_2;
 
-      /* "script_Rocha_2020.pyx":545
+      /* "script_Rocha_2020.pyx":566
  *         #Calculo do vetor de velocidade
  *         for i in range(0,N_len - 1):
  *             grad = conc_grad(Concentration, i, N_len, L)             # <<<<<<<<<<<<<<
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
+ *             # Identificar o valor do gradiente e limitar os saltos de descontinuidade
  */
       __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-      /* "script_Rocha_2020.pyx":547
- *             grad = conc_grad(Concentration, i, N_len, L)
+      /* "script_Rocha_2020.pyx":569
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             # Identificar o valor do gradiente e limitar os saltos de descontinuidade
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
       __pyx_t_19 = (__pyx_v_i + 1);
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
         goto __pyx_L10_bool_binop_done;
       }
       __pyx_t_19 = __pyx_v_i;
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
@@ -9765,42 +10442,41 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_L10_bool_binop_done:;
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":548
- * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
+        /* "script_Rocha_2020.pyx":570
+ *             # Identificar o valor do gradiente e limitar os saltos de descontinuidade
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
  */
         __pyx_t_19 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_packingParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
 
-        /* "script_Rocha_2020.pyx":547
- *             grad = conc_grad(Concentration, i, N_len, L)
+        /* "script_Rocha_2020.pyx":569
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             # Identificar o valor do gradiente e limitar os saltos de descontinuidade
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
         goto __pyx_L9;
       }
 
-      /* "script_Rocha_2020.pyx":550
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+      /* "script_Rocha_2020.pyx":572
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado             # <<<<<<<<<<<<<<
  * 
  *         #Calculo da inclinaao K1
  */
       /*else*/ {
-        if (!(likely(__Pyx_TypeTest(__pyx_v_clarifiedParameters, __pyx_ptype_17script_Rocha_2020_ConstantParameters)))) __PYX_ERR(0, 550, __pyx_L1_error)
         __pyx_t_19 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)__pyx_v_clarifiedParameters), __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_clarifiedParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
       }
       __pyx_L9:;
     }
 
-    /* "script_Rocha_2020.pyx":553
+    /* "script_Rocha_2020.pyx":575
  * 
  *         #Calculo da inclinaao K1
  *         for i in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -9812,7 +10488,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_17; __pyx_t_24+=1) {
       __pyx_v_i = __pyx_t_24;
 
-      /* "script_Rocha_2020.pyx":554
+      /* "script_Rocha_2020.pyx":576
  *         #Calculo da inclinaao K1
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
@@ -9822,7 +10498,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == 0) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":555
+        /* "script_Rocha_2020.pyx":577
  *         for i in range(0,N_len):
  *             if i == 0:
  *                 update = - (Concentration[i+1] * Velocity[i]) / delta_z             # <<<<<<<<<<<<<<
@@ -9834,11 +10510,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Velocity.diminfo[0].strides))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 555, __pyx_L1_error)
+          __PYX_ERR(0, 577, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":554
+        /* "script_Rocha_2020.pyx":576
  *         #Calculo da inclinaao K1
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
@@ -9848,7 +10524,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         goto __pyx_L15;
       }
 
-      /* "script_Rocha_2020.pyx":556
+      /* "script_Rocha_2020.pyx":578
  *             if i == 0:
  *                 update = - (Concentration[i+1] * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
@@ -9858,7 +10534,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":557
+        /* "script_Rocha_2020.pyx":579
  *                 update = - (Concentration[i+1] * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  *                 update = (Concentration[i] * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -9870,11 +10546,11 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides)));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 557, __pyx_L1_error)
+          __PYX_ERR(0, 579, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":556
+        /* "script_Rocha_2020.pyx":578
  *             if i == 0:
  *                 update = - (Concentration[i+1] * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
@@ -9884,7 +10560,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         goto __pyx_L15;
       }
 
-      /* "script_Rocha_2020.pyx":559
+      /* "script_Rocha_2020.pyx":581
  *                 update = (Concentration[i] * Velocity[i - 1]) / delta_z
  *             else:
  *                 update = - (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -9899,34 +10575,64 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Velocity.diminfo[0].strides))) - ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides)))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 559, __pyx_L1_error)
+          __PYX_ERR(0, 581, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
       }
       __pyx_L15:;
 
-      /* "script_Rocha_2020.pyx":560
+      /* "script_Rocha_2020.pyx":582
  *             else:
  *                 update = - (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / delta_z
  *             K1[i] = update             # <<<<<<<<<<<<<<
  *             Concentration_aux[i] += timestep * update / 2
- * 
+ *             if Concentration_aux[i] < 0:
  */
       __pyx_t_27 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_K1.diminfo[0].strides) = __pyx_v_update;
 
-      /* "script_Rocha_2020.pyx":561
+      /* "script_Rocha_2020.pyx":583
  *                 update = - (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / delta_z
  *             K1[i] = update
  *             Concentration_aux[i] += timestep * update / 2             # <<<<<<<<<<<<<<
- * 
- *         #Atualizaao do vetor de velocidade
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0
  */
       __pyx_t_27 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) += ((__pyx_v_timestep * __pyx_v_update) / 2.0);
+
+      /* "script_Rocha_2020.pyx":584
+ *             K1[i] = update
+ *             Concentration_aux[i] += timestep * update / 2
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ * 
+ */
+      __pyx_t_27 = __pyx_v_i;
+      __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides)) < 0.0) != 0);
+      if (__pyx_t_21) {
+
+        /* "script_Rocha_2020.pyx":585
+ *             Concentration_aux[i] += timestep * update / 2
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         #Atualizaao do vetor de velocidade
+ */
+        __pyx_t_27 = __pyx_v_i;
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = 0.0;
+
+        /* "script_Rocha_2020.pyx":584
+ *             K1[i] = update
+ *             Concentration_aux[i] += timestep * update / 2
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ * 
+ */
+      }
     }
 
-    /* "script_Rocha_2020.pyx":564
+    /* "script_Rocha_2020.pyx":588
  * 
  *         #Atualizaao do vetor de velocidade
  *         for i in range(0,N_len - 1):             # <<<<<<<<<<<<<<
@@ -9938,77 +10644,76 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_22; __pyx_t_2+=1) {
       __pyx_v_i = __pyx_t_2;
 
-      /* "script_Rocha_2020.pyx":565
+      /* "script_Rocha_2020.pyx":589
  *         #Atualizaao do vetor de velocidade
  *         for i in range(0,N_len - 1):
  *             grad = conc_grad(Concentration_aux, i, N_len, L)             # <<<<<<<<<<<<<<
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
  */
       __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(((PyArrayObject *)__pyx_v_Concentration_aux), __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-      /* "script_Rocha_2020.pyx":567
+      /* "script_Rocha_2020.pyx":591
  *             grad = conc_grad(Concentration_aux, i, N_len, L)
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
       __pyx_t_27 = (__pyx_v_i + 1);
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L19_bool_binop_done;
+        goto __pyx_L20_bool_binop_done;
       }
       __pyx_t_27 = __pyx_v_i;
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L19_bool_binop_done;
+        goto __pyx_L20_bool_binop_done;
       }
       __pyx_t_23 = ((__pyx_v_i < __pyx_v_packingIndex) != 0);
       __pyx_t_21 = __pyx_t_23;
-      __pyx_L19_bool_binop_done:;
+      __pyx_L20_bool_binop_done:;
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":568
+        /* "script_Rocha_2020.pyx":592
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
  */
         __pyx_t_27 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_packingParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
 
-        /* "script_Rocha_2020.pyx":567
+        /* "script_Rocha_2020.pyx":591
  *             grad = conc_grad(Concentration_aux, i, N_len, L)
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
-        goto __pyx_L18;
+        goto __pyx_L19;
       }
 
-      /* "script_Rocha_2020.pyx":570
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+      /* "script_Rocha_2020.pyx":594
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado             # <<<<<<<<<<<<<<
  * 
  *         #Calculo da inclinaao K2
  */
       /*else*/ {
-        if (!(likely(__Pyx_TypeTest(__pyx_v_clarifiedParameters, __pyx_ptype_17script_Rocha_2020_ConstantParameters)))) __PYX_ERR(0, 570, __pyx_L1_error)
         __pyx_t_27 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)__pyx_v_clarifiedParameters), __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_clarifiedParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
       }
-      __pyx_L18:;
+      __pyx_L19:;
     }
 
-    /* "script_Rocha_2020.pyx":573
+    /* "script_Rocha_2020.pyx":597
  * 
  *         #Calculo da inclinaao K2
  *         for i in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -10020,7 +10725,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_17; __pyx_t_24+=1) {
       __pyx_v_i = __pyx_t_24;
 
-      /* "script_Rocha_2020.pyx":574
+      /* "script_Rocha_2020.pyx":598
  *         #Calculo da inclinaao K2
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
@@ -10030,7 +10735,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == 0) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":575
+        /* "script_Rocha_2020.pyx":599
  *         for i in range(0,N_len):
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z             # <<<<<<<<<<<<<<
@@ -10043,21 +10748,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K1.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Velocity.diminfo[0].strides))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 575, __pyx_L1_error)
+          __PYX_ERR(0, 599, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":574
+        /* "script_Rocha_2020.pyx":598
  *         #Calculo da inclinaao K2
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  */
-        goto __pyx_L24;
+        goto __pyx_L25;
       }
 
-      /* "script_Rocha_2020.pyx":576
+      /* "script_Rocha_2020.pyx":600
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
@@ -10067,7 +10772,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":577
+        /* "script_Rocha_2020.pyx":601
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  *                 update = ((Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -10080,21 +10785,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K1.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides)));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 577, __pyx_L1_error)
+          __PYX_ERR(0, 601, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":576
+        /* "script_Rocha_2020.pyx":600
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
  *                 update = ((Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
  *             else:
  */
-        goto __pyx_L24;
+        goto __pyx_L25;
       }
 
-      /* "script_Rocha_2020.pyx":579
+      /* "script_Rocha_2020.pyx":603
  *                 update = ((Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
  *             else:
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -10111,35 +10816,65 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K1.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Velocity.diminfo[0].strides))) - (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_K1.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides)))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 579, __pyx_L1_error)
+          __PYX_ERR(0, 603, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
       }
-      __pyx_L24:;
+      __pyx_L25:;
 
-      /* "script_Rocha_2020.pyx":580
+      /* "script_Rocha_2020.pyx":604
  *             else:
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
  *             K2[i] = update             # <<<<<<<<<<<<<<
  *             Concentration_aux[i] = Concentration[i] + timestep * update / 2
- * 
+ *             if Concentration_aux[i] < 0:
  */
       __pyx_t_29 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_K2.diminfo[0].strides) = __pyx_v_update;
 
-      /* "script_Rocha_2020.pyx":581
+      /* "script_Rocha_2020.pyx":605
  *                 update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
  *             K2[i] = update
  *             Concentration_aux[i] = Concentration[i] + timestep * update / 2             # <<<<<<<<<<<<<<
- * 
- *         #Atualizaao da velocidade
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0
  */
       __pyx_t_29 = __pyx_v_i;
       __pyx_t_28 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * __pyx_v_update) / 2.0));
+
+      /* "script_Rocha_2020.pyx":606
+ *             K2[i] = update
+ *             Concentration_aux[i] = Concentration[i] + timestep * update / 2
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ * 
+ */
+      __pyx_t_29 = __pyx_v_i;
+      __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides)) < 0.0) != 0);
+      if (__pyx_t_21) {
+
+        /* "script_Rocha_2020.pyx":607
+ *             Concentration_aux[i] = Concentration[i] + timestep * update / 2
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         #Atualizaao da velocidade
+ */
+        __pyx_t_29 = __pyx_v_i;
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = 0.0;
+
+        /* "script_Rocha_2020.pyx":606
+ *             K2[i] = update
+ *             Concentration_aux[i] = Concentration[i] + timestep * update / 2
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ * 
+ */
+      }
     }
 
-    /* "script_Rocha_2020.pyx":584
+    /* "script_Rocha_2020.pyx":610
  * 
  *         #Atualizaao da velocidade
  *         for i in range(0,N_len - 1):             # <<<<<<<<<<<<<<
@@ -10151,77 +10886,76 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_22; __pyx_t_2+=1) {
       __pyx_v_i = __pyx_t_2;
 
-      /* "script_Rocha_2020.pyx":585
+      /* "script_Rocha_2020.pyx":611
  *         #Atualizaao da velocidade
  *         for i in range(0,N_len - 1):
  *             grad = conc_grad(Concentration_aux, i, N_len, L)             # <<<<<<<<<<<<<<
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
  */
       __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(((PyArrayObject *)__pyx_v_Concentration_aux), __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-      /* "script_Rocha_2020.pyx":587
+      /* "script_Rocha_2020.pyx":613
  *             grad = conc_grad(Concentration_aux, i, N_len, L)
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
       __pyx_t_29 = (__pyx_v_i + 1);
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L28_bool_binop_done;
+        goto __pyx_L30_bool_binop_done;
       }
       __pyx_t_29 = __pyx_v_i;
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L28_bool_binop_done;
+        goto __pyx_L30_bool_binop_done;
       }
       __pyx_t_23 = ((__pyx_v_i < __pyx_v_packingIndex) != 0);
       __pyx_t_21 = __pyx_t_23;
-      __pyx_L28_bool_binop_done:;
+      __pyx_L30_bool_binop_done:;
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":588
+        /* "script_Rocha_2020.pyx":614
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
  */
         __pyx_t_29 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_packingParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
 
-        /* "script_Rocha_2020.pyx":587
+        /* "script_Rocha_2020.pyx":613
  *             grad = conc_grad(Concentration_aux, i, N_len, L)
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
-        goto __pyx_L27;
+        goto __pyx_L29;
       }
 
-      /* "script_Rocha_2020.pyx":590
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+      /* "script_Rocha_2020.pyx":616
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado             # <<<<<<<<<<<<<<
  * 
  *         #Calculo da inclinaao K3
  */
       /*else*/ {
-        if (!(likely(__Pyx_TypeTest(__pyx_v_clarifiedParameters, __pyx_ptype_17script_Rocha_2020_ConstantParameters)))) __PYX_ERR(0, 590, __pyx_L1_error)
         __pyx_t_29 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)__pyx_v_clarifiedParameters), __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_clarifiedParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
       }
-      __pyx_L27:;
+      __pyx_L29:;
     }
 
-    /* "script_Rocha_2020.pyx":593
+    /* "script_Rocha_2020.pyx":619
  * 
  *         #Calculo da inclinaao K3
  *         for i in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -10233,7 +10967,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_17; __pyx_t_24+=1) {
       __pyx_v_i = __pyx_t_24;
 
-      /* "script_Rocha_2020.pyx":594
+      /* "script_Rocha_2020.pyx":620
  *         #Calculo da inclinaao K3
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
@@ -10243,7 +10977,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == 0) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":595
+        /* "script_Rocha_2020.pyx":621
  *         for i in range(0,N_len):
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z             # <<<<<<<<<<<<<<
@@ -10256,21 +10990,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_K2.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 595, __pyx_L1_error)
+          __PYX_ERR(0, 621, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":594
+        /* "script_Rocha_2020.pyx":620
  *         #Calculo da inclinaao K3
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  */
-        goto __pyx_L33;
+        goto __pyx_L35;
       }
 
-      /* "script_Rocha_2020.pyx":596
+      /* "script_Rocha_2020.pyx":622
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
@@ -10280,7 +11014,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":597
+        /* "script_Rocha_2020.pyx":623
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  *                 update = ((Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -10293,21 +11027,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_K2.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides)));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 597, __pyx_L1_error)
+          __PYX_ERR(0, 623, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":596
+        /* "script_Rocha_2020.pyx":622
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
  *                 update = ((Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
  *             else:
  */
-        goto __pyx_L33;
+        goto __pyx_L35;
       }
 
-      /* "script_Rocha_2020.pyx":599
+      /* "script_Rocha_2020.pyx":625
  *                 update = ((Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
  *             else:
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -10324,35 +11058,65 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_K2.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Velocity.diminfo[0].strides))) - (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K2.diminfo[0].strides))) / 2.0)) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides)))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 599, __pyx_L1_error)
+          __PYX_ERR(0, 625, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
       }
-      __pyx_L33:;
+      __pyx_L35:;
 
-      /* "script_Rocha_2020.pyx":600
+      /* "script_Rocha_2020.pyx":626
  *             else:
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
  *             K3[i] = update             # <<<<<<<<<<<<<<
  *             Concentration_aux[i] = Concentration[i] + timestep * update
- * 
+ *             if Concentration_aux[i] < 0:
  */
       __pyx_t_27 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_K3.diminfo[0].strides) = __pyx_v_update;
 
-      /* "script_Rocha_2020.pyx":601
+      /* "script_Rocha_2020.pyx":627
  *                 update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
  *             K3[i] = update
  *             Concentration_aux[i] = Concentration[i] + timestep * update             # <<<<<<<<<<<<<<
- * 
- *         #Atualizaao da velocidade
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0
  */
       __pyx_t_27 = __pyx_v_i;
       __pyx_t_26 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + (__pyx_v_timestep * __pyx_v_update));
+
+      /* "script_Rocha_2020.pyx":628
+ *             K3[i] = update
+ *             Concentration_aux[i] = Concentration[i] + timestep * update
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ * 
+ */
+      __pyx_t_27 = __pyx_v_i;
+      __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides)) < 0.0) != 0);
+      if (__pyx_t_21) {
+
+        /* "script_Rocha_2020.pyx":629
+ *             Concentration_aux[i] = Concentration[i] + timestep * update
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         #Atualizaao da velocidade
+ */
+        __pyx_t_27 = __pyx_v_i;
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = 0.0;
+
+        /* "script_Rocha_2020.pyx":628
+ *             K3[i] = update
+ *             Concentration_aux[i] = Concentration[i] + timestep * update
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ * 
+ */
+      }
     }
 
-    /* "script_Rocha_2020.pyx":604
+    /* "script_Rocha_2020.pyx":632
  * 
  *         #Atualizaao da velocidade
  *         for i in range(0,N_len - 1):             # <<<<<<<<<<<<<<
@@ -10364,77 +11128,76 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_22; __pyx_t_2+=1) {
       __pyx_v_i = __pyx_t_2;
 
-      /* "script_Rocha_2020.pyx":605
+      /* "script_Rocha_2020.pyx":633
  *         #Atualizaao da velocidade
  *         for i in range(0,N_len - 1):
  *             grad = conc_grad(Concentration_aux, i, N_len, L)             # <<<<<<<<<<<<<<
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
  */
       __pyx_v_grad = __pyx_f_17script_Rocha_2020_conc_grad(((PyArrayObject *)__pyx_v_Concentration_aux), __pyx_v_i, __pyx_v_N_len, __pyx_v_L);
 
-      /* "script_Rocha_2020.pyx":607
+      /* "script_Rocha_2020.pyx":635
  *             grad = conc_grad(Concentration_aux, i, N_len, L)
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
       __pyx_t_27 = (__pyx_v_i + 1);
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L37_bool_binop_done;
+        goto __pyx_L40_bool_binop_done;
       }
       __pyx_t_27 = __pyx_v_i;
-      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_23 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L37_bool_binop_done;
+        goto __pyx_L40_bool_binop_done;
       }
       __pyx_t_23 = ((__pyx_v_i < __pyx_v_packingIndex) != 0);
       __pyx_t_21 = __pyx_t_23;
-      __pyx_L37_bool_binop_done:;
+      __pyx_L40_bool_binop_done:;
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":608
+        /* "script_Rocha_2020.pyx":636
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento             # <<<<<<<<<<<<<<
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
  */
         __pyx_t_27 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_constantParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_packingParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
 
-        /* "script_Rocha_2020.pyx":607
+        /* "script_Rocha_2020.pyx":635
  *             grad = conc_grad(Concentration_aux, i, N_len, L)
  * 
- *             if Concentration[i + 1] > 0.1391 and Concentration[i] > 0.1391 and i < packingIndex:             # <<<<<<<<<<<<<<
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+ *             if Concentration[i + 1] > concentrationLimit and Concentration[i] > concentrationLimit and i < packingIndex:             # <<<<<<<<<<<<<<
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  */
-        goto __pyx_L36;
+        goto __pyx_L39;
       }
 
-      /* "script_Rocha_2020.pyx":610
- *                 Velocity[i] = vel(Concentration,i,physicalParameters, constantParameters, esph, mixture_density, grad) #Empacotamento
+      /* "script_Rocha_2020.pyx":638
+ *                 Velocity[i] = vel(Concentration,i,physicalParameters, packingParameters, esph, mixture_density, grad) #Empacotamento
  *             else:
  *                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado             # <<<<<<<<<<<<<<
  * 
  *         #Calculo da inclinaaio K4
  */
       /*else*/ {
-        if (!(likely(__Pyx_TypeTest(__pyx_v_clarifiedParameters, __pyx_ptype_17script_Rocha_2020_ConstantParameters)))) __PYX_ERR(0, 610, __pyx_L1_error)
         __pyx_t_27 = __pyx_v_i;
-        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, ((struct __pyx_obj_17script_Rocha_2020_ConstantParameters *)__pyx_v_clarifiedParameters), __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides) = __pyx_f_17script_Rocha_2020_vel(((PyArrayObject *)__pyx_v_Concentration), __pyx_v_i, __pyx_v_physicalParameters, __pyx_v_clarifiedParameters, __pyx_v_esph, __pyx_v_mixture_density, __pyx_v_grad);
       }
-      __pyx_L36:;
+      __pyx_L39:;
     }
 
-    /* "script_Rocha_2020.pyx":613
+    /* "script_Rocha_2020.pyx":641
  * 
  *         #Calculo da inclinaaio K4
  *         for i in range(0,N_len):             # <<<<<<<<<<<<<<
@@ -10446,7 +11209,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_17; __pyx_t_24+=1) {
       __pyx_v_i = __pyx_t_24;
 
-      /* "script_Rocha_2020.pyx":614
+      /* "script_Rocha_2020.pyx":642
  *         #Calculo da inclinaaio K4
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
@@ -10456,7 +11219,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == 0) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":615
+        /* "script_Rocha_2020.pyx":643
  *         for i in range(0,N_len):
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z             # <<<<<<<<<<<<<<
@@ -10469,21 +11232,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-(((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + (__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K3.diminfo[0].strides)))) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Velocity.diminfo[0].strides))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 615, __pyx_L1_error)
+          __PYX_ERR(0, 643, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":614
+        /* "script_Rocha_2020.pyx":642
  *         #Calculo da inclinaaio K4
  *         for i in range(0,N_len):
  *             if i == 0:             # <<<<<<<<<<<<<<
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  */
-        goto __pyx_L42;
+        goto __pyx_L45;
       }
 
-      /* "script_Rocha_2020.pyx":616
+      /* "script_Rocha_2020.pyx":644
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
@@ -10493,7 +11256,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_21 = ((__pyx_v_i == (__pyx_v_N_len - 1)) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":617
+        /* "script_Rocha_2020.pyx":645
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):
  *                 update = ((Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -10506,21 +11269,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + (__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K3.diminfo[0].strides)))) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Velocity.diminfo[0].strides)));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 617, __pyx_L1_error)
+          __PYX_ERR(0, 645, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
 
-        /* "script_Rocha_2020.pyx":616
+        /* "script_Rocha_2020.pyx":644
  *             if i == 0:
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
  *             elif i == (N_len - 1):             # <<<<<<<<<<<<<<
  *                 update = ((Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
  *             else:
  */
-        goto __pyx_L42;
+        goto __pyx_L45;
       }
 
-      /* "script_Rocha_2020.pyx":619
+      /* "script_Rocha_2020.pyx":647
  *                 update = ((Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
  *             else:
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i] - (Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z             # <<<<<<<<<<<<<<
@@ -10537,13 +11300,13 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_20 = (-((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + (__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K3.diminfo[0].strides)))) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_Velocity.diminfo[0].strides))) - (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + (__pyx_v_timestep * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_K3.diminfo[0].strides)))) * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Velocity.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Velocity.diminfo[0].strides)))));
         if (unlikely(__pyx_v_delta_z == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 619, __pyx_L1_error)
+          __PYX_ERR(0, 647, __pyx_L1_error)
         }
         __pyx_v_update = (__pyx_t_20 / __pyx_v_delta_z);
       }
-      __pyx_L42:;
+      __pyx_L45:;
 
-      /* "script_Rocha_2020.pyx":620
+      /* "script_Rocha_2020.pyx":648
  *             else:
  *                 update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i] - (Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
  *             K4[i] = update             # <<<<<<<<<<<<<<
@@ -10553,76 +11316,76 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_29 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K4.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_K4.diminfo[0].strides) = __pyx_v_update;
 
-      /* "script_Rocha_2020.pyx":623
+      /* "script_Rocha_2020.pyx":651
  * 
  *             #Verificaao dos valores de concentraao
  *             if np.isnan(update) and nanHit == 0:             # <<<<<<<<<<<<<<
  *                 print("Last timestep before fail:")
  *                 print(Concentration)
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 623, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 651, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_isnan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 623, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_isnan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 651, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_update); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 623, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_update); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 651, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = NULL;
+      __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_5)) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_3)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_3);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_4, function);
         }
       }
-      __pyx_t_10 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 651, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 651, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_23) {
       } else {
         __pyx_t_21 = __pyx_t_23;
-        goto __pyx_L44_bool_binop_done;
+        goto __pyx_L47_bool_binop_done;
       }
       __pyx_t_23 = ((__pyx_v_nanHit == 0) != 0);
       __pyx_t_21 = __pyx_t_23;
-      __pyx_L44_bool_binop_done:;
+      __pyx_L47_bool_binop_done:;
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":624
+        /* "script_Rocha_2020.pyx":652
  *             #Verificaao dos valores de concentraao
  *             if np.isnan(update) and nanHit == 0:
  *                 print("Last timestep before fail:")             # <<<<<<<<<<<<<<
  *                 print(Concentration)
  *                 nanHit = 1
  */
-        if (__Pyx_PrintOne(0, __pyx_kp_s_Last_timestep_before_fail) < 0) __PYX_ERR(0, 624, __pyx_L1_error)
+        if (__Pyx_PrintOne(0, __pyx_kp_s_Last_timestep_before_fail) < 0) __PYX_ERR(0, 652, __pyx_L1_error)
 
-        /* "script_Rocha_2020.pyx":625
+        /* "script_Rocha_2020.pyx":653
  *             if np.isnan(update) and nanHit == 0:
  *                 print("Last timestep before fail:")
  *                 print(Concentration)             # <<<<<<<<<<<<<<
  *                 nanHit = 1
  * 
  */
-        if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Concentration)) < 0) __PYX_ERR(0, 625, __pyx_L1_error)
+        if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Concentration)) < 0) __PYX_ERR(0, 653, __pyx_L1_error)
 
-        /* "script_Rocha_2020.pyx":626
+        /* "script_Rocha_2020.pyx":654
  *                 print("Last timestep before fail:")
  *                 print(Concentration)
  *                 nanHit = 1             # <<<<<<<<<<<<<<
  * 
- *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media
+ *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6  #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media
  */
         __pyx_v_nanHit = 1;
 
-        /* "script_Rocha_2020.pyx":623
+        /* "script_Rocha_2020.pyx":651
  * 
  *             #Verificaao dos valores de concentraao
  *             if np.isnan(update) and nanHit == 0:             # <<<<<<<<<<<<<<
@@ -10631,12 +11394,12 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
       }
 
-      /* "script_Rocha_2020.pyx":628
+      /* "script_Rocha_2020.pyx":656
  *                 nanHit = 1
  * 
- *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media             # <<<<<<<<<<<<<<
- *         Concentration = np.copy(Concentration_aux)
- * 
+ *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6  #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media             # <<<<<<<<<<<<<<
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0
  */
       __pyx_t_29 = __pyx_v_i;
       __pyx_t_28 = __pyx_v_i;
@@ -10645,18 +11408,48 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __pyx_t_26 = __pyx_v_i;
       __pyx_t_27 = __pyx_v_i;
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_27, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = ((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_29, __pyx_pybuffernd_Concentration.diminfo[0].strides)) + ((__pyx_v_timestep * ((((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K1.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_K1.diminfo[0].strides)) + (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K2.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_K2.diminfo[0].strides)))) + (2.0 * (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K3.rcbuffer->pybuffer.buf, __pyx_t_25, __pyx_pybuffernd_K3.diminfo[0].strides)))) + (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_K4.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_K4.diminfo[0].strides)))) / 6.0));
+
+      /* "script_Rocha_2020.pyx":657
+ * 
+ *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6  #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ *         Concentration = np.copy(Concentration_aux)
+ */
+      __pyx_t_26 = __pyx_v_i;
+      __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides)) < 0.0) != 0);
+      if (__pyx_t_21) {
+
+        /* "script_Rocha_2020.pyx":658
+ *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6  #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0             # <<<<<<<<<<<<<<
+ *         Concentration = np.copy(Concentration_aux)
+ * 
+ */
+        __pyx_t_26 = __pyx_v_i;
+        *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration_aux.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration_aux.diminfo[0].strides) = 0.0;
+
+        /* "script_Rocha_2020.pyx":657
+ * 
+ *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6  #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media
+ *             if Concentration_aux[i] < 0:             # <<<<<<<<<<<<<<
+ *                 Concentration_aux[i] = 0
+ *         Concentration = np.copy(Concentration_aux)
+ */
+      }
     }
 
-    /* "script_Rocha_2020.pyx":629
- * 
- *             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6 #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinao media
+    /* "script_Rocha_2020.pyx":659
+ *             if Concentration_aux[i] < 0:
+ *                 Concentration_aux[i] = 0
  *         Concentration = np.copy(Concentration_aux)             # <<<<<<<<<<<<<<
  * 
  *         count += 1
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 629, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 659, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 629, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 659, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -10669,13 +11462,13 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_10 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, ((PyObject *)__pyx_v_Concentration_aux)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_Concentration_aux));
+    __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, ((PyObject *)__pyx_v_Concentration_aux)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_Concentration_aux));
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 629, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 659, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 629, __pyx_L1_error)
-    __pyx_t_7 = ((PyArrayObject *)__pyx_t_10);
+    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 659, __pyx_L1_error)
+    __pyx_t_7 = ((PyArrayObject *)__pyx_t_5);
     {
       __Pyx_BufFmt_StackElem __pyx_stack[1];
       __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Concentration.rcbuffer->pybuffer);
@@ -10691,26 +11484,26 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
         __pyx_t_30 = __pyx_t_31 = __pyx_t_32 = 0;
       }
       __pyx_pybuffernd_Concentration.diminfo[0].strides = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_Concentration.diminfo[0].shape = __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.shape[0];
-      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 629, __pyx_L1_error)
+      if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 659, __pyx_L1_error)
     }
     __pyx_t_7 = 0;
-    __Pyx_DECREF_SET(__pyx_v_Concentration, ((PyArrayObject *)__pyx_t_10));
-    __pyx_t_10 = 0;
+    __Pyx_DECREF_SET(__pyx_v_Concentration, ((PyArrayObject *)__pyx_t_5));
+    __pyx_t_5 = 0;
 
-    /* "script_Rocha_2020.pyx":631
+    /* "script_Rocha_2020.pyx":661
  *         Concentration = np.copy(Concentration_aux)
  * 
  *         count += 1             # <<<<<<<<<<<<<<
- * 
  *         #Atualizar linha de empacotamento
+ *         for i in range(0, N_len):
  */
     __pyx_v_count = (__pyx_v_count + 1);
 
-    /* "script_Rocha_2020.pyx":634
- * 
+    /* "script_Rocha_2020.pyx":663
+ *         count += 1
  *         #Atualizar linha de empacotamento
  *         for i in range(0, N_len):             # <<<<<<<<<<<<<<
- *             if Concentration[i+1] > 0.1391:
+ *             if Concentration[i+1] > concentrationLimit:
  *                 packingIndex = i + 1
  */
     __pyx_t_2 = __pyx_v_N_len;
@@ -10718,45 +11511,45 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_17; __pyx_t_24+=1) {
       __pyx_v_i = __pyx_t_24;
 
-      /* "script_Rocha_2020.pyx":635
+      /* "script_Rocha_2020.pyx":664
  *         #Atualizar linha de empacotamento
  *         for i in range(0, N_len):
- *             if Concentration[i+1] > 0.1391:             # <<<<<<<<<<<<<<
+ *             if Concentration[i+1] > concentrationLimit:             # <<<<<<<<<<<<<<
  *                 packingIndex = i + 1
  *                 continue
  */
       __pyx_t_26 = (__pyx_v_i + 1);
-      __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.1391) != 0);
+      __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > __pyx_v_concentrationLimit) != 0);
       if (__pyx_t_21) {
 
-        /* "script_Rocha_2020.pyx":636
+        /* "script_Rocha_2020.pyx":665
  *         for i in range(0, N_len):
- *             if Concentration[i+1] > 0.1391:
+ *             if Concentration[i+1] > concentrationLimit:
  *                 packingIndex = i + 1             # <<<<<<<<<<<<<<
  *                 continue
  *             else:
  */
         __pyx_v_packingIndex = (__pyx_v_i + 1);
 
-        /* "script_Rocha_2020.pyx":637
- *             if Concentration[i+1] > 0.1391:
+        /* "script_Rocha_2020.pyx":666
+ *             if Concentration[i+1] > concentrationLimit:
  *                 packingIndex = i + 1
  *                 continue             # <<<<<<<<<<<<<<
  *             else:
  *                 packingIndex = i
  */
-        goto __pyx_L46_continue;
+        goto __pyx_L50_continue;
 
-        /* "script_Rocha_2020.pyx":635
+        /* "script_Rocha_2020.pyx":664
  *         #Atualizar linha de empacotamento
  *         for i in range(0, N_len):
- *             if Concentration[i+1] > 0.1391:             # <<<<<<<<<<<<<<
+ *             if Concentration[i+1] > concentrationLimit:             # <<<<<<<<<<<<<<
  *                 packingIndex = i + 1
  *                 continue
  */
       }
 
-      /* "script_Rocha_2020.pyx":639
+      /* "script_Rocha_2020.pyx":668
  *                 continue
  *             else:
  *                 packingIndex = i             # <<<<<<<<<<<<<<
@@ -10766,143 +11559,21 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       /*else*/ {
         __pyx_v_packingIndex = __pyx_v_i;
 
-        /* "script_Rocha_2020.pyx":640
+        /* "script_Rocha_2020.pyx":669
  *             else:
  *                 packingIndex = i
  *                 break             # <<<<<<<<<<<<<<
  * 
- *         if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:
+ *         # if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:
  */
-        goto __pyx_L47_break;
+        goto __pyx_L51_break;
       }
-      __pyx_L46_continue:;
+      __pyx_L50_continue:;
     }
-    __pyx_L47_break:;
+    __pyx_L51_break:;
 
-    /* "script_Rocha_2020.pyx":642
- *                 break
- * 
- *         if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:             # <<<<<<<<<<<<<<
- *             print("Current time: " + str(currentTime))
- *             print(Concentration)
- */
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_isnan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_sum); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    __pyx_t_6 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_Concentration));
-    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_3)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_3);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
-      }
-    }
-    __pyx_t_10 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
-    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 642, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_33 = ((!__pyx_t_23) != 0);
-    if (__pyx_t_33) {
-    } else {
-      __pyx_t_21 = __pyx_t_33;
-      goto __pyx_L50_bool_binop_done;
-    }
-    __pyx_t_33 = ((__pyx_v_dia == 18) != 0);
-    if (__pyx_t_33) {
-    } else {
-      __pyx_t_21 = __pyx_t_33;
-      goto __pyx_L50_bool_binop_done;
-    }
-    __pyx_t_26 = (__pyx_v_N_len - 2);
-    __pyx_t_33 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)) <= 0.1391) != 0);
-    __pyx_t_21 = __pyx_t_33;
-    __pyx_L50_bool_binop_done:;
-    if (__pyx_t_21) {
-
-      /* "script_Rocha_2020.pyx":643
- * 
- *         if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:
- *             print("Current time: " + str(currentTime))             # <<<<<<<<<<<<<<
- *             print(Concentration)
- *             print("Velocity")
- */
-      __pyx_t_10 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 643, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 643, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyNumber_Add(__pyx_kp_s_Current_time_2, __pyx_t_4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 643, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_10) < 0) __PYX_ERR(0, 643, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-
-      /* "script_Rocha_2020.pyx":644
- *         if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:
- *             print("Current time: " + str(currentTime))
- *             print(Concentration)             # <<<<<<<<<<<<<<
- *             print("Velocity")
- *             print(Velocity)
- */
-      if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Concentration)) < 0) __PYX_ERR(0, 644, __pyx_L1_error)
-
-      /* "script_Rocha_2020.pyx":645
- *             print("Current time: " + str(currentTime))
- *             print(Concentration)
- *             print("Velocity")             # <<<<<<<<<<<<<<
- *             print(Velocity)
- * 
- */
-      if (__Pyx_PrintOne(0, __pyx_n_s_Velocity) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
-
-      /* "script_Rocha_2020.pyx":646
- *             print(Concentration)
- *             print("Velocity")
- *             print(Velocity)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-      if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Velocity)) < 0) __PYX_ERR(0, 646, __pyx_L1_error)
-
-      /* "script_Rocha_2020.pyx":642
- *                 break
- * 
- *         if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:             # <<<<<<<<<<<<<<
- *             print("Current time: " + str(currentTime))
- *             print(Concentration)
- */
-    }
-
-    /* "script_Rocha_2020.pyx":649
- * 
+    /* "script_Rocha_2020.pyx":682
+ *         # print(Velocity[N_len - 3])
  * 
  *         if count >= 86400 / timestep:             # <<<<<<<<<<<<<<
  *             f += 1
@@ -10910,103 +11581,139 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
     if (unlikely(__pyx_v_timestep == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 649, __pyx_L1_error)
+      __PYX_ERR(0, 682, __pyx_L1_error)
     }
     __pyx_t_21 = ((__pyx_v_count >= (86400.0 / __pyx_v_timestep)) != 0);
     if (__pyx_t_21) {
 
-      /* "script_Rocha_2020.pyx":650
+      /* "script_Rocha_2020.pyx":683
  * 
  *         if count >= 86400 / timestep:
  *             f += 1             # <<<<<<<<<<<<<<
  *             for h in range(0,N_len):
- *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+ *                 if Concentration[h] > 0:
  */
       __pyx_v_f = (__pyx_v_f + 1);
 
-      /* "script_Rocha_2020.pyx":651
+      /* "script_Rocha_2020.pyx":684
  *         if count >= 86400 / timestep:
  *             f += 1
  *             for h in range(0,N_len):             # <<<<<<<<<<<<<<
- *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
- *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+ *                 if Concentration[h] > 0:
+ *                     Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
  */
       __pyx_t_2 = __pyx_v_N_len;
       __pyx_t_17 = __pyx_t_2;
       for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
         __pyx_v_h = __pyx_t_18;
 
-        /* "script_Rocha_2020.pyx":652
+        /* "script_Rocha_2020.pyx":685
  *             f += 1
  *             for h in range(0,N_len):
- *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
- *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+ *                 if Concentration[h] > 0:             # <<<<<<<<<<<<<<
+ *                     Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+ *                 else:
+ */
+        __pyx_t_26 = __pyx_v_h;
+        __pyx_t_21 = (((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)) > 0.0) != 0);
+        if (__pyx_t_21) {
+
+          /* "script_Rocha_2020.pyx":686
+ *             for h in range(0,N_len):
+ *                 if Concentration[h] > 0:
+ *                     Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))             # <<<<<<<<<<<<<<
+ *                 else:
+ *                     Pres[h][f] = 0
+ */
+          __pyx_t_5 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exp); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __pyx_t_26 = __pyx_v_h;
+          __pyx_t_20 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides));
+          if (unlikely(__pyx_t_20 == 0)) {
+            PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+            __PYX_ERR(0, 686, __pyx_L1_error)
+          }
+          if (unlikely(__pyx_v_ref_conc == 0)) {
+            PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+            __PYX_ERR(0, 686, __pyx_L1_error)
+          }
+          __pyx_t_4 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_10 = NULL;
+          if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+            __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_3);
+            if (likely(__pyx_t_10)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+              __Pyx_INCREF(__pyx_t_10);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_3, function);
+            }
+          }
+          __pyx_t_6 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_10, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
+          __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __pyx_t_3 = PyNumber_Multiply(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_6, __pyx_v_f, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+          /* "script_Rocha_2020.pyx":685
+ *             f += 1
+ *             for h in range(0,N_len):
+ *                 if Concentration[h] > 0:             # <<<<<<<<<<<<<<
+ *                     Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+ *                 else:
+ */
+          goto __pyx_L56;
+        }
+
+        /* "script_Rocha_2020.pyx":688
+ *                     Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
+ *                 else:
+ *                     Pres[h][f] = 0             # <<<<<<<<<<<<<<
+ *                 Perm[h][f] = perm(Concentration[h], physicalParameters, packingParameters)
  * 
  */
-        __pyx_t_10 = PyFloat_FromDouble(__pyx_v_p_ref); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_10);
-        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_exp); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_26 = __pyx_v_h;
-        __pyx_t_20 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides));
-        if (unlikely(__pyx_t_20 == 0)) {
-          PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 652, __pyx_L1_error)
+        /*else*/ {
+          __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 688, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          if (unlikely(__Pyx_SetItemInt(__pyx_t_3, __pyx_v_f, __pyx_int_0, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 688, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         }
-        if (unlikely(__pyx_v_ref_conc == 0)) {
-          PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-          __PYX_ERR(0, 652, __pyx_L1_error)
-        }
-        __pyx_t_6 = PyFloat_FromDouble(((-__pyx_v_beta) * ((1.0 / __pyx_t_20) - (1.0 / __pyx_v_ref_conc)))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_5 = NULL;
-        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-          __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
-          if (likely(__pyx_t_5)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-            __Pyx_INCREF(__pyx_t_5);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_3, function);
-          }
-        }
-        __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
-        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Multiply(__pyx_t_10, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Pres), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 652, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_L56:;
 
-        /* "script_Rocha_2020.pyx":653
- *             for h in range(0,N_len):
- *                 Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
- *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)             # <<<<<<<<<<<<<<
+        /* "script_Rocha_2020.pyx":689
+ *                 else:
+ *                     Pres[h][f] = 0
+ *                 Perm[h][f] = perm(Concentration[h], physicalParameters, packingParameters)             # <<<<<<<<<<<<<<
  * 
  *             dia += 1
  */
         __pyx_t_26 = __pyx_v_h;
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_constantParameters)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 653, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_f_17script_Rocha_2020_perm((*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_double_t *, __pyx_pybuffernd_Concentration.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_Concentration.diminfo[0].strides)), __pyx_v_physicalParameters, __pyx_v_packingParameters)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 689, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 653, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_4, __pyx_v_f, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 653, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_Perm), __pyx_v_h, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 689, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_6, __pyx_v_f, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 0, 0) < 0)) __PYX_ERR(0, 689, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
 
-      /* "script_Rocha_2020.pyx":655
- *                 Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
+      /* "script_Rocha_2020.pyx":691
+ *                 Perm[h][f] = perm(Concentration[h], physicalParameters, packingParameters)
  * 
  *             dia += 1             # <<<<<<<<<<<<<<
  * 
@@ -11014,152 +11721,58 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
       __pyx_v_dia = (__pyx_v_dia + 1);
 
-      /* "script_Rocha_2020.pyx":658
+      /* "script_Rocha_2020.pyx":694
  * 
  *             #Salvar dados a cada dia de simulaao
  *             Data.append(np.copy(Concentration))             # <<<<<<<<<<<<<<
+ *             Time.append(dia)
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 694, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 694, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_6)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_6);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_Concentration));
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 694, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_3); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 694, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "script_Rocha_2020.pyx":695
+ *             #Salvar dados a cada dia de simulaao
+ *             Data.append(np.copy(Concentration))
+ *             Time.append(dia)             # <<<<<<<<<<<<<<
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
  *             pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 658, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 658, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_4, ((PyObject *)__pyx_v_Concentration)) : __Pyx_PyObject_CallOneArg(__pyx_t_10, ((PyObject *)__pyx_v_Concentration));
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 658, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 695, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Data, __pyx_t_3); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 658, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyList_Append(__pyx_v_Time, __pyx_t_3); if (unlikely(__pyx_t_16 == ((int)-1))) __PYX_ERR(0, 695, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "script_Rocha_2020.pyx":659
- *             #Salvar dados a cada dia de simulaao
+      /* "script_Rocha_2020.pyx":696
  *             Data.append(np.copy(Concentration))
+ *             Time.append(dia)
  *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")             # <<<<<<<<<<<<<<
  *             pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
  *             pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 659, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pd); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 696, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-        }
-      }
-      __pyx_t_10 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_v_Data) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_Data);
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_resultadosPre_5, __pyx_t_4); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_10, __pyx_kp_s_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_10)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_10);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_10, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4);
-      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 659, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-      /* "script_Rocha_2020.pyx":660
- *             Data.append(np.copy(Concentration))
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
- *             pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")             # <<<<<<<<<<<<<<
- *             pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
- * 
- */
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 660, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 660, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-        }
-      }
-      __pyx_t_6 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_4, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_10, ((PyObject *)__pyx_v_Pres));
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 660, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 660, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6);
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 660, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-      /* "script_Rocha_2020.pyx":661
- *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
- *             pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
- *             pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")             # <<<<<<<<<<<<<<
- * 
- *             #Visualizaao da simulaao Debug
- */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pd); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 661, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 661, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 696, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_6 = NULL;
@@ -11172,141 +11785,101 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
           __Pyx_DECREF_SET(__pyx_t_4, function);
         }
       }
-      __pyx_t_10 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Perm));
+      __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_v_Data) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_Data);
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 661, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 661, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 696, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = NULL;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 696, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_resultadosPre_5, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_csv); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 696, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_10)) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_5)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_10);
+          __Pyx_INCREF(__pyx_t_5);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_4, function);
         }
       }
-      __pyx_t_3 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_10, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3);
-      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 661, __pyx_L1_error)
+      __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 696, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "script_Rocha_2020.pyx":664
+      /* "script_Rocha_2020.pyx":697
+ *             Time.append(dia)
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
+ *             pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")             # <<<<<<<<<<<<<<
+ *             pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
  * 
- *             #Visualizaao da simulaao Debug
- *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))             # <<<<<<<<<<<<<<
- *             print(Concentration)
- *             print("Posio da interface de empacotamento: " + str(packingIndex))
  */
-      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_Current_time, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_Dia); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_4, __pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 664, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-      /* "script_Rocha_2020.pyx":665
- *             #Visualizaao da simulaao Debug
- *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
- *             print(Concentration)             # <<<<<<<<<<<<<<
- *             print("Posio da interface de empacotamento: " + str(packingIndex))
- *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
- */
-      if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Concentration)) < 0) __PYX_ERR(0, 665, __pyx_L1_error)
-
-      /* "script_Rocha_2020.pyx":666
- *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
- *             print(Concentration)
- *             print("Posio da interface de empacotamento: " + str(packingIndex))             # <<<<<<<<<<<<<<
- *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
- *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
- */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_packingIndex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 666, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 666, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_Posio_da_interface_de_empacotame, __pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 666, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 666, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-      /* "script_Rocha_2020.pyx":667
- *             print(Concentration)
- *             print("Posio da interface de empacotamento: " + str(packingIndex))
- *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))             # <<<<<<<<<<<<<<
- *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
- *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
- */
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_4 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_10);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_10, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_10);
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_10, __pyx_kp_s_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_where); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_pd); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 697, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 697, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_34 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-        __pyx_t_34 = PyMethod_GET_SELF(__pyx_t_5);
-        if (likely(__pyx_t_34)) {
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_6)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-          __Pyx_INCREF(__pyx_t_34);
+          __Pyx_INCREF(__pyx_t_6);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_5, function);
         }
       }
-      __pyx_t_4 = (__pyx_t_34) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_34) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-      __Pyx_XDECREF(__pyx_t_34); __pyx_t_34 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_Pres));
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 697, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 697, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6);
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 697, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "script_Rocha_2020.pyx":698
+ *             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
+ *             pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
+ *             pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")             # <<<<<<<<<<<<<<
+ * 
+ *             saveFrame(Position, Concentration, dia)
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 698, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 698, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -11318,84 +11891,248 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
           __Pyx_DECREF_SET(__pyx_t_6, function);
         }
       }
-      __pyx_t_10 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5);
+      __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_Perm));
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 698, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 698, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_5 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_5)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_5);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3);
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 698, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "script_Rocha_2020.pyx":700
+ *             pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
+ * 
+ *             saveFrame(Position, Concentration, dia)             # <<<<<<<<<<<<<<
+ * 
+ *             #Visualizaao da simulaao Debug
+ */
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_saveFrame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 700, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 667, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 700, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_4 = NULL;
+      __pyx_t_2 = 0;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __pyx_t_2 = 1;
+        }
+      }
+      #if CYTHON_FAST_PYCALL
+      if (PyFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[4] = {__pyx_t_4, ((PyObject *)__pyx_v_Position), ((PyObject *)__pyx_v_Concentration), __pyx_t_5};
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_2, 3+__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 700, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      } else
+      #endif
+      #if CYTHON_FAST_PYCCALL
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[4] = {__pyx_t_4, ((PyObject *)__pyx_v_Position), ((PyObject *)__pyx_v_Concentration), __pyx_t_5};
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_2, 3+__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 700, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      } else
+      #endif
+      {
+        __pyx_t_10 = PyTuple_New(3+__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 700, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        if (__pyx_t_4) {
+          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_4); __pyx_t_4 = NULL;
+        }
+        __Pyx_INCREF(((PyObject *)__pyx_v_Position));
+        __Pyx_GIVEREF(((PyObject *)__pyx_v_Position));
+        PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_2, ((PyObject *)__pyx_v_Position));
+        __Pyx_INCREF(((PyObject *)__pyx_v_Concentration));
+        __Pyx_GIVEREF(((PyObject *)__pyx_v_Concentration));
+        PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_2, ((PyObject *)__pyx_v_Concentration));
+        __Pyx_GIVEREF(__pyx_t_5);
+        PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_2, __pyx_t_5);
+        __pyx_t_5 = 0;
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 700, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      }
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "script_Rocha_2020.pyx":703
+ * 
+ *             #Visualizaao da simulaao Debug
+ *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))             # <<<<<<<<<<<<<<
+ *             print(Concentration)
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
+ */
+      __pyx_t_3 = PyFloat_FromDouble(__pyx_v_currentTime); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 703, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyNumber_Add(__pyx_t_3, __pyx_t_6); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 667, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_Current_time, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 703, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_Dia); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 703, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_dia); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 703, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 703, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_Add(__pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 703, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_10) < 0) __PYX_ERR(0, 667, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 703, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "script_Rocha_2020.pyx":704
+ *             #Visualizaao da simulaao Debug
+ *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
+ *             print(Concentration)             # <<<<<<<<<<<<<<
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
+ *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+ */
+      if (__Pyx_PrintOne(0, ((PyObject *)__pyx_v_Concentration)) < 0) __PYX_ERR(0, 704, __pyx_L1_error)
+
+      /* "script_Rocha_2020.pyx":705
+ *             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
+ *             print(Concentration)
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))             # <<<<<<<<<<<<<<
+ *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+ *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+ */
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_packingIndex); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 705, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_Posio_da_interface_de_empacotame, __pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 705, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_3) < 0) __PYX_ERR(0, 705, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+      /* "script_Rocha_2020.pyx":706
+ *             print(Concentration)
+ *             print("Posio da interface de empacotamento: " + str(packingIndex))
+ *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))             # <<<<<<<<<<<<<<
+ *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+ *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+ */
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __pyx_t_6 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+        if (likely(__pyx_t_6)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+          __Pyx_INCREF(__pyx_t_6);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_10, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_10);
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = PyNumber_Add(__pyx_t_10, __pyx_kp_s_); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_where); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_min); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_33 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_33 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_33)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_33);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
+        }
+      }
+      __pyx_t_6 = (__pyx_t_33) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_33) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+      __Pyx_XDECREF(__pyx_t_33); __pyx_t_33 = 0;
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_6)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_6);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      __pyx_t_10 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_10, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_10 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_10 = PyNumber_Add(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 706, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_10) < 0) __PYX_ERR(0, 706, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-      /* "script_Rocha_2020.pyx":668
+      /* "script_Rocha_2020.pyx":707
  *             print("Posio da interface de empacotamento: " + str(packingIndex))
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))             # <<<<<<<<<<<<<<
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  *             count = 0
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
-        }
-      }
-      __pyx_t_10 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyNumber_Add(__pyx_t_6, __pyx_kp_s_); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_where); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 668, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_34 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-        __pyx_t_34 = PyMethod_GET_SELF(__pyx_t_4);
-        if (likely(__pyx_t_34)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-          __Pyx_INCREF(__pyx_t_34);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_4, function);
-        }
-      }
-      __pyx_t_3 = (__pyx_t_34) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_34) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-      __Pyx_XDECREF(__pyx_t_34); __pyx_t_34 = 0;
-      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_3 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
         __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
         if (likely(__pyx_t_3)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
@@ -11404,40 +12141,85 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
           __Pyx_DECREF_SET(__pyx_t_5, function);
         }
       }
-      __pyx_t_6 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4);
+      __pyx_t_10 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 668, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Add(__pyx_t_10, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 668, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __pyx_t_10 = PyNumber_Add(__pyx_t_5, __pyx_kp_s_); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_6) < 0) __PYX_ERR(0, 668, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_where); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_Concentration), __pyx_n_s_max); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_33 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_33 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_33)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_33);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_33) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_33) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_33); __pyx_t_33 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyObject_RichCompare(((PyObject *)__pyx_v_Concentration), __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_3)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_3);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
+        }
+      }
+      __pyx_t_5 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyNumber_Add(__pyx_t_10, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (__Pyx_PrintOne(0, __pyx_t_5) < 0) __PYX_ERR(0, 707, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "script_Rocha_2020.pyx":669
+      /* "script_Rocha_2020.pyx":708
  *             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)             # <<<<<<<<<<<<<<
  *             count = 0
  *         currentTime += timestep
  */
-      __pyx_t_6 = __pyx_f_17script_Rocha_2020_evalMassConservation(__pyx_v_initial_conc, __pyx_v_solid_density, __pyx_v_L, __pyx_v_N_len, ((PyArrayObject *)__pyx_v_Concentration)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 669, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_5 = __pyx_f_17script_Rocha_2020_evalMassConservation(__pyx_v_initial_conc, __pyx_v_solid_density, __pyx_v_L, __pyx_v_N_len, ((PyArrayObject *)__pyx_v_Concentration)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 708, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "script_Rocha_2020.pyx":670
+      /* "script_Rocha_2020.pyx":709
  *             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  *             count = 0             # <<<<<<<<<<<<<<
@@ -11446,8 +12228,8 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
       __pyx_v_count = 0;
 
-      /* "script_Rocha_2020.pyx":649
- * 
+      /* "script_Rocha_2020.pyx":682
+ *         # print(Velocity[N_len - 3])
  * 
  *         if count >= 86400 / timestep:             # <<<<<<<<<<<<<<
  *             f += 1
@@ -11455,7 +12237,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
     }
 
-    /* "script_Rocha_2020.pyx":671
+    /* "script_Rocha_2020.pyx":710
  *             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
  *             count = 0
  *         currentTime += timestep             # <<<<<<<<<<<<<<
@@ -11465,19 +12247,94 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
     __pyx_v_currentTime = (__pyx_v_currentTime + __pyx_v_timestep);
   }
 
-  /* "script_Rocha_2020.pyx":674
- *         # Time.append(currentTime)
+  /* "script_Rocha_2020.pyx":714
  * 
- *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")             # <<<<<<<<<<<<<<
- *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
+ *     #Gerar o plot de concentraao
+ *     PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len)             # <<<<<<<<<<<<<<
  * 
+ *     #Gerar o plot de pressao
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_pd); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 674, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 674, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PlotConcentrationData); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_physicalParameters->L); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 714, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_numericalParameters->N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 714, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_3 = NULL;
+  __pyx_t_2 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_2 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_3, __pyx_v_numericalParameters->indexesToPlot, __pyx_v_Data, __pyx_v_Time, __pyx_t_10, __pyx_t_6};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 714, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_3, __pyx_v_numericalParameters->indexesToPlot, __pyx_v_Data, __pyx_v_Time, __pyx_t_10, __pyx_t_6};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 714, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_33 = PyTuple_New(5+__pyx_t_2); if (unlikely(!__pyx_t_33)) __PYX_ERR(0, 714, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_33);
+    if (__pyx_t_3) {
+      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_33, 0, __pyx_t_3); __pyx_t_3 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_GIVEREF(__pyx_v_numericalParameters->indexesToPlot);
+    PyTuple_SET_ITEM(__pyx_t_33, 0+__pyx_t_2, __pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_INCREF(__pyx_v_Data);
+    __Pyx_GIVEREF(__pyx_v_Data);
+    PyTuple_SET_ITEM(__pyx_t_33, 1+__pyx_t_2, __pyx_v_Data);
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_33, 2+__pyx_t_2, __pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_t_10);
+    PyTuple_SET_ITEM(__pyx_t_33, 3+__pyx_t_2, __pyx_t_10);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_33, 4+__pyx_t_2, __pyx_t_6);
+    __pyx_t_10 = 0;
+    __pyx_t_6 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_33, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 714, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_33); __pyx_t_33 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "script_Rocha_2020.pyx":717
+ * 
+ *     #Gerar o plot de pressao
+ *     PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)             # <<<<<<<<<<<<<<
+ * 
+ *     #Gerar o plot de permeabilidade
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PlotPressureData); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 717, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_33 = PyFloat_FromDouble(__pyx_v_physicalParameters->L); if (unlikely(!__pyx_t_33)) __PYX_ERR(0, 717, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_33);
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_numericalParameters->N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 717, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_10 = NULL;
+  __pyx_t_2 = 0;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
     __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_4);
     if (likely(__pyx_t_10)) {
@@ -11485,65 +12342,191 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_2 = 1;
     }
   }
-  __pyx_t_5 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_10, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_Pres));
-  __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 674, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_10, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Pres), __pyx_v_Time, __pyx_t_33, __pyx_t_6};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 717, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_33); __pyx_t_33 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_10, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Pres), __pyx_v_Time, __pyx_t_33, __pyx_t_6};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 717, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_33); __pyx_t_33 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_3 = PyTuple_New(5+__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 717, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    if (__pyx_t_10) {
+      __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_10); __pyx_t_10 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_GIVEREF(__pyx_v_numericalParameters->indexesToPlot);
+    PyTuple_SET_ITEM(__pyx_t_3, 0+__pyx_t_2, __pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_INCREF(((PyObject *)__pyx_v_Pres));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Pres));
+    PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_2, ((PyObject *)__pyx_v_Pres));
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_3, 2+__pyx_t_2, __pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_t_33);
+    PyTuple_SET_ITEM(__pyx_t_3, 3+__pyx_t_2, __pyx_t_33);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_3, 4+__pyx_t_2, __pyx_t_6);
+    __pyx_t_33 = 0;
+    __pyx_t_6 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 717, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 674, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
+
+  /* "script_Rocha_2020.pyx":720
+ * 
+ *     #Gerar o plot de permeabilidade
+ *     PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)             # <<<<<<<<<<<<<<
+ * 
+ *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PlotPermeabilityData); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 720, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_physicalParameters->L); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 720, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_numericalParameters->N_len); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 720, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_33 = NULL;
+  __pyx_t_2 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_33 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_33)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_33);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_2 = 1;
     }
   }
-  __pyx_t_6 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 674, __pyx_L1_error)
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_33, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Perm), __pyx_v_Time, __pyx_t_3, __pyx_t_6};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 720, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_33); __pyx_t_33 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[6] = {__pyx_t_33, __pyx_v_numericalParameters->indexesToPlot, ((PyObject *)__pyx_v_Perm), __pyx_v_Time, __pyx_t_3, __pyx_t_6};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_2, 5+__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 720, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_33); __pyx_t_33 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_10 = PyTuple_New(5+__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 720, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    if (__pyx_t_33) {
+      __Pyx_GIVEREF(__pyx_t_33); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_33); __pyx_t_33 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_GIVEREF(__pyx_v_numericalParameters->indexesToPlot);
+    PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_2, __pyx_v_numericalParameters->indexesToPlot);
+    __Pyx_INCREF(((PyObject *)__pyx_v_Perm));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_Perm));
+    PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_2, ((PyObject *)__pyx_v_Perm));
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_10, 2+__pyx_t_2, __pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_10, 3+__pyx_t_2, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_10, 4+__pyx_t_2, __pyx_t_6);
+    __pyx_t_3 = 0;
+    __pyx_t_6 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 720, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "script_Rocha_2020.pyx":722
+ *     PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
+ * 
+ *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")             # <<<<<<<<<<<<<<
+ *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_pd); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 722, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 722, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_10)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_10);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_4 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_10, ((PyObject *)__pyx_v_Pres)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_Pres));
+  __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 722, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 722, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_5 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_resultadosPre_6);
+  __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 722, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":675
+  /* "script_Rocha_2020.pyx":723
  * 
  *     pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")             # <<<<<<<<<<<<<<
  * 
  *     return Data
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_pd); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 675, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 675, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_10);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_10, function);
-    }
-  }
-  __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_5, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_10, ((PyObject *)__pyx_v_Perm));
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 675, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_pd); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 723, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 675, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 723, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
     __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_10);
     if (likely(__pyx_t_4)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
@@ -11552,27 +12535,47 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
       __Pyx_DECREF_SET(__pyx_t_10, function);
     }
   }
-  __pyx_t_6 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_4, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3);
+  __pyx_t_6 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_4, ((PyObject *)__pyx_v_Perm)) : __Pyx_PyObject_CallOneArg(__pyx_t_10, ((PyObject *)__pyx_v_Perm));
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 675, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 723, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_to_csv); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 723, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_10, function);
+    }
+  }
+  __pyx_t_5 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_10, __pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3) : __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_kp_s_MVF_temporaryFiles_resultadosPer_3);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 723, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "script_Rocha_2020.pyx":677
+  /* "script_Rocha_2020.pyx":725
  *     pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
  * 
  *     return Data             # <<<<<<<<<<<<<<
+ * 
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_Data);
   __pyx_r = __pyx_v_Data;
   goto __pyx_L0;
 
-  /* "script_Rocha_2020.pyx":455
+  /* "script_Rocha_2020.pyx":479
  *     return Data
  * 
- * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):             # <<<<<<<<<<<<<<
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)
  */
@@ -11584,7 +12587,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_10);
-  __Pyx_XDECREF(__pyx_t_34);
+  __Pyx_XDECREF(__pyx_t_33);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
@@ -11611,7 +12614,6 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Position.rcbuffer->pybuffer);
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_Velocity.rcbuffer->pybuffer);
   __pyx_L2:;
-  __Pyx_XDECREF(__pyx_v_clarifiedParameters);
   __Pyx_XDECREF((PyObject *)__pyx_v_Concentration);
   __Pyx_XDECREF((PyObject *)__pyx_v_Concentration_aux);
   __Pyx_XDECREF((PyObject *)__pyx_v_Velocity);
@@ -11623,6 +12625,1825 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
   __Pyx_XDECREF(__pyx_v_Data);
   __Pyx_XDECREF((PyObject *)__pyx_v_Pres);
   __Pyx_XDECREF((PyObject *)__pyx_v_Perm);
+  __Pyx_XDECREF(__pyx_v_Time);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":727
+ *     return Data
+ * 
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_17script_Rocha_2020_7PlotConcentrationData(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_7PlotConcentrationData = {"PlotConcentrationData", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_7PlotConcentrationData, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_7PlotConcentrationData(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_indexesToPlot = 0;
+  PyObject *__pyx_v_Data = 0;
+  PyObject *__pyx_v_Time = 0;
+  PyObject *__pyx_v_L = 0;
+  PyObject *__pyx_v_N_len = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("PlotConcentrationData (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_indexesToPlot,&__pyx_n_s_Data,&__pyx_n_s_Time,&__pyx_n_s_L,&__pyx_n_s_N_len,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexesToPlot)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Data)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotConcentrationData", 1, 5, 5, 1); __PYX_ERR(0, 727, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Time)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotConcentrationData", 1, 5, 5, 2); __PYX_ERR(0, 727, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotConcentrationData", 1, 5, 5, 3); __PYX_ERR(0, 727, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N_len)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotConcentrationData", 1, 5, 5, 4); __PYX_ERR(0, 727, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PlotConcentrationData") < 0)) __PYX_ERR(0, 727, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_indexesToPlot = values[0];
+    __pyx_v_Data = values[1];
+    __pyx_v_Time = values[2];
+    __pyx_v_L = values[3];
+    __pyx_v_N_len = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("PlotConcentrationData", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 727, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("script_Rocha_2020.PlotConcentrationData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_17script_Rocha_2020_6PlotConcentrationData(__pyx_self, __pyx_v_indexesToPlot, __pyx_v_Data, __pyx_v_Time, __pyx_v_L, __pyx_v_N_len);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_17script_Rocha_2020_6PlotConcentrationData(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexesToPlot, PyObject *__pyx_v_Data, PyObject *__pyx_v_Time, PyObject *__pyx_v_L, PyObject *__pyx_v_N_len) {
+  PyObject *__pyx_v_DataToPlot = NULL;
+  PyObject *__pyx_v_index = NULL;
+  PyObject *__pyx_v_positionToPlot = NULL;
+  PyObject *__pyx_v_concentrationData = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  PyObject *(*__pyx_t_3)(PyObject *);
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_7;
+  PyObject *(*__pyx_t_8)(PyObject *);
+  int __pyx_t_9;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("PlotConcentrationData", 0);
+
+  /* "script_Rocha_2020.pyx":728
+ * 
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):
+ *     DataToPlot = []             # <<<<<<<<<<<<<<
+ *     for index in indexesToPlot:
+ *         DataToPlot = []
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 728, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_DataToPlot = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":729
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):
+ *     DataToPlot = []
+ *     for index in indexesToPlot:             # <<<<<<<<<<<<<<
+ *         DataToPlot = []
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ */
+  if (likely(PyList_CheckExact(__pyx_v_indexesToPlot)) || PyTuple_CheckExact(__pyx_v_indexesToPlot)) {
+    __pyx_t_1 = __pyx_v_indexesToPlot; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
+    __pyx_t_3 = NULL;
+  } else {
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_indexesToPlot); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 729, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 729, __pyx_L1_error)
+  }
+  for (;;) {
+    if (likely(!__pyx_t_3)) {
+      if (likely(PyList_CheckExact(__pyx_t_1))) {
+        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 729, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 729, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 729, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 729, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 729, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "script_Rocha_2020.pyx":730
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ *         DataToPlot = []             # <<<<<<<<<<<<<<
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         for concentrationData in Data:
+ */
+    __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 730, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF_SET(__pyx_v_DataToPlot, ((PyObject*)__pyx_t_4));
+    __pyx_t_4 = 0;
+
+    /* "script_Rocha_2020.pyx":731
+ *     for index in indexesToPlot:
+ *         DataToPlot = []
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)             # <<<<<<<<<<<<<<
+ *         for concentrationData in Data:
+ *             DataToPlot.append(concentrationData[index])
+ */
+    __pyx_t_4 = PyNumber_Multiply(__pyx_int_2, __pyx_v_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 731, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyInt_AddCObj(__pyx_int_1, __pyx_t_4, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 731, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyNumber_Multiply(__pyx_v_L, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 731, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Multiply(__pyx_int_2, __pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 731, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 731, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_positionToPlot, __pyx_t_6);
+    __pyx_t_6 = 0;
+
+    /* "script_Rocha_2020.pyx":732
+ *         DataToPlot = []
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         for concentrationData in Data:             # <<<<<<<<<<<<<<
+ *             DataToPlot.append(concentrationData[index])
+ * 
+ */
+    if (likely(PyList_CheckExact(__pyx_v_Data)) || PyTuple_CheckExact(__pyx_v_Data)) {
+      __pyx_t_6 = __pyx_v_Data; __Pyx_INCREF(__pyx_t_6); __pyx_t_7 = 0;
+      __pyx_t_8 = NULL;
+    } else {
+      __pyx_t_7 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_Data); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 732, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 732, __pyx_L1_error)
+    }
+    for (;;) {
+      if (likely(!__pyx_t_8)) {
+        if (likely(PyList_CheckExact(__pyx_t_6))) {
+          if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_6)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_5); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 732, __pyx_L1_error)
+          #else
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          #endif
+        } else {
+          if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_7); __Pyx_INCREF(__pyx_t_5); __pyx_t_7++; if (unlikely(0 < 0)) __PYX_ERR(0, 732, __pyx_L1_error)
+          #else
+          __pyx_t_5 = PySequence_ITEM(__pyx_t_6, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          #endif
+        }
+      } else {
+        __pyx_t_5 = __pyx_t_8(__pyx_t_6);
+        if (unlikely(!__pyx_t_5)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 732, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_5);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_concentrationData, __pyx_t_5);
+      __pyx_t_5 = 0;
+
+      /* "script_Rocha_2020.pyx":733
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         for concentrationData in Data:
+ *             DataToPlot.append(concentrationData[index])             # <<<<<<<<<<<<<<
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ */
+      __pyx_t_5 = __Pyx_PyObject_GetItem(__pyx_v_concentrationData, __pyx_v_index); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 733, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_DataToPlot, __pyx_t_5); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 733, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+      /* "script_Rocha_2020.pyx":732
+ *         DataToPlot = []
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         for concentrationData in Data:             # <<<<<<<<<<<<<<
+ *             DataToPlot.append(concentrationData[index])
+ * 
+ */
+    }
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "script_Rocha_2020.pyx":735
+ *             DataToPlot.append(concentrationData[index])
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))             # <<<<<<<<<<<<<<
+ *         plt.legend()
+ * 
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_plot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_Time);
+    __Pyx_INCREF(__pyx_v_DataToPlot);
+    __Pyx_GIVEREF(__pyx_v_DataToPlot);
+    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_DataToPlot);
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_10 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_index); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_11 = PyNumber_Add(__pyx_kp_s_n, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __pyx_t_10 = PyNumber_Add(__pyx_t_11, __pyx_kp_s_z); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __pyx_t_11 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_positionToPlot); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_11);
+    __pyx_t_12 = PyNumber_Add(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_label, __pyx_t_12) < 0) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+    __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+
+    /* "script_Rocha_2020.pyx":736
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ *         plt.legend()             # <<<<<<<<<<<<<<
+ * 
+ *         # plt.legend()
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_plt); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_legend); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    __pyx_t_12 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 736, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_12);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+
+    /* "script_Rocha_2020.pyx":729
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):
+ *     DataToPlot = []
+ *     for index in indexesToPlot:             # <<<<<<<<<<<<<<
+ *         DataToPlot = []
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":740
+ *         # plt.legend()
+ * 
+ *     DataToPlot = []             # <<<<<<<<<<<<<<
+ *     plt.xlabel('Time [Days]')
+ *     plt.ylabel('Concentration')
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF_SET(__pyx_v_DataToPlot, ((PyObject*)__pyx_t_1));
+  __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":741
+ * 
+ *     DataToPlot = []
+ *     plt.xlabel('Time [Days]')             # <<<<<<<<<<<<<<
+ *     plt.ylabel('Concentration')
+ *     # plt.legend()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_plt); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 741, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_xlabel); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 741, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __pyx_t_12 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_12)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_12);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_12, __pyx_kp_s_Time_Days) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_Time_Days);
+  __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 741, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":742
+ *     DataToPlot = []
+ *     plt.xlabel('Time [Days]')
+ *     plt.ylabel('Concentration')             # <<<<<<<<<<<<<<
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Concentration.png')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 742, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ylabel); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 742, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_12))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_12);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_12);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_12, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_12, __pyx_t_6, __pyx_n_s_Concentration) : __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_n_s_Concentration);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 742, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":744
+ *     plt.ylabel('Concentration')
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Concentration.png')             # <<<<<<<<<<<<<<
+ *     plt.close()
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_plt); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 744, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_savefig); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 744, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __pyx_t_12 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_12)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_12);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_12) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_12, __pyx_kp_s_MVF_temporaryFiles_Concentration) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_Concentration);
+  __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 744, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":745
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Concentration.png')
+ *     plt.close()             # <<<<<<<<<<<<<<
+ * 
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 745, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_close); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 745, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_12);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_12))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_12);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_12);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_12, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_12);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 745, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":727
+ *     return Data
+ * 
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_AddTraceback("script_Rocha_2020.PlotConcentrationData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_DataToPlot);
+  __Pyx_XDECREF(__pyx_v_index);
+  __Pyx_XDECREF(__pyx_v_positionToPlot);
+  __Pyx_XDECREF(__pyx_v_concentrationData);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":747
+ *     plt.close()
+ * 
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_17script_Rocha_2020_9PlotPermeabilityData(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_9PlotPermeabilityData = {"PlotPermeabilityData", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_9PlotPermeabilityData, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_9PlotPermeabilityData(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_indexesToPlot = 0;
+  PyObject *__pyx_v_PermeabilityData = 0;
+  PyObject *__pyx_v_Time = 0;
+  PyObject *__pyx_v_L = 0;
+  PyObject *__pyx_v_N_len = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("PlotPermeabilityData (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_indexesToPlot,&__pyx_n_s_PermeabilityData,&__pyx_n_s_Time,&__pyx_n_s_L,&__pyx_n_s_N_len,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexesToPlot)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_PermeabilityData)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPermeabilityData", 1, 5, 5, 1); __PYX_ERR(0, 747, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Time)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPermeabilityData", 1, 5, 5, 2); __PYX_ERR(0, 747, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPermeabilityData", 1, 5, 5, 3); __PYX_ERR(0, 747, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N_len)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPermeabilityData", 1, 5, 5, 4); __PYX_ERR(0, 747, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PlotPermeabilityData") < 0)) __PYX_ERR(0, 747, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_indexesToPlot = values[0];
+    __pyx_v_PermeabilityData = values[1];
+    __pyx_v_Time = values[2];
+    __pyx_v_L = values[3];
+    __pyx_v_N_len = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("PlotPermeabilityData", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 747, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("script_Rocha_2020.PlotPermeabilityData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_17script_Rocha_2020_8PlotPermeabilityData(__pyx_self, __pyx_v_indexesToPlot, __pyx_v_PermeabilityData, __pyx_v_Time, __pyx_v_L, __pyx_v_N_len);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_17script_Rocha_2020_8PlotPermeabilityData(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexesToPlot, PyObject *__pyx_v_PermeabilityData, PyObject *__pyx_v_Time, PyObject *__pyx_v_L, PyObject *__pyx_v_N_len) {
+  PyObject *__pyx_v_DataToPlot = NULL;
+  PyObject *__pyx_v_index = NULL;
+  PyObject *__pyx_v_positionToPlot = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  PyObject *(*__pyx_t_3)(PyObject *);
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("PlotPermeabilityData", 0);
+
+  /* "script_Rocha_2020.pyx":748
+ * 
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):
+ *     DataToPlot = []             # <<<<<<<<<<<<<<
+ *     for index in indexesToPlot:
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_DataToPlot = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":749
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):
+ *     DataToPlot = []
+ *     for index in indexesToPlot:             # <<<<<<<<<<<<<<
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         DataToPlot = PermeabilityData[index]
+ */
+  if (likely(PyList_CheckExact(__pyx_v_indexesToPlot)) || PyTuple_CheckExact(__pyx_v_indexesToPlot)) {
+    __pyx_t_1 = __pyx_v_indexesToPlot; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
+    __pyx_t_3 = NULL;
+  } else {
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_indexesToPlot); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 749, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 749, __pyx_L1_error)
+  }
+  for (;;) {
+    if (likely(!__pyx_t_3)) {
+      if (likely(PyList_CheckExact(__pyx_t_1))) {
+        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 749, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 749, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 749, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 749, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 749, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "script_Rocha_2020.pyx":750
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)             # <<<<<<<<<<<<<<
+ *         DataToPlot = PermeabilityData[index]
+ * 
+ */
+    __pyx_t_4 = PyNumber_Multiply(__pyx_int_2, __pyx_v_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyInt_AddCObj(__pyx_int_1, __pyx_t_4, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyNumber_Multiply(__pyx_v_L, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Multiply(__pyx_int_2, __pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 750, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_positionToPlot, __pyx_t_6);
+    __pyx_t_6 = 0;
+
+    /* "script_Rocha_2020.pyx":751
+ *     for index in indexesToPlot:
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         DataToPlot = PermeabilityData[index]             # <<<<<<<<<<<<<<
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ */
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_PermeabilityData, __pyx_v_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 751, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF_SET(__pyx_v_DataToPlot, __pyx_t_6);
+    __pyx_t_6 = 0;
+
+    /* "script_Rocha_2020.pyx":753
+ *         DataToPlot = PermeabilityData[index]
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))             # <<<<<<<<<<<<<<
+ *         plt.legend()
+ *     plt.xlabel('Time [Days]')
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_plot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_Time);
+    __Pyx_INCREF(__pyx_v_DataToPlot);
+    __Pyx_GIVEREF(__pyx_v_DataToPlot);
+    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_DataToPlot);
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = PyNumber_Add(__pyx_kp_s_n, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = PyNumber_Add(__pyx_t_8, __pyx_kp_s_z); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_positionToPlot); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_label, __pyx_t_9) < 0) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 753, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "script_Rocha_2020.pyx":754
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ *         plt.legend()             # <<<<<<<<<<<<<<
+ *     plt.xlabel('Time [Days]')
+ *     plt.ylabel('Permeability')
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_plt); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 754, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_legend); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 754, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    __pyx_t_9 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 754, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "script_Rocha_2020.pyx":749
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):
+ *     DataToPlot = []
+ *     for index in indexesToPlot:             # <<<<<<<<<<<<<<
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         DataToPlot = PermeabilityData[index]
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":755
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ *         plt.legend()
+ *     plt.xlabel('Time [Days]')             # <<<<<<<<<<<<<<
+ *     plt.ylabel('Permeability')
+ *     # plt.legend()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_plt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 755, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_xlabel); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 755, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __pyx_t_9 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_9)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_9);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_kp_s_Time_Days) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_Time_Days);
+  __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 755, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":756
+ *         plt.legend()
+ *     plt.xlabel('Time [Days]')
+ *     plt.ylabel('Permeability')             # <<<<<<<<<<<<<<
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Permeability.png')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ylabel); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_9);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_9, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_6, __pyx_n_s_Permeability) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_n_s_Permeability);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 756, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":758
+ *     plt.ylabel('Permeability')
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Permeability.png')             # <<<<<<<<<<<<<<
+ *     plt.close()
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_plt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 758, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_savefig); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 758, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __pyx_t_9 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_9)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_9);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_kp_s_MVF_temporaryFiles_Permeability) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_Permeability);
+  __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 758, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":759
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Permeability.png')
+ *     plt.close()             # <<<<<<<<<<<<<<
+ * 
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 759, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_close); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 759, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_9);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_9, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 759, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":747
+ *     plt.close()
+ * 
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_AddTraceback("script_Rocha_2020.PlotPermeabilityData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_DataToPlot);
+  __Pyx_XDECREF(__pyx_v_index);
+  __Pyx_XDECREF(__pyx_v_positionToPlot);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":761
+ *     plt.close()
+ * 
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_17script_Rocha_2020_11PlotPressureData(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_11PlotPressureData = {"PlotPressureData", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_11PlotPressureData, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_11PlotPressureData(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_indexesToPlot = 0;
+  PyObject *__pyx_v_PressureData = 0;
+  PyObject *__pyx_v_Time = 0;
+  PyObject *__pyx_v_L = 0;
+  PyObject *__pyx_v_N_len = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("PlotPressureData (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_indexesToPlot,&__pyx_n_s_PressureData,&__pyx_n_s_Time,&__pyx_n_s_L,&__pyx_n_s_N_len,0};
+    PyObject* values[5] = {0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_indexesToPlot)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_PressureData)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPressureData", 1, 5, 5, 1); __PYX_ERR(0, 761, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Time)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPressureData", 1, 5, 5, 2); __PYX_ERR(0, 761, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPressureData", 1, 5, 5, 3); __PYX_ERR(0, 761, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_N_len)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("PlotPressureData", 1, 5, 5, 4); __PYX_ERR(0, 761, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PlotPressureData") < 0)) __PYX_ERR(0, 761, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+    }
+    __pyx_v_indexesToPlot = values[0];
+    __pyx_v_PressureData = values[1];
+    __pyx_v_Time = values[2];
+    __pyx_v_L = values[3];
+    __pyx_v_N_len = values[4];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("PlotPressureData", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 761, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("script_Rocha_2020.PlotPressureData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_17script_Rocha_2020_10PlotPressureData(__pyx_self, __pyx_v_indexesToPlot, __pyx_v_PressureData, __pyx_v_Time, __pyx_v_L, __pyx_v_N_len);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_17script_Rocha_2020_10PlotPressureData(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_indexesToPlot, PyObject *__pyx_v_PressureData, PyObject *__pyx_v_Time, PyObject *__pyx_v_L, PyObject *__pyx_v_N_len) {
+  PyObject *__pyx_v_DataToPlot = NULL;
+  PyObject *__pyx_v_index = NULL;
+  PyObject *__pyx_v_positionToPlot = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  PyObject *(*__pyx_t_3)(PyObject *);
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("PlotPressureData", 0);
+
+  /* "script_Rocha_2020.pyx":762
+ * 
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):
+ *     DataToPlot = []             # <<<<<<<<<<<<<<
+ *     for index in indexesToPlot:
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 762, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_DataToPlot = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":763
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):
+ *     DataToPlot = []
+ *     for index in indexesToPlot:             # <<<<<<<<<<<<<<
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         DataToPlot = PressureData[index]
+ */
+  if (likely(PyList_CheckExact(__pyx_v_indexesToPlot)) || PyTuple_CheckExact(__pyx_v_indexesToPlot)) {
+    __pyx_t_1 = __pyx_v_indexesToPlot; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
+    __pyx_t_3 = NULL;
+  } else {
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_indexesToPlot); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 763, __pyx_L1_error)
+  }
+  for (;;) {
+    if (likely(!__pyx_t_3)) {
+      if (likely(PyList_CheckExact(__pyx_t_1))) {
+        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 763, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 763, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      } else {
+        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 763, __pyx_L1_error)
+        #else
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 763, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        #endif
+      }
+    } else {
+      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
+      if (unlikely(!__pyx_t_4)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 763, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_4);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "script_Rocha_2020.pyx":764
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)             # <<<<<<<<<<<<<<
+ *         DataToPlot = PressureData[index]
+ * 
+ */
+    __pyx_t_4 = PyNumber_Multiply(__pyx_int_2, __pyx_v_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyInt_AddCObj(__pyx_int_1, __pyx_t_4, 1, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyNumber_Multiply(__pyx_v_L, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Multiply(__pyx_int_2, __pyx_v_N_len); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_positionToPlot, __pyx_t_6);
+    __pyx_t_6 = 0;
+
+    /* "script_Rocha_2020.pyx":765
+ *     for index in indexesToPlot:
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         DataToPlot = PressureData[index]             # <<<<<<<<<<<<<<
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ */
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_PressureData, __pyx_v_index); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF_SET(__pyx_v_DataToPlot, __pyx_t_6);
+    __pyx_t_6 = 0;
+
+    /* "script_Rocha_2020.pyx":767
+ *         DataToPlot = PressureData[index]
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))             # <<<<<<<<<<<<<<
+ *         plt.legend()
+ *         # plt.legend()
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_plot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx_v_Time);
+    __Pyx_GIVEREF(__pyx_v_Time);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_Time);
+    __Pyx_INCREF(__pyx_v_DataToPlot);
+    __Pyx_GIVEREF(__pyx_v_DataToPlot);
+    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_DataToPlot);
+    __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_index); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_8 = PyNumber_Add(__pyx_kp_s_n, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = PyNumber_Add(__pyx_t_8, __pyx_kp_s_z); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_8 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_positionToPlot); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_9 = PyNumber_Add(__pyx_t_7, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_label, __pyx_t_9) < 0) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "script_Rocha_2020.pyx":768
+ * 
+ *         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+ *         plt.legend()             # <<<<<<<<<<<<<<
+ *         # plt.legend()
+ * 
+ */
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_plt); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 768, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_legend); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 768, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    __pyx_t_9 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 768, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+
+    /* "script_Rocha_2020.pyx":763
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):
+ *     DataToPlot = []
+ *     for index in indexesToPlot:             # <<<<<<<<<<<<<<
+ *         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
+ *         DataToPlot = PressureData[index]
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":771
+ *         # plt.legend()
+ * 
+ *     plt.xlabel('Time [Days]')             # <<<<<<<<<<<<<<
+ *     plt.ylabel('Solids Pressure')
+ *     # plt.legend()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_plt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 771, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_xlabel); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 771, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __pyx_t_9 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_9)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_9);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_kp_s_Time_Days) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_Time_Days);
+  __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 771, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":772
+ * 
+ *     plt.xlabel('Time [Days]')
+ *     plt.ylabel('Solids Pressure')             # <<<<<<<<<<<<<<
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Pressure.png')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_ylabel); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_9);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_9, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_6, __pyx_kp_s_Solids_Pressure) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_kp_s_Solids_Pressure);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":774
+ *     plt.ylabel('Solids Pressure')
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Pressure.png')             # <<<<<<<<<<<<<<
+ *     plt.close()
+ * 
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_plt); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 774, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_savefig); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 774, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __pyx_t_9 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_9)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_9);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_kp_s_MVF_temporaryFiles_Pressure_png) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_s_MVF_temporaryFiles_Pressure_png);
+  __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 774, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":775
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/Pressure.png')
+ *     plt.close()             # <<<<<<<<<<<<<<
+ * 
+ * def saveFrame(Position, Data, dia):
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_plt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 775, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_close); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 775, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_9);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_9, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":761
+ *     plt.close()
+ * 
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_AddTraceback("script_Rocha_2020.PlotPressureData", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_DataToPlot);
+  __Pyx_XDECREF(__pyx_v_index);
+  __Pyx_XDECREF(__pyx_v_positionToPlot);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "script_Rocha_2020.pyx":777
+ *     plt.close()
+ * 
+ * def saveFrame(Position, Data, dia):             # <<<<<<<<<<<<<<
+ * 
+ *     plt.plot(Position,Data)
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_17script_Rocha_2020_13saveFrame(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_13saveFrame = {"saveFrame", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_13saveFrame, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_13saveFrame(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_Position = 0;
+  PyObject *__pyx_v_Data = 0;
+  PyObject *__pyx_v_dia = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("saveFrame (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_Position,&__pyx_n_s_Data,&__pyx_n_s_dia,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Position)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Data)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("saveFrame", 1, 3, 3, 1); __PYX_ERR(0, 777, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dia)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("saveFrame", 1, 3, 3, 2); __PYX_ERR(0, 777, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "saveFrame") < 0)) __PYX_ERR(0, 777, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_Position = values[0];
+    __pyx_v_Data = values[1];
+    __pyx_v_dia = values[2];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("saveFrame", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 777, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("script_Rocha_2020.saveFrame", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_17script_Rocha_2020_12saveFrame(__pyx_self, __pyx_v_Position, __pyx_v_Data, __pyx_v_dia);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_17script_Rocha_2020_12saveFrame(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_Position, PyObject *__pyx_v_Data, PyObject *__pyx_v_dia) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("saveFrame", 0);
+
+  /* "script_Rocha_2020.pyx":779
+ * def saveFrame(Position, Data, dia):
+ * 
+ *     plt.plot(Position,Data)             # <<<<<<<<<<<<<<
+ *     plt.ylim(0,0.2)
+ *     plt.xlim(0,0.21)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_plt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 779, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_plot); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 779, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  __pyx_t_4 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_4 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_Position, __pyx_v_Data};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_Position, __pyx_v_Data};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else
+  #endif
+  {
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_Position);
+    __Pyx_GIVEREF(__pyx_v_Position);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_v_Position);
+    __Pyx_INCREF(__pyx_v_Data);
+    __Pyx_GIVEREF(__pyx_v_Data);
+    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_v_Data);
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":780
+ * 
+ *     plt.plot(Position,Data)
+ *     plt.ylim(0,0.2)             # <<<<<<<<<<<<<<
+ *     plt.xlim(0,0.21)
+ *     plt.xlabel('Position [m]')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_plt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 780, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ylim); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 780, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 780, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":781
+ *     plt.plot(Position,Data)
+ *     plt.ylim(0,0.2)
+ *     plt.xlim(0,0.21)             # <<<<<<<<<<<<<<
+ *     plt.xlabel('Position [m]')
+ *     plt.ylabel('Concentration')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_plt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_xlim); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":782
+ *     plt.ylim(0,0.2)
+ *     plt.xlim(0,0.21)
+ *     plt.xlabel('Position [m]')             # <<<<<<<<<<<<<<
+ *     plt.ylabel('Concentration')
+ *     plt.title("Dia " + str(dia))
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_plt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_xlabel); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, __pyx_kp_s_Position_m) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_kp_s_Position_m);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 782, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":783
+ *     plt.xlim(0,0.21)
+ *     plt.xlabel('Position [m]')
+ *     plt.ylabel('Concentration')             # <<<<<<<<<<<<<<
+ *     plt.title("Dia " + str(dia))
+ *     # plt.legend()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_plt); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 783, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_ylabel); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 783, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_n_s_Concentration) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s_Concentration);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 783, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":784
+ *     plt.xlabel('Position [m]')
+ *     plt.ylabel('Concentration')
+ *     plt.title("Dia " + str(dia))             # <<<<<<<<<<<<<<
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/animationFrames/Concentration' + str(dia) + '.png')
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_plt); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_title); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_dia); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = PyNumber_Add(__pyx_kp_s_Dia_2, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":786
+ *     plt.title("Dia " + str(dia))
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/animationFrames/Concentration' + str(dia) + '.png')             # <<<<<<<<<<<<<<
+ *     plt.close()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_plt); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_savefig); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_dia); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = PyNumber_Add(__pyx_kp_s_MVF_temporaryFiles_animationFram, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_png); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":787
+ *     # plt.legend()
+ *     plt.savefig('MVF/temporaryFiles/animationFrames/Concentration' + str(dia) + '.png')
+ *     plt.close()             # <<<<<<<<<<<<<<
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_plt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 787, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_close); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 787, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 787, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":777
+ *     plt.close()
+ * 
+ * def saveFrame(Position, Data, dia):             # <<<<<<<<<<<<<<
+ * 
+ *     plt.plot(Position,Data)
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("script_Rocha_2020.saveFrame", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -11635,9 +14456,9 @@ static PyObject *__pyx_pf_17script_Rocha_2020_4RK4Solver(CYTHON_UNUSED PyObject 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_17script_Rocha_2020_7__pyx_unpickle_ConstantParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_17script_Rocha_2020_7__pyx_unpickle_ConstantParameters = {"__pyx_unpickle_ConstantParameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_7__pyx_unpickle_ConstantParameters, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_17script_Rocha_2020_7__pyx_unpickle_ConstantParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_17script_Rocha_2020_15__pyx_unpickle_ConstantParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_15__pyx_unpickle_ConstantParameters = {"__pyx_unpickle_ConstantParameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_15__pyx_unpickle_ConstantParameters, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_15__pyx_unpickle_ConstantParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -11703,14 +14524,14 @@ static PyObject *__pyx_pw_17script_Rocha_2020_7__pyx_unpickle_ConstantParameters
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_17script_Rocha_2020_6__pyx_unpickle_ConstantParameters(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_17script_Rocha_2020_14__pyx_unpickle_ConstantParameters(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_17script_Rocha_2020_6__pyx_unpickle_ConstantParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_17script_Rocha_2020_14__pyx_unpickle_ConstantParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -12047,9 +14868,9 @@ static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_ConstantParameters__
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_17script_Rocha_2020_9__pyx_unpickle_PhysicalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_17script_Rocha_2020_9__pyx_unpickle_PhysicalParameters = {"__pyx_unpickle_PhysicalParameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_9__pyx_unpickle_PhysicalParameters, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_17script_Rocha_2020_9__pyx_unpickle_PhysicalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_17script_Rocha_2020_17__pyx_unpickle_PhysicalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_17__pyx_unpickle_PhysicalParameters = {"__pyx_unpickle_PhysicalParameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_17__pyx_unpickle_PhysicalParameters, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_17__pyx_unpickle_PhysicalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -12115,14 +14936,14 @@ static PyObject *__pyx_pw_17script_Rocha_2020_9__pyx_unpickle_PhysicalParameters
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_17script_Rocha_2020_8__pyx_unpickle_PhysicalParameters(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_17script_Rocha_2020_16__pyx_unpickle_PhysicalParameters(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_17script_Rocha_2020_8__pyx_unpickle_PhysicalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_17script_Rocha_2020_16__pyx_unpickle_PhysicalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -12483,9 +15304,9 @@ static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_PhysicalParameters__
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_17script_Rocha_2020_11__pyx_unpickle_NumericalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_17script_Rocha_2020_11__pyx_unpickle_NumericalParameters = {"__pyx_unpickle_NumericalParameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_11__pyx_unpickle_NumericalParameters, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_17script_Rocha_2020_11__pyx_unpickle_NumericalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_17script_Rocha_2020_19__pyx_unpickle_NumericalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_17script_Rocha_2020_19__pyx_unpickle_NumericalParameters = {"__pyx_unpickle_NumericalParameters", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_17script_Rocha_2020_19__pyx_unpickle_NumericalParameters, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_17script_Rocha_2020_19__pyx_unpickle_NumericalParameters(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -12551,14 +15372,14 @@ static PyObject *__pyx_pw_17script_Rocha_2020_11__pyx_unpickle_NumericalParamete
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParameters(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_17script_Rocha_2020_18__pyx_unpickle_NumericalParameters(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_17script_Rocha_2020_18__pyx_unpickle_NumericalParameters(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = 0;
   PyObject *__pyx_v___pyx_result = 0;
   PyObject *__pyx_r = NULL;
@@ -12577,18 +15398,18 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x119117b:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0xed9e1cb:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x119117b) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0xed9e1cb) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x119117b:
+ *     if __pyx_checksum != 0xed9e1cb:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)
  *     __pyx_result = NumericalParameters.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 5, __pyx_L1_error)
@@ -12607,15 +15428,15 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x119117b:
+ *     if __pyx_checksum != 0xed9e1cb:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = NumericalParameters.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x11, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0xed, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -12642,15 +15463,15 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x119117b:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0xed9e1cb:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)
  *     __pyx_result = NumericalParameters.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_NumericalParameters__set_state(<NumericalParameters> __pyx_result, __pyx_state)
@@ -12676,7 +15497,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)
  *     __pyx_result = NumericalParameters.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_NumericalParameters__set_state(<NumericalParameters> __pyx_result, __pyx_state)
@@ -12699,7 +15520,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x119117b = (N_len, maxResidual, timestep, total_time))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xed9e1cb = (N_len, indexesToPlot, maxResidual, timestep, total_time))" % __pyx_checksum)
  *     __pyx_result = NumericalParameters.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_NumericalParameters__set_state(<NumericalParameters> __pyx_result, __pyx_state)
@@ -12712,7 +15533,7 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
  *         __pyx_unpickle_NumericalParameters__set_state(<NumericalParameters> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_NumericalParameters__set_state(NumericalParameters __pyx_result, tuple __pyx_state):
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -12745,20 +15566,20 @@ static PyObject *__pyx_pf_17script_Rocha_2020_10__pyx_unpickle_NumericalParamete
  *         __pyx_unpickle_NumericalParameters__set_state(<NumericalParameters> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_NumericalParameters__set_state(NumericalParameters __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]
- *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]
+ *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_NumericalParameters__set_state(struct __pyx_obj_17script_Rocha_2020_NumericalParameters *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  double __pyx_t_2;
-  int __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  int __pyx_t_5;
+  PyObject *__pyx_t_2 = NULL;
+  double __pyx_t_3;
+  int __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
   int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
   int __pyx_lineno = 0;
@@ -12769,9 +15590,9 @@ static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_NumericalParameters_
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_NumericalParameters__set_state(NumericalParameters __pyx_result, tuple __pyx_state):
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[4])
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[5])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -12783,48 +15604,59 @@ static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_NumericalParameters_
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 1)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->maxResidual = __pyx_t_2;
+  __pyx_t_2 = PyTuple_GET_ITEM(__pyx_v___pyx_state, 1);
+  __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_2);
+  __Pyx_GOTREF(__pyx_v___pyx_result->indexesToPlot);
+  __Pyx_DECREF(__pyx_v___pyx_result->indexesToPlot);
+  __pyx_v___pyx_result->indexesToPlot = __pyx_t_2;
+  __pyx_t_2 = 0;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->timestep = __pyx_t_2;
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 2)); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->maxResidual = __pyx_t_3;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(1, 12, __pyx_L1_error)
   }
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
-  __pyx_v___pyx_result->total_time = __pyx_t_2;
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 3)); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->timestep = __pyx_t_3;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(1, 12, __pyx_L1_error)
+  }
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 12, __pyx_L1_error)
+  __pyx_v___pyx_result->total_time = __pyx_t_3;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_NumericalParameters__set_state(NumericalParameters __pyx_result, tuple __pyx_state):
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]
- *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[4])
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]
+ *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[5])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(1, 13, __pyx_L1_error)
   }
-  __pyx_t_4 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_5 = ((__pyx_t_4 > 4) != 0);
-  if (__pyx_t_5) {
+  __pyx_t_5 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_6 = ((__pyx_t_5 > 5) != 0);
+  if (__pyx_t_6) {
   } else {
-    __pyx_t_3 = __pyx_t_5;
+    __pyx_t_4 = __pyx_t_6;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
-  __pyx_t_6 = (__pyx_t_5 != 0);
-  __pyx_t_3 = __pyx_t_6;
+  __pyx_t_6 = __Pyx_HasAttr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_t_7 = (__pyx_t_6 != 0);
+  __pyx_t_4 = __pyx_t_7;
   __pyx_L4_bool_binop_done:;
-  if (__pyx_t_3) {
+  if (__pyx_t_4) {
 
     /* "(tree fragment)":14
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]
- *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[4])             # <<<<<<<<<<<<<<
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]
+ *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[5])             # <<<<<<<<<<<<<<
  */
     __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
@@ -12845,18 +15677,18 @@ static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_NumericalParameters_
         __Pyx_DECREF_SET(__pyx_t_9, function);
       }
     }
-    __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 4)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 4));
+    __pyx_t_2 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_8, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5)) : __Pyx_PyObject_CallOneArg(__pyx_t_9, PyTuple_GET_ITEM(__pyx_v___pyx_state, 5));
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 14, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_NumericalParameters__set_state(NumericalParameters __pyx_result, tuple __pyx_state):
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]
- *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[4])
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]
+ *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[5])
  */
   }
 
@@ -12864,15 +15696,15 @@ static PyObject *__pyx_f_17script_Rocha_2020___pyx_unpickle_NumericalParameters_
  *         __pyx_unpickle_NumericalParameters__set_state(<NumericalParameters> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_NumericalParameters__set_state(NumericalParameters __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.maxResidual = __pyx_state[1]; __pyx_result.timestep = __pyx_state[2]; __pyx_result.total_time = __pyx_state[3]
- *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.N_len = __pyx_state[0]; __pyx_result.indexesToPlot = __pyx_state[1]; __pyx_result.maxResidual = __pyx_state[2]; __pyx_result.timestep = __pyx_state[3]; __pyx_result.total_time = __pyx_state[4]
+ *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("script_Rocha_2020.__pyx_unpickle_NumericalParameters__set_state", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -13356,7 +16188,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 777, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 777, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -13424,7 +16256,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 781, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 781, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -13533,7 +16365,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 801, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 801, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -14164,7 +16996,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 959, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 959, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -14296,7 +17128,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 965, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 965, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -14428,7 +17260,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  * 
  * cdef extern from *:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 971, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 971, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -14666,6 +17498,7 @@ static PyTypeObject __pyx_type_17script_Rocha_2020_PhysicalParameters = {
 };
 
 static PyObject *__pyx_tp_new_17script_Rocha_2020_NumericalParameters(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_17script_Rocha_2020_NumericalParameters *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -14673,16 +17506,39 @@ static PyObject *__pyx_tp_new_17script_Rocha_2020_NumericalParameters(PyTypeObje
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)o);
+  p->indexesToPlot = Py_None; Py_INCREF(Py_None);
   return o;
 }
 
 static void __pyx_tp_dealloc_17script_Rocha_2020_NumericalParameters(PyObject *o) {
+  struct __pyx_obj_17script_Rocha_2020_NumericalParameters *p = (struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)o;
   #if CYTHON_USE_TP_FINALIZE
-  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
+  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
   }
   #endif
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->indexesToPlot);
   (*Py_TYPE(o)->tp_free)(o);
+}
+
+static int __pyx_tp_traverse_17script_Rocha_2020_NumericalParameters(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_17script_Rocha_2020_NumericalParameters *p = (struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)o;
+  if (p->indexesToPlot) {
+    e = (*v)(p->indexesToPlot, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_17script_Rocha_2020_NumericalParameters(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_17script_Rocha_2020_NumericalParameters *p = (struct __pyx_obj_17script_Rocha_2020_NumericalParameters *)o;
+  tmp = ((PyObject*)p->indexesToPlot);
+  p->indexesToPlot = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
 }
 
 static PyMethodDef __pyx_methods_17script_Rocha_2020_NumericalParameters[] = {
@@ -14721,10 +17577,10 @@ static PyTypeObject __pyx_type_17script_Rocha_2020_NumericalParameters = {
   0, /*tp_getattro*/
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
+  __pyx_tp_traverse_17script_Rocha_2020_NumericalParameters, /*tp_traverse*/
+  __pyx_tp_clear_17script_Rocha_2020_NumericalParameters, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
@@ -14814,19 +17670,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ConstantParameters, __pyx_k_ConstantParameters, sizeof(__pyx_k_ConstantParameters), 0, 0, 1, 1},
   {&__pyx_n_s_CrankSolver, __pyx_k_CrankSolver, sizeof(__pyx_k_CrankSolver), 0, 0, 1, 1},
   {&__pyx_kp_s_Current_time, __pyx_k_Current_time, sizeof(__pyx_k_Current_time), 0, 0, 1, 0},
-  {&__pyx_kp_s_Current_time_2, __pyx_k_Current_time_2, sizeof(__pyx_k_Current_time_2), 0, 0, 1, 0},
   {&__pyx_n_s_DTYPE, __pyx_k_DTYPE, sizeof(__pyx_k_DTYPE), 0, 0, 1, 1},
   {&__pyx_n_s_Data, __pyx_k_Data, sizeof(__pyx_k_Data), 0, 0, 1, 1},
   {&__pyx_n_s_DataFrame, __pyx_k_DataFrame, sizeof(__pyx_k_DataFrame), 0, 0, 1, 1},
+  {&__pyx_n_s_DataToPlot, __pyx_k_DataToPlot, sizeof(__pyx_k_DataToPlot), 0, 0, 1, 1},
   {&__pyx_kp_s_Data_set_initialized, __pyx_k_Data_set_initialized, sizeof(__pyx_k_Data_set_initialized), 0, 0, 1, 0},
   {&__pyx_kp_s_Dia, __pyx_k_Dia, sizeof(__pyx_k_Dia), 0, 0, 1, 0},
+  {&__pyx_kp_s_Dia_2, __pyx_k_Dia_2, sizeof(__pyx_k_Dia_2), 0, 0, 1, 0},
   {&__pyx_n_s_EulerSolver, __pyx_k_EulerSolver, sizeof(__pyx_k_EulerSolver), 0, 0, 1, 1},
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x11, __pyx_k_Incompatible_checksums_s_vs_0x11, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x11), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x63, __pyx_k_Incompatible_checksums_s_vs_0x63, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x63), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0x6f, __pyx_k_Incompatible_checksums_s_vs_0x6f, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x6f), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0xed, __pyx_k_Incompatible_checksums_s_vs_0xed, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xed), 0, 0, 1, 0},
   {&__pyx_kp_s_Initial_mass_per_area, __pyx_k_Initial_mass_per_area, sizeof(__pyx_k_Initial_mass_per_area), 0, 0, 1, 0},
   {&__pyx_n_s_K1, __pyx_k_K1, sizeof(__pyx_k_K1), 0, 0, 1, 1},
   {&__pyx_n_s_K2, __pyx_k_K2, sizeof(__pyx_k_K2), 0, 0, 1, 1},
@@ -14838,6 +17695,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_L, __pyx_k_L, sizeof(__pyx_k_L), 0, 0, 1, 1},
   {&__pyx_kp_s_Last_timestep_before_fail, __pyx_k_Last_timestep_before_fail, sizeof(__pyx_k_Last_timestep_before_fail), 0, 0, 1, 0},
   {&__pyx_n_s_M, __pyx_k_M, sizeof(__pyx_k_M), 0, 0, 1, 1},
+  {&__pyx_kp_s_MVF_temporaryFiles_Concentration, __pyx_k_MVF_temporaryFiles_Concentration, sizeof(__pyx_k_MVF_temporaryFiles_Concentration), 0, 0, 1, 0},
+  {&__pyx_kp_s_MVF_temporaryFiles_Permeability, __pyx_k_MVF_temporaryFiles_Permeability, sizeof(__pyx_k_MVF_temporaryFiles_Permeability), 0, 0, 1, 0},
+  {&__pyx_kp_s_MVF_temporaryFiles_Pressure_png, __pyx_k_MVF_temporaryFiles_Pressure_png, sizeof(__pyx_k_MVF_temporaryFiles_Pressure_png), 0, 0, 1, 0},
+  {&__pyx_kp_s_MVF_temporaryFiles_animationFram, __pyx_k_MVF_temporaryFiles_animationFram, sizeof(__pyx_k_MVF_temporaryFiles_animationFram), 0, 0, 1, 0},
   {&__pyx_kp_s_MVF_temporaryFiles_resultadosPer, __pyx_k_MVF_temporaryFiles_resultadosPer, sizeof(__pyx_k_MVF_temporaryFiles_resultadosPer), 0, 0, 1, 0},
   {&__pyx_kp_s_MVF_temporaryFiles_resultadosPer_2, __pyx_k_MVF_temporaryFiles_resultadosPer_2, sizeof(__pyx_k_MVF_temporaryFiles_resultadosPer_2), 0, 0, 1, 0},
   {&__pyx_kp_s_MVF_temporaryFiles_resultadosPer_3, __pyx_k_MVF_temporaryFiles_resultadosPer_3, sizeof(__pyx_k_MVF_temporaryFiles_resultadosPer_3), 0, 0, 1, 0},
@@ -14852,27 +17713,42 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_s_NumericalParameters, __pyx_k_NumericalParameters, sizeof(__pyx_k_NumericalParameters), 0, 0, 1, 1},
   {&__pyx_n_s_Perm, __pyx_k_Perm, sizeof(__pyx_k_Perm), 0, 0, 1, 1},
+  {&__pyx_n_s_Permeability, __pyx_k_Permeability, sizeof(__pyx_k_Permeability), 0, 0, 1, 1},
+  {&__pyx_n_s_PermeabilityData, __pyx_k_PermeabilityData, sizeof(__pyx_k_PermeabilityData), 0, 0, 1, 1},
   {&__pyx_n_s_PhysicalParameters, __pyx_k_PhysicalParameters, sizeof(__pyx_k_PhysicalParameters), 0, 0, 1, 1},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
+  {&__pyx_n_s_PlotConcentrationData, __pyx_k_PlotConcentrationData, sizeof(__pyx_k_PlotConcentrationData), 0, 0, 1, 1},
+  {&__pyx_n_s_PlotPermeabilityData, __pyx_k_PlotPermeabilityData, sizeof(__pyx_k_PlotPermeabilityData), 0, 0, 1, 1},
+  {&__pyx_n_s_PlotPressureData, __pyx_k_PlotPressureData, sizeof(__pyx_k_PlotPressureData), 0, 0, 1, 1},
   {&__pyx_kp_s_Posio_da_interface_de_empacotame, __pyx_k_Posio_da_interface_de_empacotame, sizeof(__pyx_k_Posio_da_interface_de_empacotame), 0, 0, 1, 0},
   {&__pyx_n_s_Position, __pyx_k_Position, sizeof(__pyx_k_Position), 0, 0, 1, 1},
+  {&__pyx_kp_s_Position_m, __pyx_k_Position_m, sizeof(__pyx_k_Position_m), 0, 0, 1, 0},
   {&__pyx_n_s_Pres, __pyx_k_Pres, sizeof(__pyx_k_Pres), 0, 0, 1, 1},
+  {&__pyx_n_s_PressureData, __pyx_k_PressureData, sizeof(__pyx_k_PressureData), 0, 0, 1, 1},
   {&__pyx_n_s_RK4Solver, __pyx_k_RK4Solver, sizeof(__pyx_k_RK4Solver), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
+  {&__pyx_kp_s_Solids_Pressure, __pyx_k_Solids_Pressure, sizeof(__pyx_k_Solids_Pressure), 0, 0, 1, 0},
+  {&__pyx_n_s_Time, __pyx_k_Time, sizeof(__pyx_k_Time), 0, 0, 1, 1},
+  {&__pyx_kp_s_Time_Days, __pyx_k_Time_Days, sizeof(__pyx_k_Time_Days), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_VectorB, __pyx_k_VectorB, sizeof(__pyx_k_VectorB), 0, 0, 1, 1},
   {&__pyx_n_s_Velocity, __pyx_k_Velocity, sizeof(__pyx_k_Velocity), 0, 0, 1, 1},
   {&__pyx_n_s_Velocity_update, __pyx_k_Velocity_update, sizeof(__pyx_k_Velocity_update), 0, 0, 1, 1},
+  {&__pyx_n_s__9, __pyx_k__9, sizeof(__pyx_k__9), 0, 0, 1, 1},
   {&__pyx_n_s_arange, __pyx_k_arange, sizeof(__pyx_k_arange), 0, 0, 1, 1},
   {&__pyx_n_s_beta, __pyx_k_beta, sizeof(__pyx_k_beta), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_s_clarifiedParameters, __pyx_k_clarifiedParameters, sizeof(__pyx_k_clarifiedParameters), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
+  {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
+  {&__pyx_n_s_concentrationData, __pyx_k_concentrationData, sizeof(__pyx_k_concentrationData), 0, 0, 1, 1},
+  {&__pyx_n_s_concentrationLimit, __pyx_k_concentrationLimit, sizeof(__pyx_k_concentrationLimit), 0, 0, 1, 1},
   {&__pyx_n_s_constantParameters, __pyx_k_constantParameters, sizeof(__pyx_k_constantParameters), 0, 0, 1, 1},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
   {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
   {&__pyx_kp_s_csv, __pyx_k_csv, sizeof(__pyx_k_csv), 0, 0, 1, 0},
   {&__pyx_n_s_currentTime, __pyx_k_currentTime, sizeof(__pyx_k_currentTime), 0, 0, 1, 1},
+  {&__pyx_n_s_days, __pyx_k_days, sizeof(__pyx_k_days), 0, 0, 1, 1},
   {&__pyx_n_s_delta, __pyx_k_delta, sizeof(__pyx_k_delta), 0, 0, 1, 1},
   {&__pyx_n_s_delta_z, __pyx_k_delta_z, sizeof(__pyx_k_delta_z), 0, 0, 1, 1},
   {&__pyx_n_s_dia, __pyx_k_dia, sizeof(__pyx_k_dia), 0, 0, 1, 1},
@@ -14892,16 +17768,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_height, __pyx_k_height, sizeof(__pyx_k_height), 0, 0, 1, 1},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
+  {&__pyx_n_s_indexToPlot, __pyx_k_indexToPlot, sizeof(__pyx_k_indexToPlot), 0, 0, 1, 1},
+  {&__pyx_n_s_indexesToPlot, __pyx_k_indexesToPlot, sizeof(__pyx_k_indexesToPlot), 0, 0, 1, 1},
   {&__pyx_n_s_initial_conc, __pyx_k_initial_conc, sizeof(__pyx_k_initial_conc), 0, 0, 1, 1},
   {&__pyx_n_s_isnan, __pyx_k_isnan, sizeof(__pyx_k_isnan), 0, 0, 1, 1},
   {&__pyx_n_s_k0, __pyx_k_k0, sizeof(__pyx_k_k0), 0, 0, 1, 1},
+  {&__pyx_n_s_label, __pyx_k_label, sizeof(__pyx_k_label), 0, 0, 1, 1},
+  {&__pyx_n_s_legend, __pyx_k_legend, sizeof(__pyx_k_legend), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
+  {&__pyx_n_s_matplotlib_pyplot, __pyx_k_matplotlib_pyplot, sizeof(__pyx_k_matplotlib_pyplot), 0, 0, 1, 1},
   {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
   {&__pyx_n_s_maxResidual, __pyx_k_maxResidual, sizeof(__pyx_k_maxResidual), 0, 0, 1, 1},
   {&__pyx_n_s_max_conc, __pyx_k_max_conc, sizeof(__pyx_k_max_conc), 0, 0, 1, 1},
   {&__pyx_n_s_min, __pyx_k_min, sizeof(__pyx_k_min), 0, 0, 1, 1},
   {&__pyx_n_s_mixture_density, __pyx_k_mixture_density, sizeof(__pyx_k_mixture_density), 0, 0, 1, 1},
-  {&__pyx_n_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 1},
+  {&__pyx_kp_s_n, __pyx_k_n, sizeof(__pyx_k_n), 0, 0, 1, 0},
+  {&__pyx_n_s_n_2, __pyx_k_n_2, sizeof(__pyx_k_n_2), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_nanHit, __pyx_k_nanHit, sizeof(__pyx_k_nanHit), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
@@ -14913,12 +17796,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ones, __pyx_k_ones, sizeof(__pyx_k_ones), 0, 0, 1, 1},
   {&__pyx_n_s_p_ref, __pyx_k_p_ref, sizeof(__pyx_k_p_ref), 0, 0, 1, 1},
   {&__pyx_n_s_packingIndex, __pyx_k_packingIndex, sizeof(__pyx_k_packingIndex), 0, 0, 1, 1},
+  {&__pyx_n_s_packingParameters, __pyx_k_packingParameters, sizeof(__pyx_k_packingParameters), 0, 0, 1, 1},
   {&__pyx_n_s_pandas, __pyx_k_pandas, sizeof(__pyx_k_pandas), 0, 0, 1, 1},
   {&__pyx_n_s_particle_diam, __pyx_k_particle_diam, sizeof(__pyx_k_particle_diam), 0, 0, 1, 1},
   {&__pyx_n_s_particle_esphericity, __pyx_k_particle_esphericity, sizeof(__pyx_k_particle_esphericity), 0, 0, 1, 1},
   {&__pyx_n_s_pd, __pyx_k_pd, sizeof(__pyx_k_pd), 0, 0, 1, 1},
   {&__pyx_n_s_physicalParameters, __pyx_k_physicalParameters, sizeof(__pyx_k_physicalParameters), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
+  {&__pyx_n_s_plot, __pyx_k_plot, sizeof(__pyx_k_plot), 0, 0, 1, 1},
+  {&__pyx_n_s_plt, __pyx_k_plt, sizeof(__pyx_k_plt), 0, 0, 1, 1},
+  {&__pyx_kp_s_png, __pyx_k_png, sizeof(__pyx_k_png), 0, 0, 1, 0},
+  {&__pyx_n_s_positionToPlot, __pyx_k_positionToPlot, sizeof(__pyx_k_positionToPlot), 0, 0, 1, 1},
   {&__pyx_n_s_powerLawFluid_M, __pyx_k_powerLawFluid_M, sizeof(__pyx_k_powerLawFluid_M), 0, 0, 1, 1},
   {&__pyx_n_s_powerLawFluid_n, __pyx_k_powerLawFluid_n, sizeof(__pyx_k_powerLawFluid_n), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
@@ -14938,34 +17826,41 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_resIterations, __pyx_k_resIterations, sizeof(__pyx_k_resIterations), 0, 0, 1, 1},
   {&__pyx_n_s_residual, __pyx_k_residual, sizeof(__pyx_k_residual), 0, 0, 1, 1},
   {&__pyx_n_s_reversed, __pyx_k_reversed, sizeof(__pyx_k_reversed), 0, 0, 1, 1},
+  {&__pyx_n_s_saveFrame, __pyx_k_saveFrame, sizeof(__pyx_k_saveFrame), 0, 0, 1, 1},
+  {&__pyx_n_s_savefig, __pyx_k_savefig, sizeof(__pyx_k_savefig), 0, 0, 1, 1},
   {&__pyx_n_s_script_Rocha_2020, __pyx_k_script_Rocha_2020, sizeof(__pyx_k_script_Rocha_2020), 0, 0, 1, 1},
   {&__pyx_kp_s_script_Rocha_2020_pyx, __pyx_k_script_Rocha_2020_pyx, sizeof(__pyx_k_script_Rocha_2020_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_solid_density, __pyx_k_solid_density, sizeof(__pyx_k_solid_density), 0, 0, 1, 1},
   {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
-  {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_timestep, __pyx_k_timestep, sizeof(__pyx_k_timestep), 0, 0, 1, 1},
+  {&__pyx_n_s_title, __pyx_k_title, sizeof(__pyx_k_title), 0, 0, 1, 1},
   {&__pyx_n_s_to_csv, __pyx_k_to_csv, sizeof(__pyx_k_to_csv), 0, 0, 1, 1},
   {&__pyx_n_s_total_time, __pyx_k_total_time, sizeof(__pyx_k_total_time), 0, 0, 1, 1},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_where, __pyx_k_where, sizeof(__pyx_k_where), 0, 0, 1, 1},
+  {&__pyx_n_s_xlabel, __pyx_k_xlabel, sizeof(__pyx_k_xlabel), 0, 0, 1, 1},
+  {&__pyx_n_s_xlim, __pyx_k_xlim, sizeof(__pyx_k_xlim), 0, 0, 1, 1},
   {&__pyx_n_s_xrange, __pyx_k_xrange, sizeof(__pyx_k_xrange), 0, 0, 1, 1},
+  {&__pyx_n_s_ylabel, __pyx_k_ylabel, sizeof(__pyx_k_ylabel), 0, 0, 1, 1},
+  {&__pyx_n_s_ylim, __pyx_k_ylim, sizeof(__pyx_k_ylim), 0, 0, 1, 1},
+  {&__pyx_kp_s_z, __pyx_k_z, sizeof(__pyx_k_z), 0, 0, 1, 0},
   {&__pyx_n_s_z_divs, __pyx_k_z_divs, sizeof(__pyx_k_z_divs), 0, 0, 1, 1},
   {&__pyx_n_s_z_resolution, __pyx_k_z_resolution, sizeof(__pyx_k_z_resolution), 0, 0, 1, 1},
   {&__pyx_n_s_zeros, __pyx_k_zeros, sizeof(__pyx_k_zeros), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 234, __pyx_L1_error)
   #if PY_MAJOR_VERSION >= 3
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 399, __pyx_L1_error)
   #else
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 375, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 399, __pyx_L1_error)
   #endif
-  __pyx_builtin_reversed = __Pyx_GetBuiltinName(__pyx_n_s_reversed); if (!__pyx_builtin_reversed) __PYX_ERR(0, 406, __pyx_L1_error)
+  __pyx_builtin_reversed = __Pyx_GetBuiltinName(__pyx_n_s_reversed); if (!__pyx_builtin_reversed) __PYX_ERR(0, 430, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 777, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 781, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 959, __pyx_L1_error)
@@ -14978,6 +17873,28 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
+  /* "script_Rocha_2020.pyx":780
+ * 
+ *     plt.plot(Position,Data)
+ *     plt.ylim(0,0.2)             # <<<<<<<<<<<<<<
+ *     plt.xlim(0,0.21)
+ *     plt.xlabel('Position [m]')
+ */
+  __pyx_tuple__2 = PyTuple_Pack(2, __pyx_int_0, __pyx_float_0_2); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 780, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "script_Rocha_2020.pyx":781
+ *     plt.plot(Position,Data)
+ *     plt.ylim(0,0.2)
+ *     plt.xlim(0,0.21)             # <<<<<<<<<<<<<<
+ *     plt.xlabel('Position [m]')
+ *     plt.ylabel('Concentration')
+ */
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_int_0, __pyx_float_0_21); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+
   /* "C:/Users/Pablo/AppData/Local/Programs/Python/Python38-32/lib/site-packages/numpy/__init__.pxd":777
  * 
  *         if (end - f) - <int>(new_offset - offset[0]) < 15:
@@ -14985,9 +17902,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(2, 777, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(2, 777, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "C:/Users/Pablo/AppData/Local/Programs/Python/Python38-32/lib/site-packages/numpy/__init__.pxd":781
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -14996,9 +17913,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(2, 781, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(2, 781, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "C:/Users/Pablo/AppData/Local/Programs/Python/Python38-32/lib/site-packages/numpy/__init__.pxd":801
  *             t = child.type_num
@@ -15007,9 +17924,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(2, 801, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 801, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "C:/Users/Pablo/AppData/Local/Programs/Python/Python38-32/lib/site-packages/numpy/__init__.pxd":959
  *         __pyx_import_array()
@@ -15018,9 +17935,9 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(2, 959, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(2, 959, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "C:/Users/Pablo/AppData/Local/Programs/Python/Python38-32/lib/site-packages/numpy/__init__.pxd":965
  *         _import_umath()
@@ -15029,63 +17946,111 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 965, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 965, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "script_Rocha_2020.pyx":190
+  /* "script_Rocha_2020.pyx":180
  * 
  * 
  * def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
  * 
  *     # Parametros do poo
  */
-  __pyx_tuple__7 = PyTuple_Pack(36, __pyx_n_s_physicalParameters, __pyx_n_s_numericalParameters, __pyx_n_s_constantParameters, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_z_resolution, __pyx_n_s_initial_conc, __pyx_n_s_particle_diam, __pyx_n_s_solid_density, __pyx_n_s_fluid_density, __pyx_n_s_total_time, __pyx_n_s_timestep, __pyx_n_s_delta, __pyx_n_s_k0, __pyx_n_s_max_conc, __pyx_n_s_beta, __pyx_n_s_p_ref, __pyx_n_s_ref_conc, __pyx_n_s_M, __pyx_n_s_n, __pyx_n_s_esph, __pyx_n_s_mixture_density, __pyx_n_s_Concentration, __pyx_n_s_Velocity, __pyx_n_s_Position, __pyx_n_s_currentTime, __pyx_n_s_Pres, __pyx_n_s_Perm, __pyx_n_s_f, __pyx_n_s_h, __pyx_n_s_Data, __pyx_n_s_count, __pyx_n_s_dia, __pyx_n_s_i, __pyx_n_s_grad, __pyx_n_s_update); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 190, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(3, 0, 36, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_EulerSolver, 190, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(40, __pyx_n_s_physicalParameters, __pyx_n_s_numericalParameters, __pyx_n_s_constantParameters, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_z_resolution, __pyx_n_s_initial_conc, __pyx_n_s_particle_diam, __pyx_n_s_solid_density, __pyx_n_s_fluid_density, __pyx_n_s_total_time, __pyx_n_s_timestep, __pyx_n_s_delta, __pyx_n_s_k0, __pyx_n_s_max_conc, __pyx_n_s_beta, __pyx_n_s_p_ref, __pyx_n_s_ref_conc, __pyx_n_s_clarifiedParameters, __pyx_n_s_M, __pyx_n_s_n_2, __pyx_n_s_esph, __pyx_n_s_mixture_density, __pyx_n_s_Concentration, __pyx_n_s_Velocity, __pyx_n_s_Position, __pyx_n_s_currentTime, __pyx_n_s_Time, __pyx_n_s_days, __pyx_n_s_Pres, __pyx_n_s_Perm, __pyx_n_s_f, __pyx_n_s_h, __pyx_n_s_Data, __pyx_n_s_count, __pyx_n_s_dia, __pyx_n_s_i, __pyx_n_s_packingIndex, __pyx_n_s_grad, __pyx_n_s_update); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(3, 0, 40, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_EulerSolver, 180, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 180, __pyx_L1_error)
 
-  /* "script_Rocha_2020.pyx":298
+  /* "script_Rocha_2020.pyx":322
  *     return Data
  * 
  * def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)
  */
-  __pyx_tuple__9 = PyTuple_Pack(46, __pyx_n_s_physicalParameters, __pyx_n_s_numericalParameters, __pyx_n_s_constantParameters, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_z_resolution, __pyx_n_s_delta_z, __pyx_n_s_maxResidual, __pyx_n_s_initial_conc, __pyx_n_s_particle_diam, __pyx_n_s_solid_density, __pyx_n_s_fluid_density, __pyx_n_s_total_time, __pyx_n_s_timestep, __pyx_n_s_delta, __pyx_n_s_k0, __pyx_n_s_max_conc, __pyx_n_s_beta, __pyx_n_s_p_ref, __pyx_n_s_ref_conc, __pyx_n_s_M, __pyx_n_s_n, __pyx_n_s_esph, __pyx_n_s_mixture_density, __pyx_n_s_c, __pyx_n_s_residual, __pyx_n_s_distance, __pyx_n_s_Concentration_residual, __pyx_n_s_Concentration, __pyx_n_s_Concentration_update, __pyx_n_s_Velocity, __pyx_n_s_Velocity_update, __pyx_n_s_Position, __pyx_n_s_currentTime, __pyx_n_s_MatrixA, __pyx_n_s_VectorB, __pyx_n_s_Data, __pyx_n_s_Pres, __pyx_n_s_Perm, __pyx_n_s_f, __pyx_n_s_h, __pyx_n_s_count, __pyx_n_s_dia, __pyx_n_s_resIterations, __pyx_n_s_i, __pyx_n_s_grad); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 298, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(3, 0, 46, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_CrankSolver, 298, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(46, __pyx_n_s_physicalParameters, __pyx_n_s_numericalParameters, __pyx_n_s_constantParameters, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_z_resolution, __pyx_n_s_delta_z, __pyx_n_s_maxResidual, __pyx_n_s_initial_conc, __pyx_n_s_particle_diam, __pyx_n_s_solid_density, __pyx_n_s_fluid_density, __pyx_n_s_total_time, __pyx_n_s_timestep, __pyx_n_s_delta, __pyx_n_s_k0, __pyx_n_s_max_conc, __pyx_n_s_beta, __pyx_n_s_p_ref, __pyx_n_s_ref_conc, __pyx_n_s_M, __pyx_n_s_n_2, __pyx_n_s_esph, __pyx_n_s_mixture_density, __pyx_n_s_c, __pyx_n_s_residual, __pyx_n_s_distance, __pyx_n_s_Concentration_residual, __pyx_n_s_Concentration, __pyx_n_s_Concentration_update, __pyx_n_s_Velocity, __pyx_n_s_Velocity_update, __pyx_n_s_Position, __pyx_n_s_currentTime, __pyx_n_s_MatrixA, __pyx_n_s_VectorB, __pyx_n_s_Data, __pyx_n_s_Pres, __pyx_n_s_Perm, __pyx_n_s_f, __pyx_n_s_h, __pyx_n_s_count, __pyx_n_s_dia, __pyx_n_s_resIterations, __pyx_n_s_i, __pyx_n_s_grad); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(3, 0, 46, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_CrankSolver, 322, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(0, 322, __pyx_L1_error)
 
-  /* "script_Rocha_2020.pyx":455
+  /* "script_Rocha_2020.pyx":479
  *     return Data
  * 
- * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):             # <<<<<<<<<<<<<<
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)
  */
-  __pyx_tuple__11 = PyTuple_Pack(46, __pyx_n_s_physicalParameters, __pyx_n_s_numericalParameters, __pyx_n_s_constantParameters, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_z_resolution, __pyx_n_s_delta_z, __pyx_n_s_maxResidual, __pyx_n_s_initial_conc, __pyx_n_s_particle_diam, __pyx_n_s_solid_density, __pyx_n_s_fluid_density, __pyx_n_s_total_time, __pyx_n_s_timestep, __pyx_n_s_delta, __pyx_n_s_k0, __pyx_n_s_max_conc, __pyx_n_s_clarifiedParameters, __pyx_n_s_beta, __pyx_n_s_p_ref, __pyx_n_s_ref_conc, __pyx_n_s_M, __pyx_n_s_n, __pyx_n_s_esph, __pyx_n_s_mixture_density, __pyx_n_s_Concentration, __pyx_n_s_Concentration_aux, __pyx_n_s_Velocity, __pyx_n_s_Position, __pyx_n_s_currentTime, __pyx_n_s_K1, __pyx_n_s_K2, __pyx_n_s_K3, __pyx_n_s_K4, __pyx_n_s_Data, __pyx_n_s_Pres, __pyx_n_s_Perm, __pyx_n_s_f, __pyx_n_s_h, __pyx_n_s_count, __pyx_n_s_dia, __pyx_n_s_i, __pyx_n_s_update, __pyx_n_s_nanHit, __pyx_n_s_packingIndex, __pyx_n_s_grad); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 455, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 46, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_RK4Solver, 455, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 455, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(51, __pyx_n_s_physicalParameters, __pyx_n_s_numericalParameters, __pyx_n_s_packingParameters, __pyx_n_s_clarifiedParameters, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_z_resolution, __pyx_n_s_delta_z, __pyx_n_s_maxResidual, __pyx_n_s_initial_conc, __pyx_n_s_particle_diam, __pyx_n_s_solid_density, __pyx_n_s_fluid_density, __pyx_n_s_total_time, __pyx_n_s_timestep, __pyx_n_s_delta, __pyx_n_s_k0, __pyx_n_s_max_conc, __pyx_n_s_beta, __pyx_n_s_p_ref, __pyx_n_s_ref_conc, __pyx_n_s_M, __pyx_n_s_n_2, __pyx_n_s_esph, __pyx_n_s_mixture_density, __pyx_n_s_Concentration, __pyx_n_s_Concentration_aux, __pyx_n_s_Velocity, __pyx_n_s_Position, __pyx_n_s_currentTime, __pyx_n_s_K1, __pyx_n_s_K2, __pyx_n_s_K3, __pyx_n_s_K4, __pyx_n_s_Data, __pyx_n_s_days, __pyx_n_s_Pres, __pyx_n_s_Perm, __pyx_n_s_Time, __pyx_n_s_f, __pyx_n_s_h, __pyx_n_s_count, __pyx_n_s_dia, __pyx_n_s_i, __pyx_n_s_update, __pyx_n_s_nanHit, __pyx_n_s_packingIndex, __pyx_n_s_indexToPlot, __pyx_n_s_positionToPlot, __pyx_n_s_concentrationLimit, __pyx_n_s_grad); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(4, 0, 51, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_RK4Solver, 479, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 479, __pyx_L1_error)
+
+  /* "script_Rocha_2020.pyx":727
+ *     return Data
+ * 
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+  __pyx_tuple__16 = PyTuple_Pack(9, __pyx_n_s_indexesToPlot, __pyx_n_s_Data, __pyx_n_s_Time, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_DataToPlot, __pyx_n_s_index, __pyx_n_s_positionToPlot, __pyx_n_s_concentrationData); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 727, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(5, 0, 9, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_PlotConcentrationData, 727, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 727, __pyx_L1_error)
+
+  /* "script_Rocha_2020.pyx":747
+ *     plt.close()
+ * 
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+  __pyx_tuple__18 = PyTuple_Pack(8, __pyx_n_s_indexesToPlot, __pyx_n_s_PermeabilityData, __pyx_n_s_Time, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_DataToPlot, __pyx_n_s_index, __pyx_n_s_positionToPlot); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(5, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_PlotPermeabilityData, 747, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 747, __pyx_L1_error)
+
+  /* "script_Rocha_2020.pyx":761
+ *     plt.close()
+ * 
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+  __pyx_tuple__20 = PyTuple_Pack(8, __pyx_n_s_indexesToPlot, __pyx_n_s_PressureData, __pyx_n_s_Time, __pyx_n_s_L, __pyx_n_s_N_len, __pyx_n_s_DataToPlot, __pyx_n_s_index, __pyx_n_s_positionToPlot); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(0, 761, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(5, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_PlotPressureData, 761, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(0, 761, __pyx_L1_error)
+
+  /* "script_Rocha_2020.pyx":777
+ *     plt.close()
+ * 
+ * def saveFrame(Position, Data, dia):             # <<<<<<<<<<<<<<
+ * 
+ *     plt.plot(Position,Data)
+ */
+  __pyx_tuple__22 = PyTuple_Pack(3, __pyx_n_s_Position, __pyx_n_s_Data, __pyx_n_s_dia); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(0, 777, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_script_Rocha_2020_pyx, __pyx_n_s_saveFrame, 777, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(0, 777, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_ConstantParameters(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_tuple__13 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ConstantParameter, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__15 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_PhysicalParameter, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__17 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_NumericalParamete, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ConstantParameter, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__26 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_PhysicalParameter, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_NumericalParamete, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -15095,18 +18060,18 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  __pyx_float_1_0 = PyFloat_FromDouble(1.0); if (unlikely(!__pyx_float_1_0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_1_04 = PyFloat_FromDouble(1.04); if (unlikely(!__pyx_float_1_04)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_3_31 = PyFloat_FromDouble(3.31); if (unlikely(!__pyx_float_3_31)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_0_145 = PyFloat_FromDouble(0.145); if (unlikely(!__pyx_float_0_145)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_float_52_67 = PyFloat_FromDouble(52.67); if (unlikely(!__pyx_float_52_67)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_float_0_2 = PyFloat_FromDouble(0.2); if (unlikely(!__pyx_float_0_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_float_0_21 = PyFloat_FromDouble(0.21); if (unlikely(!__pyx_float_0_21)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_float_0_1395 = PyFloat_FromDouble(0.1395); if (unlikely(!__pyx_float_0_1395)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_float_neg_9_81 = PyFloat_FromDouble(-9.81); if (unlikely(!__pyx_float_neg_9_81)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_365 = PyInt_FromLong(365); if (unlikely(!__pyx_int_365)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_3660 = PyInt_FromLong(3660); if (unlikely(!__pyx_int_3660)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_18420091 = PyInt_FromLong(18420091L); if (unlikely(!__pyx_int_18420091)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_86400 = PyInt_FromLong(86400L); if (unlikely(!__pyx_int_86400)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_103866472 = PyInt_FromLong(103866472L); if (unlikely(!__pyx_int_103866472)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_116734037 = PyInt_FromLong(116734037L); if (unlikely(!__pyx_int_116734037)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_249160139 = PyInt_FromLong(249160139L); if (unlikely(!__pyx_int_249160139)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -15151,35 +18116,35 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_17script_Rocha_2020_ConstantParameters) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_17script_Rocha_2020_ConstantParameters) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_17script_Rocha_2020_ConstantParameters.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_17script_Rocha_2020_ConstantParameters.tp_dictoffset && __pyx_type_17script_Rocha_2020_ConstantParameters.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_17script_Rocha_2020_ConstantParameters.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ConstantParameters, (PyObject *)&__pyx_type_17script_Rocha_2020_ConstantParameters) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_17script_Rocha_2020_ConstantParameters) < 0) __PYX_ERR(0, 130, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ConstantParameters, (PyObject *)&__pyx_type_17script_Rocha_2020_ConstantParameters) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_17script_Rocha_2020_ConstantParameters) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_ptype_17script_Rocha_2020_ConstantParameters = &__pyx_type_17script_Rocha_2020_ConstantParameters;
-  if (PyType_Ready(&__pyx_type_17script_Rocha_2020_PhysicalParameters) < 0) __PYX_ERR(0, 144, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_17script_Rocha_2020_PhysicalParameters) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_17script_Rocha_2020_PhysicalParameters.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_17script_Rocha_2020_PhysicalParameters.tp_dictoffset && __pyx_type_17script_Rocha_2020_PhysicalParameters.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_17script_Rocha_2020_PhysicalParameters.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PhysicalParameters, (PyObject *)&__pyx_type_17script_Rocha_2020_PhysicalParameters) < 0) __PYX_ERR(0, 144, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_17script_Rocha_2020_PhysicalParameters) < 0) __PYX_ERR(0, 144, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PhysicalParameters, (PyObject *)&__pyx_type_17script_Rocha_2020_PhysicalParameters) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_17script_Rocha_2020_PhysicalParameters) < 0) __PYX_ERR(0, 27, __pyx_L1_error)
   __pyx_ptype_17script_Rocha_2020_PhysicalParameters = &__pyx_type_17script_Rocha_2020_PhysicalParameters;
-  if (PyType_Ready(&__pyx_type_17script_Rocha_2020_NumericalParameters) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_17script_Rocha_2020_NumericalParameters) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_17script_Rocha_2020_NumericalParameters.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_17script_Rocha_2020_NumericalParameters.tp_dictoffset && __pyx_type_17script_Rocha_2020_NumericalParameters.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_17script_Rocha_2020_NumericalParameters.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_NumericalParameters, (PyObject *)&__pyx_type_17script_Rocha_2020_NumericalParameters) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_17script_Rocha_2020_NumericalParameters) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_NumericalParameters, (PyObject *)&__pyx_type_17script_Rocha_2020_NumericalParameters) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_17script_Rocha_2020_NumericalParameters) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
   __pyx_ptype_17script_Rocha_2020_NumericalParameters = &__pyx_type_17script_Rocha_2020_NumericalParameters;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -15450,7 +18415,7 @@ if (!__Pyx_RefNanny) {
  * import cython
  * import numpy as np             # <<<<<<<<<<<<<<
  * import pandas as pd
- * 
+ * import matplotlib.pyplot as plt
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -15461,74 +18426,140 @@ if (!__Pyx_RefNanny) {
  * import cython
  * import numpy as np
  * import pandas as pd             # <<<<<<<<<<<<<<
+ * import matplotlib.pyplot as plt
  * 
- * cimport numpy as np
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pd, __pyx_t_1) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "script_Rocha_2020.pyx":12
- *     double exp(double)
+  /* "script_Rocha_2020.pyx":6
+ * import numpy as np
+ * import pandas as pd
+ * import matplotlib.pyplot as plt             # <<<<<<<<<<<<<<
+ * 
+ * cimport numpy as np
+ */
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s__9);
+  __Pyx_GIVEREF(__pyx_n_s__9);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__9);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_2) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "script_Rocha_2020.pyx":63
+ *         self.indexesToPlot = indexesToPlot
  * 
  * DTYPE = np.double             # <<<<<<<<<<<<<<
  * 
  * # cdef double perm(double x,double diam,double k0,double delta,double max_conc):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_double); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DTYPE, __pyx_t_2) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_double); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DTYPE, __pyx_t_1) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "script_Rocha_2020.pyx":190
+  /* "script_Rocha_2020.pyx":180
  * 
  * 
  * def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
  * 
  *     # Parametros do poo
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_1EulerSolver, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_EulerSolver, __pyx_t_2) < 0) __PYX_ERR(0, 190, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_1EulerSolver, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_EulerSolver, __pyx_t_1) < 0) __PYX_ERR(0, 180, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "script_Rocha_2020.pyx":298
+  /* "script_Rocha_2020.pyx":322
  *     return Data
  * 
  * def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_3CrankSolver, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 298, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CrankSolver, __pyx_t_2) < 0) __PYX_ERR(0, 298, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_3CrankSolver, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 322, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CrankSolver, __pyx_t_1) < 0) __PYX_ERR(0, 322, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "script_Rocha_2020.pyx":455
+  /* "script_Rocha_2020.pyx":479
  *     return Data
  * 
- * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters constantParameters):             # <<<<<<<<<<<<<<
+ * def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):             # <<<<<<<<<<<<<<
  *     # Parametros do poo
  *     cdef double L = physicalParameters.L #5000(m)
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_5RK4Solver, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 455, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RK4Solver, __pyx_t_2) < 0) __PYX_ERR(0, 455, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_5RK4Solver, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_RK4Solver, __pyx_t_1) < 0) __PYX_ERR(0, 479, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":727
+ *     return Data
+ * 
+ * def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_7PlotConcentrationData, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 727, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PlotConcentrationData, __pyx_t_1) < 0) __PYX_ERR(0, 727, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":747
+ *     plt.close()
+ * 
+ * def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_9PlotPermeabilityData, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PlotPermeabilityData, __pyx_t_1) < 0) __PYX_ERR(0, 747, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":761
+ *     plt.close()
+ * 
+ * def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):             # <<<<<<<<<<<<<<
+ *     DataToPlot = []
+ *     for index in indexesToPlot:
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_11PlotPressureData, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 761, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PlotPressureData, __pyx_t_1) < 0) __PYX_ERR(0, 761, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "script_Rocha_2020.pyx":777
+ *     plt.close()
+ * 
+ * def saveFrame(Position, Data, dia):             # <<<<<<<<<<<<<<
+ * 
+ *     plt.plot(Position,Data)
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_13saveFrame, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 777, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_saveFrame, __pyx_t_1) < 0) __PYX_ERR(0, 777, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_ConstantParameters(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_7__pyx_unpickle_ConstantParameters, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ConstantParameter, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_15__pyx_unpickle_ConstantParameters, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ConstantParameter, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":11
  *         __pyx_unpickle_ConstantParameters__set_state(<ConstantParameters> __pyx_result, __pyx_state)
@@ -15537,30 +18568,30 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.beta = __pyx_state[0]; __pyx_result.delta = __pyx_state[1]; __pyx_result.k0 = __pyx_state[2]; __pyx_result.p_ref = __pyx_state[3]; __pyx_result.ref_conc = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_9__pyx_unpickle_PhysicalParameters, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_PhysicalParameter, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_17__pyx_unpickle_PhysicalParameters, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_PhysicalParameter, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_NumericalParameters(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_11__pyx_unpickle_NumericalParameters, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_NumericalParamete, __pyx_t_2) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_17script_Rocha_2020_19__pyx_unpickle_NumericalParameters, NULL, __pyx_n_s_script_Rocha_2020); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_NumericalParamete, __pyx_t_1) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "script_Rocha_2020.pyx":1
  * # cython: boundscheck=False, wraparound=False, nonecheck=False             # <<<<<<<<<<<<<<
  * 
  * import cython
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "C:/Users/Pablo/AppData/Local/Programs/Python/Python38-32/lib/site-packages/numpy/__init__.pxd":967
  *         raise ImportError("numpy.core.umath failed to import")
@@ -15641,6 +18672,173 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
     return result;
 }
 
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
+}
+
+/* PyErrExceptionMatches */
+#if CYTHON_FAST_THREAD_STATE
+static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
+    Py_ssize_t i, n;
+    n = PyTuple_GET_SIZE(tuple);
+#if PY_MAJOR_VERSION >= 3
+    for (i=0; i<n; i++) {
+        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
+    }
+#endif
+    for (i=0; i<n; i++) {
+        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
+    }
+    return 0;
+}
+static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
+    PyObject *exc_type = tstate->curexc_type;
+    if (exc_type == err) return 1;
+    if (unlikely(!exc_type)) return 0;
+    if (unlikely(PyTuple_Check(err)))
+        return __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
+    return __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
+}
+#endif
+
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
@@ -15664,6 +18862,95 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
     tstate->curexc_traceback = 0;
 }
 #endif
+
+/* GetAttr */
+static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
+#if CYTHON_USE_TYPE_SLOTS
+#if PY_MAJOR_VERSION >= 3
+    if (likely(PyUnicode_Check(n)))
+#else
+    if (likely(PyString_Check(n)))
+#endif
+        return __Pyx_PyObject_GetAttrStr(o, n);
+#endif
+    return PyObject_GetAttr(o, n);
+}
+
+/* GetAttr3 */
+static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
+        return NULL;
+    __Pyx_PyErr_Clear();
+    Py_INCREF(d);
+    return d;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
+    PyObject *r = __Pyx_GetAttr(o, n);
+    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
+}
+
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
+}
+#endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
+}
 
 /* WriteUnraisableException */
 static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
@@ -15917,262 +19204,6 @@ static PyObject* __Pyx_PyInt_SubtractCObj(PyObject *op1, PyObject *op2, CYTHON_U
     return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
 }
 #endif
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-/* RaiseDoubleKeywords */
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-/* ParseKeywords */
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
-}
-
-/* PyErrExceptionMatches */
-#if CYTHON_FAST_THREAD_STATE
-static int __Pyx_PyErr_ExceptionMatchesTuple(PyObject *exc_type, PyObject *tuple) {
-    Py_ssize_t i, n;
-    n = PyTuple_GET_SIZE(tuple);
-#if PY_MAJOR_VERSION >= 3
-    for (i=0; i<n; i++) {
-        if (exc_type == PyTuple_GET_ITEM(tuple, i)) return 1;
-    }
-#endif
-    for (i=0; i<n; i++) {
-        if (__Pyx_PyErr_GivenExceptionMatches(exc_type, PyTuple_GET_ITEM(tuple, i))) return 1;
-    }
-    return 0;
-}
-static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
-    PyObject *exc_type = tstate->curexc_type;
-    if (exc_type == err) return 1;
-    if (unlikely(!exc_type)) return 0;
-    if (unlikely(PyTuple_Check(err)))
-        return __Pyx_PyErr_ExceptionMatchesTuple(exc_type, err);
-    return __Pyx_PyErr_GivenExceptionMatches(exc_type, err);
-}
-#endif
-
-/* GetAttr */
-static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
-#if CYTHON_USE_TYPE_SLOTS
-#if PY_MAJOR_VERSION >= 3
-    if (likely(PyUnicode_Check(n)))
-#else
-    if (likely(PyString_Check(n)))
-#endif
-        return __Pyx_PyObject_GetAttrStr(o, n);
-#endif
-    return PyObject_GetAttr(o, n);
-}
-
-/* GetAttr3 */
-static PyObject *__Pyx_GetAttr3Default(PyObject *d) {
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
-        return NULL;
-    __Pyx_PyErr_Clear();
-    Py_INCREF(d);
-    return d;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
-    PyObject *r = __Pyx_GetAttr(o, n);
-    return (likely(r)) ? r : __Pyx_GetAttr3Default(d);
-}
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
-
-/* GetModuleGlobalName */
-#if CYTHON_USE_DICT_VERSIONS
-static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
-#else
-static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
-#endif
-{
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        return NULL;
-    }
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
-    if (likely(result)) {
-        return __Pyx_NewRef(result);
-    }
-    PyErr_Clear();
-#endif
-    return __Pyx_GetBuiltinName(name);
-}
 
 /* PyCFunctionFastCall */
 #if CYTHON_FAST_PYCCALL
@@ -16429,6 +19460,16 @@ static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
                  Py_TYPE(obj)->tp_name, type->tp_name);
     return 0;
 }
+
+/* PyIntFromDouble */
+#if PY_MAJOR_VERSION < 3
+static CYTHON_INLINE PyObject* __Pyx_PyInt_FromDouble(double value) {
+    if (value >= (double)LONG_MIN && value <= (double)LONG_MAX) {
+        return PyInt_FromLong((long)value);
+    }
+    return PyLong_FromDouble(value);
+}
+#endif
 
 /* PyObjectCall2Args */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
@@ -17095,6 +20136,159 @@ fail:;
   PyErr_SetString(PyExc_ValueError,
      "Buffer acquisition failed on assignment; and then reacquiring the old buffer failed too!");
 }
+
+/* PyIntBinop */
+  #if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddCObj(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
+    (void)inplace;
+    (void)zerodivision_check;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op2))) {
+        const long a = intval;
+        long x;
+        long b = PyInt_AS_LONG(op2);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op2))) {
+        const long a = intval;
+        long b, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG lla = intval;
+        PY_LONG_LONG llb, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op2)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op2);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            b = likely(size) ? digits[0] : 0;
+            if (size == -1) b = -b;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        b = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        llb = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        b = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        llb = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        b = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        llb = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        b = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        llb = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        b = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        llb = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        b = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        llb = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op2)) {
+        const long a = intval;
+        double b = PyFloat_AS_DOUBLE(op2);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
+/* ObjectGetItem */
+  #if CYTHON_USE_TYPE_SLOTS
+static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
+    PyObject *runerr;
+    Py_ssize_t key_value;
+    PySequenceMethods *m = Py_TYPE(obj)->tp_as_sequence;
+    if (unlikely(!(m && m->sq_item))) {
+        PyErr_Format(PyExc_TypeError, "'%.200s' object is not subscriptable", Py_TYPE(obj)->tp_name);
+        return NULL;
+    }
+    key_value = __Pyx_PyIndex_AsSsize_t(index);
+    if (likely(key_value != -1 || !(runerr = PyErr_Occurred()))) {
+        return __Pyx_GetItemInt_Fast(obj, key_value, 0, 1, 1);
+    }
+    if (PyErr_GivenExceptionMatches(runerr, PyExc_OverflowError)) {
+        PyErr_Clear();
+        PyErr_Format(PyExc_IndexError, "cannot fit '%.200s' into an index-sized integer", Py_TYPE(index)->tp_name);
+    }
+    return NULL;
+}
+static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
+    PyMappingMethods *m = Py_TYPE(obj)->tp_as_mapping;
+    if (likely(m && m->mp_subscript)) {
+        return m->mp_subscript(obj, key);
+    }
+    return __Pyx_PyObject_GetIndex(obj, key);
+}
+#endif
 
 /* Import */
   static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
