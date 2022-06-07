@@ -1,5 +1,5 @@
 # cython: boundscheck=False, wraparound=False, nonecheck=False
-
+# python cythonExtension.py build_ext --inplace
 import cython
 import numpy as np
 import pandas as pd
@@ -72,8 +72,10 @@ cdef double perm(double concentration,PhysicalParameters physicalParameters, Con
     cdef double permeability
     if concentration <= 0:
         return 0
-    permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
-    # permeability = k0 * pow(diam, 2) * pow((max_conc / x - 1), delta)
+    elif concentration < 0.000001:
+        permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / 0.000001 - 1) ** constantParameters.delta
+    else:
+        permeability = constantParameters.k0 * physicalParameters.particle_diam ** 2 * (physicalParameters.max_conc / concentration - 1) ** constantParameters.delta
     if permeability < 0:
         return 0
     return permeability
@@ -83,15 +85,6 @@ cdef double esp(double x):
     esphericity = -3.45 * x ** 2 + 5.25 * x - 1.41
     return esphericity
 
-# cdef double press_grad(double x,double p_ref,double beta,double x_ref):
-#     cdef double aux, pressure_gradient
-#     if x == 0:
-#         return 0
-    
-#     aux = -beta * (x_ref - x) / (x * x_ref)
-#     pressure_gradient = (p_ref * beta / x ** 2) * exp(aux) #Trocar o exp
-
-#     return pressure_gradient
 
 cdef double press_grad(double concentration,ConstantParameters constantParameters):
     cdef double aux, pressure_gradient
@@ -104,56 +97,29 @@ cdef double press_grad(double concentration,ConstantParameters constantParameter
     return pressure_gradient
 
 
-# cdef double vel(np.ndarray Concentration, int index,double diam,double k0,double delta,double max_conc,double M,double esph,double n,double rho_susp,double rho_s,double rho_f,double initial_conc,double p_ref,double beta,double x_ref,double conc_grad):
-#     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity, mix_dens
-
-#     # Inclusao dos parametros para a regiao do clarificado
-#     # if Concentration[index + 1] <= 0.14: # Testar com index ao inves de index + 1
-#     if Concentration[index + 1] <= 0.14:
-#         K = perm(Concentration[index + 1],diam,52.67,1.04,max_conc)
-#         aux4 = - press_grad(Concentration[index + 1],3.31,1,x_ref) * conc_grad
-#     else:
-#         K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
-#         aux4 = - press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad
-#     # K = perm(Concentration[index + 1],diam,k0,delta,max_conc)
-#     aux1 = K / (M * (1 - Concentration[index + 1]) ** (1 - n))
-
-#     # mix_dens = rho_f + (rho_s - rho_f) * Concentration[index]
-#     # aux2 = (diam / esph) ** (n - 1) * (mix_dens / (mix_dens -  rho_s * initial_conc))
-#     aux2 = (diam / esph) ** (n - 1) * (rho_susp / (rho_susp -  rho_s * initial_conc))
-#     aux3 = Concentration[index + 1] * (rho_s - rho_f) * (-9.81)
-#     # aux4 = press_grad(Concentration[index + 1],p_ref,beta,x_ref) * conc_grad #Erro 1
-#     # if aux4 != 0:
-#     #     print(aux4, conc_grad)
-#     # aux4
-
-#     aux5 = aux1 * aux2 * (aux3 - aux4)
-    
-#     if aux5 == 0:
-#         return 0
-#     elif aux5 <= 0:
-#         aux5 = -aux5
-#     aux6 = 1 / n
-#     #print(aux1,aux2,aux3,aux4,aux5)
-#     velocity = pow(aux5, aux6)
-#     return -velocity
-
 cdef double vel(np.ndarray Concentration, int index,PhysicalParameters physicalParameters, ConstantParameters constantParameters,double esph,double rho_susp, double conc_grad):
     cdef double K, aux1, aux2, aux3, aux4, aux5, aux6, velocity
 
-    K = perm(Concentration[index + 1],physicalParameters,constantParameters)
-    aux4 = - press_grad(Concentration[index + 1],constantParameters) * conc_grad
-    aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad
-    aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n))
-    aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
-    aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81)
+    # K = perm(Concentration[index + 1],physicalParameters,constantParameters) # Empacotamento, interpolação a jusante
+    K = perm(Concentration[index],physicalParameters,constantParameters) # Clarificado, interpolação a montante
     
+    # aux1 = K / (physicalParameters.M * (1 - Concentration[index + 1]) ** (1 - physicalParameters.n)) # Empacotamento, interpolação a jusante
+    aux1 = K / (physicalParameters.M * (1 - Concentration[index]) ** (1 - physicalParameters.n)) # Clarificado, interpolação a montante
+
+    aux2 = (physicalParameters.particle_diam / esph) ** (physicalParameters.n - 1) * (rho_susp / (rho_susp -  physicalParameters.solid_density * physicalParameters.initial_conc))
+    
+    # aux3 = Concentration[index + 1] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81) # Empacotamento, interpolação a jusante
+    aux3 = Concentration[index] * (physicalParameters.solid_density - physicalParameters.fluid_density) * (-9.81) # Clarificado, interpolação a montante
+    
+    # aux4 = press_grad(Concentration[index + 1],constantParameters) * conc_grad # Empacotamento, interpolação a jusante
+    aux4 = press_grad(Concentration[index],constantParameters) * conc_grad # Clarificado, interpolação a montante
 
     aux5 = aux1 * aux2 * (aux3 - aux4)
-    
+
+    # print("Empuxo: " + str(aux3) + "\nPressure: " + str(aux4))
     if aux5 == 0:
         return 0
-    elif aux5 <= 0:
+    elif aux5 < 0:
         aux5 = -aux5
     aux6 = 1 / physicalParameters.n
     velocity = pow(aux5, aux6)
@@ -233,7 +199,6 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
     for h in range(0,N_len):
         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
         Perm[h][f] = perm(Concentration[h], physicalParameters, constantParameters)
         
 
@@ -530,8 +495,8 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     Data.append(np.copy(Concentration)) #Talvez precise typar
 
     cdef int days = int(numericalParameters.total_time) / 86400
-    cdef np.ndarray Pres = np.zeros((N_len, days), dtype=DTYPE)
-    cdef np.ndarray Perm = np.zeros((N_len, days), dtype=DTYPE)
+    cdef np.ndarray Pres = np.zeros((N_len, days + 1), dtype=DTYPE)
+    cdef np.ndarray Perm = np.zeros((N_len, days + 1), dtype=DTYPE)
     
     # DataToPlot = []
     Time = []
@@ -540,12 +505,11 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
 
     for h in range(0,N_len):
         Pres[h][f] = p_ref * np.exp(-beta * (1 / Concentration[h] - 1 / ref_conc))
-        # Perm[h][f] = perm(Concentration[h], particle_diam, k0, delta, max_conc)
         Perm[h][f] = perm(Concentration[h], physicalParameters, clarifiedParameters)
 
     print("\n\nData set initialized\n\n")
 
-    cdef int count = 0
+    cdef double count = 0
     cdef int dia = 0
 
     cdef int i
@@ -559,7 +523,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef double positionToPlot = 0
 
     cdef double concentrationLimit = 0.1395
-    saveFrame(Position, Concentration, dia)
+    saveFrame(Position, Concentration, dia, physicalParameters.max_conc)
     while (currentTime <= total_time):
         #Calculo do vetor de velocidade
         for i in range(0,N_len - 1):
@@ -581,7 +545,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
                 update = - (Concentration[i+1] * Velocity[i] - Concentration[i] * Velocity[i - 1]) / delta_z
             K1[i] = update
             Concentration_aux[i] += timestep * update / 2
-            if Concentration_aux[i] < 0:
+            if Concentration_aux[i] < 0 or np.isnan(Concentration_aux[i]):
                 Concentration_aux[i] = 0
 
         #Atualizaçao do vetor de velocidade
@@ -596,14 +560,16 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         #Calculo da inclinaçao K2
         for i in range(0,N_len):
             if i == 0:
-                update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
+                # update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K1[i] / 2) * Velocity[i]) / delta_z
             elif i == (N_len - 1):
                 update = ((Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
             else:
-                update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
+                # update = - ((Concentration[i+1] + timestep * K1[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K1[i] / 2) * Velocity[i] - (Concentration[i] + timestep * K1[i] / 2) * Velocity[i - 1]) / delta_z
             K2[i] = update
             Concentration_aux[i] = Concentration[i] + timestep * update / 2
-            if Concentration_aux[i] < 0:
+            if Concentration_aux[i] < 0 or np.isnan(Concentration_aux[i]):
                 Concentration_aux[i] = 0
 
         #Atualizaçao da velocidade
@@ -618,14 +584,16 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         #Calculo da inclinaçao K3
         for i in range(0,N_len):
             if i == 0:
-                update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
+                # update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K2[i] / 2) * Velocity[i]) / delta_z
             elif i == (N_len - 1):
                 update = ((Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
             else:
-                update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
+                # update = - ((Concentration[i+1] + timestep * K2[i+1] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K2[i] / 2) * Velocity[i] - (Concentration[i] + timestep * K2[i] / 2) * Velocity[i - 1]) / delta_z
             K3[i] = update
             Concentration_aux[i] = Concentration[i] + timestep * update
-            if Concentration_aux[i] < 0:
+            if Concentration_aux[i] < 0 or np.isnan(Concentration_aux[i]):
                 Concentration_aux[i] = 0
 
         #Atualizaçao da velocidade
@@ -637,14 +605,16 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             else:
                 Velocity[i] = vel(Concentration,i,physicalParameters, clarifiedParameters, esph, mixture_density, grad) #Clarificado
 
-        #Calculo da inclinaçaio K4
+        #Calculo da inclinaçao K4
         for i in range(0,N_len):
             if i == 0:
-                update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
+                # update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K3[i]) * Velocity[i]) / delta_z
             elif i == (N_len - 1):
                 update = ((Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
             else:
-                update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i] - (Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
+                # update = - ((Concentration[i+1] + timestep * K3[i+1]) * Velocity[i] - (Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
+                update = - ((Concentration[i+1] + timestep * K3[i]) * Velocity[i] - (Concentration[i] + timestep * K3[i]) * Velocity[i - 1]) / delta_z
             K4[i] = update
 
             #Verificaçao dos valores de concentraçao
@@ -654,19 +624,24 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
                 nanHit = 1
 
             Concentration_aux[i] = Concentration[i] + timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6  #Pode ser otimizado excluido a variavel K4 e utilizando o valor de update para o calculo da inclinação media
-            if Concentration_aux[i] < 0:
+            if Concentration_aux[i] < 0 or np.isnan(Concentration_aux[i]):
                 Concentration_aux[i] = 0
         Concentration = np.copy(Concentration_aux)
 
         count += 1
+
+        #Atualizar concentraçao maxima
+        # max_conc = 0.25 - 0.04 * (currentTime/total_time)
+        # physicalParameters.max_conc = max_conc
+
         #Atualizar linha de empacotamento
-        for i in range(0, N_len):
-            if Concentration[i+1] > concentrationLimit:
-                packingIndex = i + 1
-                continue
-            else:
-                packingIndex = i
-                break
+        # for i in range(0, N_len):
+        #     if Concentration[i+1] > concentrationLimit:
+        #         packingIndex = i + 1
+        #         continue
+        #     else:
+        #         packingIndex = i
+        #         break
       
         # if not(np.isnan(np.sum(Concentration))) and dia == 18 and Concentration[N_len - 2] <= 0.1391:
         #     print("Current time: " + str(currentTime))
@@ -693,25 +668,40 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             #Salvar dados a cada dia de simulaçao
             Data.append(np.copy(Concentration))
             Time.append(dia)
-            pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
-            pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
-            pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
+            # pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresRK4Dia" + str(dia) + ".csv")
+            # pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
+            # pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
 
-            saveFrame(Position, Concentration, dia)
+            # saveFrame(Position, Concentration, dia, physicalParameters.max_conc)
 
             #Visualizaçao da simulaçao Debug
+            print('MaxConc: ' + str(max_conc))
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
             print(Concentration)
             print("Posição da interface de empacotamento: " + str(packingIndex))
             print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
             print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
-            count = 0
+            count = (currentTime - dia * 86400) / timestep
         currentTime += timestep
         # Time.append(currentTime)
 
+        
+
     #Gerar o plot de concentraçao
-    PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len)
+    PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len, physicalParameters.max_conc)
+
+    # if Pres[days] == 0:
+    # if len(Time) != len(Pres[0]):
+    #     offset = 1
+    #     while (len(Time) < len(Pres[0])):
+    #         Time.append(dia+offset)
+    #         offset += 1
+
+    pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
+    pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
+
+    evaluateConvergence(Concentration=Concentration, init_conc=physicalParameters.initial_conc)
 
     #Gerar o plot de pressao
     PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)
@@ -719,28 +709,32 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     #Gerar o plot de permeabilidade
     PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
 
-    pd.DataFrame(Pres).to_csv("MVF/temporaryFiles/resultadosPressaoRK4.csv")
-    pd.DataFrame(Perm).to_csv("MVF/temporaryFiles/resultadosPermeabilidadeRK4.csv")
-
     return Data
 
-def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len):
+def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration):
     DataToPlot = []
+    colors = ['black','gray','blue','pink','red','cyan','green']
+    counter = 0
     for index in indexesToPlot:
         DataToPlot = []
         positionToPlot = L * (1 + 2 * index) / (2 * N_len)
         for concentrationData in Data:
             DataToPlot.append(concentrationData[index])
     
-        plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
+        plt.plot(Time,DataToPlot, color=colors[counter], label= "n=" + str(index) + ", z=" + str("{:.2f}".format(positionToPlot * 100)) + " cm")
         plt.legend()
-        
+        counter += 1
         # plt.legend()
 
     DataToPlot = []
     plt.xlabel('Time [Days]')
+    plt.xlim(0.400)
     plt.ylabel('Concentration')
+    plt.ylim(0.135,0.22)
+    # plt.title('Conc_max = ' + str(max_concentration))
+    plt.title('Conc_max = 0.25-' + str("{:.2f}".format(max_concentration)))
     # plt.legend()
+    plt.grid()
     plt.savefig('MVF/temporaryFiles/Concentration.png')
     plt.close()
 
@@ -774,10 +768,10 @@ def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):
     plt.savefig('MVF/temporaryFiles/Pressure.png')
     plt.close()
 
-def saveFrame(Position, Data, dia):
+def saveFrame(Position, Data, dia, max_conc):
 
     plt.plot(Position,Data)
-    plt.ylim(0,0.2)
+    plt.ylim(0,max_conc)
     plt.xlim(0,0.21)
     plt.xlabel('Position [m]')
     plt.ylabel('Concentration')
@@ -785,3 +779,9 @@ def saveFrame(Position, Data, dia):
     # plt.legend()
     plt.savefig('MVF/temporaryFiles/animationFrames/Concentration' + str(dia) + '.png')
     plt.close()
+
+def evaluateConvergence(Concentration, init_conc):
+    sum = 0
+    for node in Concentration:
+        sum += (node - init_conc) ** 2
+    print("Variação quadratica total: " + str(sum))

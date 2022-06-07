@@ -18,14 +18,14 @@ def createAnimation():
     # Create the frames
     frames = []
     
-    for i in range(0,365):
+    for i in range(0,761):
         imgs = glob.glob("./MVF/temporaryFiles/animationFrames/Concentration" + str(i) + ".png")
         for img in imgs:
             new_frame = Image.open(img)
             frames.append(new_frame)
     # Save into a GIF file that loops forever
     frames[0].save('./MVF/temporaryFiles/animationFrames/animation.gif', format='GIF',
-                append_images=frames[1:435],
+                append_images=frames[1:24],
                 save_all=True,
                 duration=50, loop=1000)
 

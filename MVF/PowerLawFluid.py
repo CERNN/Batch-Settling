@@ -17,16 +17,17 @@ data = script_Rocha_2020.RK4Solver(
         particle_esphericity = 0.8,
         solid_density = 2709, # (kg/m3)
         fluid_density = 891.4, # (kg/m3)
-        max_conc = 0.2 , #0.19
+        max_conc = 0.25, #0.19
         powerLawFluid_M = 30.13,
         powerLawFluid_n = 0.21
     ),
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 220,
-        total_time = 315360000, #365 dias #4320000,
-        timestep = 100,
+        total_time = 31536000, #365 dias #4320000,
+        timestep = 300,
         maxResidual = 0.000000001,
-        indexesToPlot = [0,1,2,5,217,218,219]
+        indexesToPlot = [0,5,21,31] #220 dvs
+        # indexesToPlot = [0,7,28,42] #100 dvs
     ),
     packingParameters = script_Rocha_2020.ConstantParameters(
         delta = 0.58, # Permeabilidade - Rocha (2020)
