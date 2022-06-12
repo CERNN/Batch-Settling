@@ -441,7 +441,7 @@ def CrankSolver(PhysicalParameters physicalParameters, NumericalParameters numer
 
     return Data
 
-def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters):
+def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numericalParameters, ConstantParameters packingParameters, ConstantParameters clarifiedParameters, np.ndarray Rocha_exp_data, np.ndarray Rocha_num_data):
     # Parametros do poço 
     cdef double L = physicalParameters.L #5000(m)
     # z_resolution = 220 #div/m 80 a 100 div/m -> Prof Calcada
@@ -689,7 +689,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         
 
     #Gerar o plot de concentraçao
-    PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len, physicalParameters.max_conc)
+    # PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len, physicalParameters.max_conc, num_data=Rocha_num_data, exp_data=Rocha_exp_data)
 
     # if Pres[days] == 0:
     # if len(Time) != len(Pres[0]):
@@ -703,17 +703,17 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
 
     evaluateConvergence(Concentration=Concentration, init_conc=physicalParameters.initial_conc)
 
-    #Gerar o plot de pressao
-    PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)
+    # #Gerar o plot de pressao
+    # PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)
 
-    #Gerar o plot de permeabilidade
-    PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
+    # #Gerar o plot de permeabilidade
+    # PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
 
     return Data
 
-def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration):
+def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration, np.ndarray num_data, np.ndarray exp_data):
     DataToPlot = []
-    colors = ['black','gray','blue','pink','red','cyan','green']
+    colors = ['gray','blue','magenta','red','cyan','green']
     counter = 0
     for index in indexesToPlot:
         DataToPlot = []
@@ -727,6 +727,21 @@ def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration
         # plt.legend()
 
     DataToPlot = []
+
+    #Dados numericos
+    print(num_data)
+    print(num_data.size)
+    if num_data.size != 0:
+        plt.plot(num_data[:,0],num_data[:,1], color=colors[0], label='z=0.5cm, Rocha (2020) - Num', linestyle='dashed')
+        plt.plot(num_data[:,2],num_data[:,3], color=colors[1], label='z=2.0cm, Rocha (2020) - Num', linestyle='dashed')
+        plt.plot(num_data[:,4],num_data[:,5], color=colors[2], label='z=3.0cm, Rocha (2020) - Num', linestyle='dashed')
+
+    #Dados experimentais
+    if exp_data.size != 0:
+        plt.plot(exp_data[:,0],exp_data[:,1], color=colors[0], label='z=0.5cm, Rocha (2020) - Exp', linestyle='None', marker='s')
+        plt.plot(exp_data[:,2],exp_data[:,3], color=colors[1], label='z=2.0cm, Rocha (2020) - Exp', linestyle='None', marker='^')
+        plt.plot(exp_data[:,4],exp_data[:,5], color=colors[2], label='z=3.0cm, Rocha (2020) - Exp', linestyle='None', marker='o')
+
     plt.xlabel('Time [Days]')
     plt.xlim(0.400)
     plt.ylabel('Concentration')
