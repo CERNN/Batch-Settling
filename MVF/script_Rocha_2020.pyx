@@ -518,6 +518,9 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     cdef int nanHit = 0
     cdef int packingIndex = 0
 
+    cdef double minVelocity = 0
+    cdef double maxVelocity = 0
+
     #plotting variables
     cdef int indexToPlot = 0
     cdef double positionToPlot = 0
@@ -628,6 +631,14 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
                 Concentration_aux[i] = 0
         Concentration = np.copy(Concentration_aux)
 
+        # if Velocity.max() > maxVelocity:
+        #     maxVelocity = Velocity.max()
+        # if Velocity.min() < minVelocity:
+        #     minVelocity = Velocity.min()
+        # print("Velocidade maxima: " + str(maxVelocity))
+        # print("Velocidade minima: " + str(maxVelocity))
+        # print(Velocity)
+
         count += 1
 
         #Atualizar concentraçao maxima
@@ -689,7 +700,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
         
 
     #Gerar o plot de concentraçao
-    # PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len, physicalParameters.max_conc, num_data=Rocha_num_data, exp_data=Rocha_exp_data)
+    PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len, physicalParameters.max_conc, num_data=Rocha_num_data, exp_data=Rocha_exp_data)
 
     # if Pres[days] == 0:
     # if len(Time) != len(Pres[0]):
@@ -704,16 +715,16 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     evaluateConvergence(Concentration=Concentration, init_conc=physicalParameters.initial_conc)
 
     # #Gerar o plot de pressao
-    # PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)
+    PlotPressureData(numericalParameters.indexesToPlot, Pres, Time,physicalParameters.L, numericalParameters.N_len)
 
     # #Gerar o plot de permeabilidade
-    # PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
+    PlotPermeabilityData(numericalParameters.indexesToPlot, Perm, Time,physicalParameters.L, numericalParameters.N_len)
 
     return Data
 
 def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration, np.ndarray num_data, np.ndarray exp_data):
     DataToPlot = []
-    colors = ['gray','blue','magenta','red','cyan','green']
+    colors = ['gray','blue','magenta','red','cyan','green','purple']
     counter = 0
     for index in indexesToPlot:
         DataToPlot = []
@@ -735,19 +746,26 @@ def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration
         plt.plot(num_data[:,0],num_data[:,1], color=colors[0], label='z=0.5cm, Rocha (2020) - Num', linestyle='dashed')
         plt.plot(num_data[:,2],num_data[:,3], color=colors[1], label='z=2.0cm, Rocha (2020) - Num', linestyle='dashed')
         plt.plot(num_data[:,4],num_data[:,5], color=colors[2], label='z=3.0cm, Rocha (2020) - Num', linestyle='dashed')
+        # plt.plot(num_data[:,6],num_data[:,7], color=colors[3], label='z=4.0cm, Rocha (2020) - Num', linestyle='dashed')
+        # plt.plot(num_data[:,8],num_data[:,9], color=colors[4], label='z=6.0cm, Rocha (2020) - Num', linestyle='dashed')
+        # plt.plot(num_data[:,10],num_data[:,11], color=colors[5], label='z=8.0cm, Rocha (2020) - Num', linestyle='dashed')
+        # plt.plot(num_data[:,12],num_data[:,13], color=colors[6], label='z=12.0cm, Rocha (2020) - Num', linestyle='dashed')
 
     #Dados experimentais
     if exp_data.size != 0:
         plt.plot(exp_data[:,0],exp_data[:,1], color=colors[0], label='z=0.5cm, Rocha (2020) - Exp', linestyle='None', marker='s')
         plt.plot(exp_data[:,2],exp_data[:,3], color=colors[1], label='z=2.0cm, Rocha (2020) - Exp', linestyle='None', marker='^')
         plt.plot(exp_data[:,4],exp_data[:,5], color=colors[2], label='z=3.0cm, Rocha (2020) - Exp', linestyle='None', marker='o')
+        # plt.plot(exp_data[:,6],exp_data[:,7], color=colors[3], label='z=4.0cm, Rocha (2020) - Exp', linestyle='None', marker='v')
+        # plt.plot(exp_data[:,8],exp_data[:,9], color=colors[4], label='z=6.0cm, Rocha (2020) - Exp', linestyle='None', marker='<')
+        # plt.plot(exp_data[:,10],exp_data[:,11], color=colors[5], label='z=8.0cm, Rocha (2020) - Exp', linestyle='None', marker='D')
+        # plt.plot(exp_data[:,12],exp_data[:,13], color=colors[6], label='z=12.0cm, Rocha (2020) - Exp', linestyle='None', marker='>')
 
-    plt.xlabel('Time [Days]')
+    plt.xlabel('Tempo [Dias]')
     plt.xlim(0.400)
-    plt.ylabel('Concentration')
+    plt.ylabel('Concentração')
     plt.ylim(0.135,0.22)
     # plt.title('Conc_max = ' + str(max_concentration))
-    plt.title('Conc_max = 0.25-' + str("{:.2f}".format(max_concentration)))
     # plt.legend()
     plt.grid()
     plt.savefig('MVF/temporaryFiles/Concentration.png')
@@ -761,8 +779,8 @@ def PlotPermeabilityData(indexesToPlot, PermeabilityData, Time, L, N_len):
 
         plt.plot(Time,DataToPlot, label= "n=" + str(index) + ", z=" + str(positionToPlot))
         plt.legend()
-    plt.xlabel('Time [Days]')
-    plt.ylabel('Permeability')
+    plt.xlabel('Tempo [Dias]')
+    plt.ylabel('Permeabilidade')
     # plt.legend()
     plt.savefig('MVF/temporaryFiles/Permeability.png')
     plt.close()
@@ -777,8 +795,8 @@ def PlotPressureData(indexesToPlot, PressureData, Time, L, N_len):
         plt.legend()
         # plt.legend()
 
-    plt.xlabel('Time [Days]')
-    plt.ylabel('Solids Pressure')
+    plt.xlabel('Tempo [Dias]')
+    plt.ylabel('Pressão nos sólidos')
     # plt.legend()
     plt.savefig('MVF/temporaryFiles/Pressure.png')
     plt.close()

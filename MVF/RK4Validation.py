@@ -1,6 +1,3 @@
-from os import times_result
-from time import time
-from turtle import position
 import numpy as np
 import matplotlib.pyplot as plt
 import math as math
@@ -12,6 +9,7 @@ h = 1000
 rho = 2300
 c = 88
 alpha = k / (rho * c)
+print(alpha)
 
 #Condiçoes de contorno
 T0 = 100.0
@@ -100,10 +98,20 @@ while (n < steps - 1):
     for i in range(0,x_divs + 1):
         if i == 0:
             # T[n+1][i] = T[n][i] # Boundary condition, constant temperature
-            T[n+1][i] = T[n][i] + 2 * alpha * timestep * (-(T[n][i] - T[n][i+1]) / delta_x + h * (Tinf - T[n][i]) / k) / delta_x # Boundary condition, convection
+            # T[n+1][i] = T[n][i] + 2 * alpha * timestep * (-(T[n][i] - T[n][i+1]) / delta_x + h * (Tinf - T[n][i]) / k) / delta_x # Boundary condition, convection
+            k1 = 2 * alpha * (-(T[n][i] - T[n][i+1]) / delta_x + h * (Tinf - T[n][i]) / k) / delta_x
+            k2 = 2 * alpha * (-(T[n][i] - T[n][i+1]) / delta_x + h * (Tinf - T[n][i] - timestep * k1 / 2) / k) / delta_x
+            k3 = 2 * alpha * (-(T[n][i] - T[n][i+1]) / delta_x + h * (Tinf - T[n][i] - timestep * k2 / 2) / k) / delta_x
+            k4 = 2 * alpha * (-(T[n][i] - T[n][i+1]) / delta_x + h * (Tinf - T[n][i] - timestep * k3) / k) / delta_x
+            T[n+1][i] = T[n][i] + timestep * (k1 + 2 * k2 + 2 * k3 + k4) / 6
         elif i == x_divs:
             # T[n+1][i] = T[n][i] - 2 * alpha * timestep * (T[n][i] - T[n][i-1]) / square_delta_x # At boundary apply euler method
-            T[n+1][i] = T[n][i] + 2 * alpha * timestep * (-(T[n][i] - T[n][i-1]) / delta_x + h * (Tinf - T[n][i]) / k) / delta_x # Boundary condition, convection
+            # T[n+1][i] = T[n][i] + 2 * alpha * timestep * (-(T[n][i] - T[n][i-1]) / delta_x + h * (Tinf - T[n][i]) / k) / delta_x # Boundary condition, convection
+            k1 = 2 * alpha * (-(T[n][i] - T[n][i-1]) / delta_x + h * (Tinf - T[n][i]) / k) / delta_x
+            k2 = 2 * alpha * (-(T[n][i] - T[n][i-1]) / delta_x + h * (Tinf - T[n][i] - timestep * k1 / 2) / k) / delta_x
+            k3 = 2 * alpha * (-(T[n][i] - T[n][i-1]) / delta_x + h * (Tinf - T[n][i] - timestep * k2 / 2) / k) / delta_x
+            k4 = 2 * alpha * (-(T[n][i] - T[n][i-1]) / delta_x + h * (Tinf - T[n][i] - timestep * k3) / k) / delta_x
+            T[n+1][i] = T[n][i] + timestep * (k1 + 2 * k2 + 2 * k3 + k4) / 6
         else:
             # T[n+1][i] = T[n][i] + alpha * timestep * (K1[i] + 2 * K2[i] + 2 * K3[i] + K4[i]) / 6
             T[n+1][i] = T[n][i] + alpha * timestep * (T[n][i+1] - 2 * T[n][i] + T[n][i-1]) / square_delta_x # Euler

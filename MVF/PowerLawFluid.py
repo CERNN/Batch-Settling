@@ -38,7 +38,7 @@ data = script_Rocha_2020.RK4Solver(
         total_time = 31536000, #365 dias #4320000,
         timestep = 300,
         maxResidual = 0.000000001,
-        indexesToPlot = [5,21,31] #220 dvs
+        indexesToPlot = [5,21,31]#,41,62,83,125] #220 dvs
         # indexesToPlot = [0,7,28,42] #100 dvs
     ),
     packingParameters = script_Rocha_2020.ConstantParameters(
