@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "batch-settling"
+version = "0.1.0"
+description = ""
+authors = ["pabloharbar <harbar2705@gmail.com>"]
+readme = "README.md"
+packages = [{include = "batch_settling"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+cython = "^0.29.35"
+pandas = "^2.0.2"
+matplotlib = "^3.7.1"
+openpyxl = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
