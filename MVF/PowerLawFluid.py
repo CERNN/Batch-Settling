@@ -1,8 +1,10 @@
-from cmath import exp
-import script_Rocha_2020
 import time
-import pandas as pd
+from cmath import exp
+
 import matplotlib.pyplot as plt
+import pandas as pd
+import script_Rocha_2020
+
 # import numpy as np
 #python -m timeit -s 'from primes_python import primes' 'primes(1000)'
 
