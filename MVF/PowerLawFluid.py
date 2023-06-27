@@ -37,22 +37,22 @@ data = script_Rocha_2020.RK4Solver(
     ),
     numericalParameters = script_Rocha_2020.NumericalParameters(
         z_divs = 220,
-        total_time = 31536000, #365 dias #4320000,
-        timestep = 300,
+        total_time = 300000, #31536000, #365 dias #4320000,
+        timestep = 20000,
         maxResidual = 0.000000001,
         indexesToPlot = [5,21,31]#,41,62,83,125] #220 dvs
         # indexesToPlot = [0,7,28,42] #100 dvs
     ),
     packingParameters = script_Rocha_2020.ConstantParameters(
         delta = 0.58, # Permeabilidade - Rocha (2020)
-        k0 = 27.99, # Permeabilidade - Rocha (2020)
+        k0 = 46, # Permeabilidade - Rocha (2020)
         beta = 0.19, # Pressao nos solidos
         ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
         p_ref = 18.62 # Pressao nos solidos
     ),
     clarifiedParameters = script_Rocha_2020.ConstantParameters(
         delta = 0.58, # Permeabilidade - Rocha (2020)
-        k0 = 27.99, # Permeabilidade - Rocha (2020)
+        k0 = 46, # Permeabilidade - Rocha (2020)
         beta = 0.19, # Pressao nos solidos
         ref_conc = 0.145, #concentraçao de referencia entre 14.5 e 16% segundo Rocha (2020)
         p_ref = 18.62 # Pressao nos solidos

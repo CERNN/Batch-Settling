@@ -132,6 +132,24 @@ cdef double conc_grad(np.ndarray Concentration,int index,int N_len,double L):
 
     return concentration_gradient
 
+cdef double eval_courant_number(np.ndarray velocity_array, int N_len, double L, double timestep):
+    cdef double max_velocity
+    cdef double min_velocity
+    cdef double element_size
+
+    # element_size = double(N_len) / L
+    element_size = L / N_len
+    max_velocity = abs(velocity_array.max())
+    min_velocity = abs(velocity_array.min())
+    aux = min_velocity if min_velocity > max_velocity else max_velocity
+    min_velocity = max_velocity if aux == min_velocity else min_velocity
+    max_velocity = aux
+    print("\nCFL Report:"
+    + "\nMax CFL: " + str(timestep * max_velocity / element_size) 
+    + "\nMin CFL: " + str(timestep * min_velocity / element_size))
+
+    return timestep * max_velocity / element_size
+
 cdef evalMassConservation(double initial_conc, double solid_density, double length, int n_divs, np.ndarray Concentration):
     cdef double initialmassPerArea, massPerArea = 0
     initialmassPerArea = solid_density * length * n_divs * initial_conc
@@ -260,9 +278,10 @@ def EulerSolver(PhysicalParameters physicalParameters, NumericalParameters numer
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
             print(Concentration)
             print("Posição da interface de empacotamento: " + str(packingIndex))
-            print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
-            print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+            # print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+            # print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+            # eval_courant_number(Velocity,N_len, L, timestep)
             Time.append(dia)
             Data.append(np.copy(Concentration))
             pd.DataFrame(Data).to_csv("MVF/temporaryFiles/resultadosPreliminaresEulerDia" + str(dia) + ".csv")
@@ -500,6 +519,7 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
     
     # DataToPlot = []
     Time = []
+    CFL = []
     Time.append(0)
     cdef int f = 0
 
@@ -689,15 +709,18 @@ def RK4Solver(PhysicalParameters physicalParameters, NumericalParameters numeric
             print('MaxConc: ' + str(max_conc))
             print("\nCurrent time:" + str(currentTime) + "\nDia: " + str(dia))
             print(Concentration)
-            print("Posição da interface de empacotamento: " + str(packingIndex))
-            print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
-            print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+            # print("Posição da interface de empacotamento: " + str(packingIndex))
+            # print(str(Concentration.min()) + " -> " + str(np.where(Concentration == Concentration.min())[0][0]))
+            # print(str(Concentration.max()) + " -> " + str(np.where(Concentration == Concentration.max())[0][0]))
+            max_CFL = eval_courant_number(Velocity,N_len, L, timestep)
             evalMassConservation(initial_conc, solid_density, L, N_len, Concentration)
+            CFL.append(max_CFL)
             count = (currentTime - dia * 86400) / timestep
         currentTime += timestep
         # Time.append(currentTime)
 
-        
+    print(CFL)
+    print("Max CFL: " + str(max(CFL)))
 
     #Gerar o plot de concentraçao
     PlotConcentrationData(numericalParameters.indexesToPlot,Data,Time,physicalParameters.L, numericalParameters.N_len, physicalParameters.max_conc, num_data=Rocha_num_data, exp_data=Rocha_exp_data)
@@ -740,8 +763,8 @@ def PlotConcentrationData(indexesToPlot, Data, Time, L, N_len, max_concentration
     DataToPlot = []
 
     #Dados numericos
-    print(num_data)
-    print(num_data.size)
+    # print(num_data)
+    # print(num_data.size)
     if num_data.size != 0:
         plt.plot(num_data[:,0],num_data[:,1], color=colors[0], label='z=0.5cm, Rocha (2020) - Num', linestyle='dashed')
         plt.plot(num_data[:,2],num_data[:,3], color=colors[1], label='z=2.0cm, Rocha (2020) - Num', linestyle='dashed')

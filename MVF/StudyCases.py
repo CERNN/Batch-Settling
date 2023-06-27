@@ -1,10 +1,12 @@
+import time
 from calendar import c
 from cmath import exp
-import script_Rocha_2020
-import time
-import pandas as pd
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import script_Rocha_2020
+
 # import numpy as np
 #python -m timeit -s 'from primes_python import primes' 'primes(1000)'
 
@@ -36,7 +38,7 @@ Setups = [
         script_Rocha_2020.NumericalParameters(
             z_divs = 220,
             total_time = 31536000 * 3, #365 dias #4320000,
-            timestep = 300,
+            timestep = 100,
             maxResidual = 0.000000001,
             indexesToPlot = [5,21,31] #220 dvs
             # indexesToPlot = [0,7,28,42] #100 dvs
@@ -115,7 +117,7 @@ Setups = [
         script_Rocha_2020.NumericalParameters(
             z_divs = 220,
             total_time = 31536000 * 3, #365 dias #4320000,
-            timestep = 300,
+            timestep = 100,
             maxResidual = 0.000000001,
             indexesToPlot = [5,21,31] #220 dvs
             # indexesToPlot = [0,7,28,42] #100 dvs
@@ -278,7 +280,7 @@ plt.show()
     
 
 end = time.time()
-
-pd.DataFrame(data).to_csv("MVF/temporaryFiles/resultadosPreliminares.csv")
+for i, data in enumerate(DATA):
+    pd.DataFrame(data).to_csv(f"MVF/temporaryFiles/resultadosPreliminares_caso_{i}.csv")
 
 print("\nTempo total de simulação:" + str(end - start) + " [s]")
